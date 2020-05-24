@@ -17,7 +17,6 @@ module OrwellConsole
     end
 
     console do
-      puts "Es #{OrwellConsole.running_protected_environment?}: #{OrwellConsole.protected_environments}"
       OrwellConsole.big_brother.supervise if OrwellConsole.running_protected_environment?
     end
   end
