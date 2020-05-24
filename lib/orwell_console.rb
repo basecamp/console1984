@@ -1,6 +1,6 @@
-require "orwell_console/engine"
+require 'orwell_console/engine'
 
-require "rainbow"
+require 'rainbow'
 require 'rainbow/refinement'
 
 module OrwellConsole
@@ -8,14 +8,15 @@ module OrwellConsole
 
   autoload :AuditTrail
   autoload :AuditTrailSerializer
-  autoload :Commands
   autoload :CommandsSniffer
   autoload :Messages
   autoload :SupervisedConsole
-  autoload :UsageSupervisor
+  autoload :BigBrother
 
-  mattr_reader :usage_supervisor, default: UsageSupervisor.new
-  mattr_accessor :protected_environents, default: %i[ development production ]
+  mattr_accessor :audit_logger
+
+  mattr_accessor :big_brother
+  mattr_accessor :protected_environents, default: %i[development production]
 
   class << self
     def running_protected_environment?

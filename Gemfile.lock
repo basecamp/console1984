@@ -1,7 +1,15 @@
+GIT
+  remote: https://github.com/basecamp/rails-structured-logging.git
+  revision: 69b6cb06fd8bbf44316b71092fd9e1934d15f426
+  specs:
+    rails_structured_logging (0.1.0)
+      rails (>= 6.0.0)
+
 PATH
   remote: .
   specs:
     orwell_console (0.1.0)
+      jbuilder
       rails (>= 6.0.0)
       rainbow (~> 3.0.0)
 
@@ -73,6 +81,8 @@ GEM
       activesupport (>= 4.2.0)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
+    jbuilder (2.10.0)
+      activesupport (>= 5.0.0)
     loofah (2.5.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -166,6 +176,7 @@ DEPENDENCIES
   benchmark-ips
   mocha
   orwell_console!
+  rails_structured_logging!
   rubocop (>= 0.82.0)
   rubocop-performance
   rubocop-rails

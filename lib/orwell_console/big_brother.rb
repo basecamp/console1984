@@ -1,8 +1,12 @@
-class OrwellConsole::UsageSupervisor
+class OrwellConsole::BigBrother
   include OrwellConsole::Messages
   using Rainbow
 
-  attr_reader :reason
+  attr_reader :reason, :logger
+
+  def initialize(logger: OrwellConsole.audit_logger)
+    @logger = logger
+  end
 
   def supervise
     configure_loggers
@@ -22,13 +26,8 @@ class OrwellConsole::UsageSupervisor
     end
 
     def configure_rails_loggers
-      Rails.logger = ActiveSupport::Logger.new(nil)
-        .tap { |logger| logger.formatter = ::Logger::Formatter.new }
-        .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
       Rails.application.config.structured_logging.logger = ActiveSupport::Logger.new(structured_logger_string_io)
-      ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT)
       ActiveJob::Base.logger.level = :error
-      STDOUT.sync = true
     end
 
     def structured_logger_string_io
@@ -36,9 +35,8 @@ class OrwellConsole::UsageSupervisor
     end
 
     def configure_structured_logger
-      RailsStructuredLogging::Recorder.instance.attach_to(ActiveRecord::Base.logger)
       RailsStructuredLogging::Subscriber.subscribe_to \
-          "console.supervision.audit_trail",
+        'console.supervision.audit_trail',
         logger: Rails.application.config.structured_logging.logger,
         serializer: OrwellConsole::AuditTrailSerializer
     end
@@ -49,7 +47,6 @@ class OrwellConsole::UsageSupervisor
 
     def extend_irb
       IRB::WorkSpace.prepend(OrwellConsole::CommandsSniffer)
-      Rails::ConsoleMethods.include(OrwellConsole::Commands)
     end
 
     def ask_for_reason
@@ -59,12 +56,11 @@ class OrwellConsole::UsageSupervisor
     end
 
     def audit(statements)
-      ActiveSupport::Notifications.instrument "console.supervision.audit_trail", \
-        audit_trail: OrwellConsole::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n"))
-      ::LogAuditTrailJob.perform_later(read_audit_trail_json)
+      ActiveSupport::Notifications.instrument 'console.supervision.audit_trail', \
+                                              audit_trail: OrwellConsole::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n"))
+      value = read_audit_trail_json
+      logger.info(value)
     end
-
-    SEPARATOR = SecureRandom.alphanumeric(12)
 
     def read_audit_trail_json
       structured_logger_string_io.seek(@last_value ? structured_logger_string_io.pos - @last_value.bytesize : 0)
@@ -72,7 +68,7 @@ class OrwellConsole::UsageSupervisor
     end
 
     def user
-      ENV["CONSOLE_USER"] ||= "Unnamed" if Rails.env.development? || Rails.env.test?
-      ENV["CONSOLE_USER"] or raise "$CONSOLE_USER not defined. Can't run console unless identified"
+      ENV['CONSOLE_USER'] ||= 'Unnamed' if Rails.env.development? || Rails.env.test?
+      ENV['CONSOLE_USER'] or raise "$CONSOLE_USER not defined. Can't run console unless identified"
     end
 end
