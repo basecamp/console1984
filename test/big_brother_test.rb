@@ -14,12 +14,14 @@ class BigBrotherTest < ActiveSupport::TestCase
   end
 
   test "executing statements will stream an audit trail through its logger" do
-    @big_brother.executed(["Rails.logger.info 'JORGE'"])
+    @big_brother.supervise_execution_of ["1+1"] do
+      1+1
+    end
 
     audit_trail = OpenStruct.new JSON.parse(@string_io.string)["console"]
-    assert "Jorge", audit_trail.user
-    assert "Testing the console", audit_trail.reason
-    assert "Rails.logger.info 'JORGE'", audit_trail.statements
+    assert_equal "Jorge", audit_trail.user
+    assert_equal "Testing the console", audit_trail.reason
+    assert_equal "1+1", audit_trail.statements
   end
 
   private

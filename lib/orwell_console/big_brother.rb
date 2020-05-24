@@ -15,11 +15,23 @@ class OrwellConsole::BigBrother
     @reason = ask_for_reason
   end
 
-  def executed(statements)
-    audit(statements)
+  def supervise_execution_of(statements, &block)
+    before_executing statements
+    ActiveSupport::Notifications.instrument 'console.supervision.audit_trail', \
+                                              audit_trail: OrwellConsole::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")), \
+                                              &block
+  ensure
+    after_executing statements
   end
 
   private
+    def before_executing(statements)
+    end
+
+    def after_executing(statements)
+      audit(statements)
+    end
+
     def configure_loggers
       configure_rails_loggers
       configure_structured_logger
@@ -56,15 +68,13 @@ class OrwellConsole::BigBrother
     end
 
     def audit(statements)
-      ActiveSupport::Notifications.instrument 'console.supervision.audit_trail', \
-                                              audit_trail: OrwellConsole::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n"))
       value = read_audit_trail_json
       logger.info(value)
     end
 
     def read_audit_trail_json
-      structured_logger_string_io.seek(@last_value ? structured_logger_string_io.pos - @last_value.bytesize : 0)
-      @last_value = structured_logger_string_io.gets
+      structured_logger_string_io.seek(@last_value ? structured_logger_string_io.pos - @last_value.length : 0)
+      @last_value = structured_logger_string_io.gets(nil)
     end
 
     def user
