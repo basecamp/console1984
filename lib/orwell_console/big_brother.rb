@@ -39,6 +39,7 @@ class OrwellConsole::BigBrother
 
     def configure_rails_loggers
       Rails.application.config.structured_logging.logger = ActiveSupport::Logger.new(structured_logger_string_io)
+      ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT)
       ActiveJob::Base.logger.level = :error
     end
 
@@ -47,6 +48,7 @@ class OrwellConsole::BigBrother
     end
 
     def configure_structured_logger
+      RailsStructuredLogging::Recorder.instance.attach_to(ActiveRecord::Base.logger)
       RailsStructuredLogging::Subscriber.subscribe_to \
         'console.supervision.audit_trail',
         logger: Rails.application.config.structured_logging.logger,
