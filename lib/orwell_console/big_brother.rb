@@ -17,7 +17,7 @@ class OrwellConsole::BigBrother
 
   def supervise_execution_of(statements, &block)
     before_executing statements
-    ActiveSupport::Notifications.instrument 'console.supervision.audit_trail', \
+    ActiveSupport::Notifications.instrument 'console.audit_trail', \
                                               audit_trail: OrwellConsole::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")), \
                                               &block
   ensure
@@ -50,7 +50,7 @@ class OrwellConsole::BigBrother
     def configure_structured_logger
       RailsStructuredLogging::Recorder.instance.attach_to(ActiveRecord::Base.logger)
       RailsStructuredLogging::Subscriber.subscribe_to \
-        'console.supervision.audit_trail',
+        'console.audit_trail',
         logger: Rails.application.config.structured_logging.logger,
         serializer: OrwellConsole::AuditTrailSerializer
     end
