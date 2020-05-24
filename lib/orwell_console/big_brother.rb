@@ -73,8 +73,7 @@ class OrwellConsole::BigBrother
     end
 
     def read_audit_trail_json
-      structured_logger_string_io.seek(@last_value ? structured_logger_string_io.pos - @last_value.length : 0)
-      @last_value = structured_logger_string_io.gets(nil)
+      structured_logger_string_io.string.split("\n").last
     end
 
     def user
