@@ -9,9 +9,8 @@ Gem::Specification.new do |spec|
   spec.version     = OrwellConsole::VERSION
   spec.authors     = ["Jorge Manrubia"]
   spec.email       = ["jorge.manrubia@gmail.com"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of OrwellConsole."
-  spec.description = "TODO: Description of OrwellConsole."
+  spec.homepage    = "http://github.com/basecamp/orwell_console"
+  spec.summary     = "Your Rails console, 1984 style"
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -25,7 +24,13 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", "~> 6.0.3", ">= 6.0.3.1"
+  spec.add_dependency "rails", ">= 6.0.0"
+  spec.add_dependency "rainbow", "~> 3.0.0"
 
   spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "mocha"
+  spec.add_development_dependency "benchmark-ips"
+  spec.add_development_dependency "rubocop", ">= 0.82.0"
+  spec.add_development_dependency "rubocop-rails"
+  spec.add_development_dependency "rubocop-performance"
 end
