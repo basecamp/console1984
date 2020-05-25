@@ -1,20 +1,20 @@
 require "test_helper"
 
-class BigBrotherTest < ActiveSupport::TestCase
+class SupervisorTest < ActiveSupport::TestCase
   setup do
     @string_io = StringIO.new
     @logger = ActiveSupport::Logger.new(@string_io)
-    @big_brother = OrwellConsole::BigBrother.new(logger: @logger)
+    @supervisor = Console1984::Supervisor.new(logger: @logger)
 
     ENV["CONSOLE_USER"] = "Jorge"
 
     type_when_prompted "Testing the console" do
-      @big_brother.supervise
+      @supervisor.start
     end
   end
 
   test "executing statements will stream an audit trail through its logger" do
-    @big_brother.supervise_execution_of ["1+1"] do
+    @supervisor.execute_supervised ["1+1"] do
       1+1
     end
 

@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount OrwellConsole::Engine => "/orwell_console"
+  mount Console1984::Engine => "/console1984"
 end

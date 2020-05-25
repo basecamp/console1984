@@ -1,4 +1,4 @@
-module OrwellConsole::Messages
+module Console1984::Messages
   PRODUCTION_DATA_WARNING = <<~TXT
     
     

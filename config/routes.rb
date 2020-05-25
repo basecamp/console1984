@@ -1,2 +1,2 @@
-OrwellConsole::Engine.routes.draw do
+Console1984::Engine.routes.draw do
 end

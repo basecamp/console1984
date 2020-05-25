@@ -1,15 +1,15 @@
 $LOAD_PATH.push File.expand_path('lib', __dir__)
 
 # Maintain your gem's version:
-require 'orwell_console/version'
+require 'console1984/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |spec|
-  spec.name        = 'orwell_console'
-  spec.version     = OrwellConsole::VERSION
+  spec.name        = 'console1984'
+  spec.version     = Console1984::VERSION
   spec.authors     = ['Jorge Manrubia']
-  spec.email       = ['jorge.manrubia@gmail.com']
-  spec.homepage    = 'http://github.com/basecamp/orwell_console'
+  spec.email       = ['jorge@basecamp.com']
+  spec.homepage    = 'http://github.com/basecamp/console1984'
   spec.summary     = 'Your Rails console, 1984 style'
   spec.license     = 'MIT'
 

@@ -1,25 +1,25 @@
-class OrwellConsole::BigBrother
-  include OrwellConsole::Messages
+class Console1984::Supervisor
+  include Console1984::Messages
   using Rainbow
 
   attr_reader :reason, :logger
 
-  def initialize(logger: OrwellConsole.audit_logger)
+  def initialize(logger: Console1984.audit_logger)
     @logger = logger
   end
 
-  def supervise
+  def start
     configure_loggers
     show_production_data_warning
     extend_irb
     @reason = ask_for_reason
   end
 
-  def supervise_execution_of(statements, &block)
+  def execute_supervised(statements, &block)
     before_executing statements
     ActiveSupport::Notifications.instrument 'console.audit_trail', \
-                                              audit_trail: OrwellConsole::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")), \
-                                              &block
+      audit_trail: Console1984::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")), \
+      &block
   ensure
     after_executing statements
   end
@@ -52,7 +52,7 @@ class OrwellConsole::BigBrother
       RailsStructuredLogging::Subscriber.subscribe_to \
         'console.audit_trail',
         logger: Rails.application.config.structured_logging.logger,
-        serializer: OrwellConsole::AuditTrailSerializer
+        serializer: Console1984::AuditTrailSerializer
     end
 
     def show_production_data_warning
@@ -60,7 +60,7 @@ class OrwellConsole::BigBrother
     end
 
     def extend_irb
-      IRB::WorkSpace.prepend(OrwellConsole::CommandsSniffer)
+      IRB::WorkSpace.prepend(Console1984::CommandsSniffer)
     end
 
     def ask_for_reason

@@ -1,4 +1,4 @@
-module OrwellConsole
+module Console1984
   class AuditTrailSerializer < RailsStructuredLogging::Serializers::Elastic::BaseSerializer
     def serialize
       encode do |json|

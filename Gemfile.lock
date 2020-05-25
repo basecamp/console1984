@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    orwell_console (0.1.0)
+    console1984 (0.1.0)
       jbuilder
       rails (>= 6.0.0)
       rainbow (~> 3.0.0)
@@ -174,8 +174,8 @@ PLATFORMS
 
 DEPENDENCIES
   benchmark-ips
+  console1984!
   mocha
-  orwell_console!
   rails_structured_logging!
   rubocop (>= 0.82.0)
   rubocop-performance

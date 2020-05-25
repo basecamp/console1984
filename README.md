@@ -1,4 +1,4 @@
-# OrwellConsole
+# Console1984
 Short description and motivation.
 
 ## Usage
@@ -8,7 +8,7 @@ How to use my plugin.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'orwell_console'
+gem 'console1984'
 ```
 
 And then execute:
@@ -18,7 +18,7 @@ $ bundle
 
 Or install it yourself as:
 ```bash
-$ gem install orwell_console
+$ gem install console1984
 ```
 
 ## Contributing

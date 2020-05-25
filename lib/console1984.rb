@@ -1,9 +1,9 @@
-require 'orwell_console/engine'
+require 'console1984/engine'
 
 require 'rainbow'
 require 'rainbow/refinement'
 
-module OrwellConsole
+module Console1984
   extend ActiveSupport::Autoload
 
   autoload :AuditTrail
@@ -11,11 +11,11 @@ module OrwellConsole
   autoload :CommandsSniffer
   autoload :Messages
   autoload :SupervisedConsole
-  autoload :BigBrother
+  autoload :Supervisor
 
   mattr_accessor :audit_logger
 
-  mattr_accessor :big_brother
+  mattr_accessor :supervisor
   mattr_accessor :protected_environments
 
   class << self
