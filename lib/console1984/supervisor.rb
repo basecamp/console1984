@@ -56,7 +56,7 @@ class Console1984::Supervisor
     end
 
     def show_production_data_warning
-      puts PRODUCTION_DATA_WARNING.blue
+      puts PRODUCTION_DATA_WARNING.yellow
     end
 
     def extend_irb
