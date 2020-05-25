@@ -56,7 +56,7 @@ class Console1984::Supervisor
     end
 
     def show_production_data_warning
-      puts PRODUCTION_DATA_WARNING.red
+      puts PRODUCTION_DATA_WARNING.blue
     end
 
     def extend_irb
@@ -75,7 +75,7 @@ class Console1984::Supervisor
     end
 
     def read_audit_trail_json
-      structured_logger_string_io.string.split("\n").last
+      structured_logger_string_io.string.strip[/(^.+)\Z/, 0] # grab the last line
     end
 
     def user
