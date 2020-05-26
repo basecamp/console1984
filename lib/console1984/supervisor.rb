@@ -34,7 +34,7 @@ class Console1984::Supervisor
     end
 
     def after_executing(statements)
-      audit(statements)
+      log_audit_trail
     end
 
     def configure_loggers
@@ -74,9 +74,8 @@ class Console1984::Supervisor
       reason
     end
 
-    def audit(statements)
-      value = read_audit_trail_json
-      logger.info(value)
+    def log_audit_trail
+      logger.info read_audit_trail_json
     end
 
     def read_audit_trail_json
