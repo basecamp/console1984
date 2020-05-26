@@ -1,9 +1,9 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails/all'
+require "rails/all"
 
 Bundler.require(*Rails.groups)
-require "orwell_console"
+require "console1984"
 
 module Dummy
   class Application < Rails::Application
@@ -14,6 +14,6 @@ module Dummy
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.console1984.protected_environments.push(* %i[ test development ])
   end
 end
-
