@@ -15,3 +15,4 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 gem 'rails_structured_logging', github: 'basecamp/rails-structured-logging'
+gem 'active_record_encryption', github: 'basecamp/active_record_encryption'

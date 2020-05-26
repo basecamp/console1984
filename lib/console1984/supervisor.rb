@@ -17,11 +17,16 @@ class Console1984::Supervisor
 
   def execute_supervised(statements, &block)
     before_executing statements
-    ActiveSupport::Notifications.instrument 'console.audit_trail', \
+    ActiveSupport::Notifications.instrument "console.audit_trail", \
       audit_trail: Console1984::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")), \
       &block
   ensure
     after_executing statements
+  end
+
+  # Used only for testing purposes
+  def stop
+    ActiveSupport::Notifications.unsubscribe "console.audit_trail"
   end
 
   private
@@ -49,7 +54,7 @@ class Console1984::Supervisor
 
     def configure_structured_logger
       RailsStructuredLogging::Recorder.instance.attach_to(ActiveRecord::Base.logger)
-      RailsStructuredLogging::Subscriber.subscribe_to \
+      @subscription = RailsStructuredLogging::Subscriber.subscribe_to \
         'console.audit_trail',
         logger: Rails.application.config.structured_logging.logger,
         serializer: Console1984::AuditTrailSerializer

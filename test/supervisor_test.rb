@@ -2,30 +2,45 @@ require "test_helper"
 
 class SupervisorTest < ActiveSupport::TestCase
   setup do
-    @string_io = StringIO.new
-    @logger = ActiveSupport::Logger.new(@string_io)
-    @supervisor = Console1984::Supervisor.new(logger: @logger)
+    @console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
+    Person.logger = ActiveRecord::Base.logger
+  end
 
-    ENV["CONSOLE_USER"] = "Jorge"
+  teardown do
+    @console.stop
+  end
 
-    type_when_prompted "Testing the console" do
-      @supervisor.start
+  test "executing statements show the output" do
+    @console.execute <<~RUBY
+      puts "Result is #{1+1}"
+    RUBY
+    assert @console.output.include?("Result is 2")
+  end
+
+  test "executing statements log an audit trail with reason, user and executed statements" do
+    @console.execute "1+1"
+    audit_trail = @console.last_audit_trail
+    assert_audit_trail audit_trail, user: "jorge", reason: "Some very good reason", statements: "1+1"
+  end
+
+  test "can execute multiple statements" do
+    %w[ 1+1 2+2 3+3 ].each do |statements|
+      @console.execute statements
+      audit_trail = @console.last_audit_trail
+      assert_audit_trail audit_trail, user: "jorge", reason: "Some very good reason", statements: statements
     end
   end
 
-  test "executing statements will stream an audit trail through its logger" do
-    @supervisor.execute_supervised ["1+1"] do
-      1+1
-    end
-
-    audit_trail = OpenStruct.new JSON.parse(@string_io.string)["console"]
-    assert_equal "Jorge", audit_trail.user
-    assert_equal "Testing the console", audit_trail.reason
-    assert_equal "1+1", audit_trail.statements
+  test "captures ActiveRecord output" do
+    @console.execute "puts Person.last.name"
+    puts @console.last_json_entry
+    assert @console.last_json_entry.include?(%q{SELECT \"people\".* FROM \"people\" ORDER BY \"people\".\"id\" DESC LIMIT})
   end
 
   private
-    def type_when_prompted(*list, &block)
-      $stdin.stub(:gets, proc { list.shift }, &block)
+    def assert_audit_trail(audit_trail, expected_properties)
+      expected_properties.each do |key, value|
+        assert_equal value, audit_trail.send(key)
+      end
     end
 end
