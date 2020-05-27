@@ -76,6 +76,7 @@ class Console1984::Supervisor
 
     def extend_irb
       IRB::WorkSpace.prepend(Console1984::CommandsSniffer)
+      IRB::Context.prepend(Console1984::ProtectedContext)
       Rails::ConsoleMethods.include(Console1984::Commands)
     end
 
