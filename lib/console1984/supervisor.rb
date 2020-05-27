@@ -1,6 +1,7 @@
+require 'colorized_string'
+
 class Console1984::Supervisor
   include Console1984::Messages
-  using Rainbow
 
   attr_reader :reason, :logger
 
@@ -61,7 +62,7 @@ class Console1984::Supervisor
     end
 
     def show_production_data_warning
-      puts PRODUCTION_DATA_WARNING.yellow
+      puts ColorizedString.new(PRODUCTION_DATA_WARNING).yellow
     end
 
     def extend_irb
@@ -69,7 +70,7 @@ class Console1984::Supervisor
     end
 
     def ask_for_reason
-      puts "#{user&.humanize}, please enter the reason for this console access:".green
+      puts ColorizedString.new("#{user&.humanize}, please enter the reason for this console access:").green
       reason = $stdin.gets.strip until reason.present?
       reason
     end
