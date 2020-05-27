@@ -1,15 +1,10 @@
 require 'console1984/engine'
 
+require "zeitwerk"
+loader = Zeitwerk::Loader.for_gem
+loader.setup
+
 module Console1984
-  extend ActiveSupport::Autoload
-
-  autoload :AuditTrail
-  autoload :AuditTrailSerializer
-  autoload :CommandsSniffer
-  autoload :Messages
-  autoload :SupervisedConsole
-  autoload :Supervisor
-
   mattr_accessor :audit_logger
 
   mattr_accessor :supervisor

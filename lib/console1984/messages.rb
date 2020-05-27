@@ -8,4 +8,12 @@ module Console1984::Messages
     
 
   TXT
+
+  ENTER_UNPROTECTED_ENCRYPTION_MODE_WARNING = <<~TXT
+  You have enabled access to encrypted information. This access will be flagged and subject to special auditing.
+  TXT
+
+  ENTER_PROTECTED_MODE_WARNING = <<~TXT
+  You have disabled access to encrypted information
+  TXT
 end

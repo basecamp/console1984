@@ -1,12 +1,14 @@
 require 'colorized_string'
+require 'rails/console/app'
 
 class Console1984::Supervisor
-  include Console1984::Messages
+  include Console1984::EncryptionMode, Console1984::Messages
 
-  attr_reader :reason, :logger
+  attr_reader :reason, :logger, :encryption_mode
 
   def initialize(logger: Console1984.audit_logger)
     @logger = logger
+    disable_access_to_encrypted_content
   end
 
   def start
@@ -19,10 +21,15 @@ class Console1984::Supervisor
   def execute_supervised(statements, &block)
     before_executing statements
     ActiveSupport::Notifications.instrument "console.audit_trail", \
-      audit_trail: Console1984::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")), \
-      &block
+      audit_trail: Console1984::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")) do
+      execute(&block)
+    end
   ensure
     after_executing statements
+  end
+
+  def execute(&block)
+    @encryption_mode.execute(&block)
   end
 
   # Used only for testing purposes
@@ -32,6 +39,8 @@ class Console1984::Supervisor
 
   private
     def before_executing(statements)
+      # This could be used to record commands *before* they get executed, to prevent hijacking
+      # the console auditing system (or, at least, knowing if someone tries)
     end
 
     def after_executing(statements)
@@ -67,6 +76,7 @@ class Console1984::Supervisor
 
     def extend_irb
       IRB::WorkSpace.prepend(Console1984::CommandsSniffer)
+      Rails::ConsoleMethods.include(Console1984::Commands)
     end
 
     def ask_for_reason
