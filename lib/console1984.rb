@@ -1,7 +1,6 @@
 require 'console1984/engine'
 
-require 'rainbow'
-require 'rainbow/refinement'
+require 'colorized_string'
 
 module Console1984
   extend ActiveSupport::Autoload

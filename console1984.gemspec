@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'jbuilder'
   spec.add_dependency 'rails', '>= 6.0.0'
-  spec.add_dependency 'rainbow', '~> 3.0.0'
+  spec.add_dependency 'colorize'
 
   spec.add_development_dependency 'benchmark-ips'
   spec.add_development_dependency 'mocha'
