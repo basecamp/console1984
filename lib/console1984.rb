@@ -1,7 +1,5 @@
 require 'console1984/engine'
 
-require 'colorized_string'
-
 module Console1984
   extend ActiveSupport::Autoload
 

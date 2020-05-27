@@ -1,3 +1,5 @@
+require 'colorized_string'
+
 class Console1984::Supervisor
   include Console1984::Messages
 
