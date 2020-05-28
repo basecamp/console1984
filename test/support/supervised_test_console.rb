@@ -24,7 +24,7 @@ class SupervisedTestConsole
   def execute(statement)
     return_value = nil
 
-    out, err = capture_io do
+    output, error = capture_io do
       statement.split("\n").each do |line|
         @supervisor.execute_supervised [line] do
           return_value = simulate_evaluation(line)
@@ -32,7 +32,7 @@ class SupervisedTestConsole
       end
     end
 
-    @string_io << out + err
+    @string_io << output + error
 
     return_value
   end
