@@ -71,7 +71,11 @@ class Console1984::Supervisor
     end
 
     def show_production_data_warning
-      puts ColorizedString.new(PRODUCTION_DATA_WARNING).yellow
+      show_warning PRODUCTION_DATA_WARNING
+    end
+
+    def show_warning(message)
+      puts ColorizedString.new(message).yellow
     end
 
     def extend_irb
