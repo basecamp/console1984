@@ -8,7 +8,7 @@ class Console1984::Supervisor
 
   def initialize(logger: Console1984.audit_logger)
     @logger = logger
-    disable_access_to_encrypted_content
+    disable_access_to_encrypted_content(silent: true)
   end
 
   def start
@@ -75,7 +75,7 @@ class Console1984::Supervisor
     end
 
     def show_warning(message)
-      puts ColorizedString.new(message).yellow
+      puts ColorizedString.new("\n\n#{message}\n\n").yellow
     end
 
     def extend_irb
