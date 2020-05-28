@@ -12,4 +12,8 @@ module Console1984::EncryptionMode
     @encryption_mode = Protected.new
     nil
   end
+
+  def with_encryption_mode(&block)
+    @encryption_mode.execute(&block)
+  end
 end

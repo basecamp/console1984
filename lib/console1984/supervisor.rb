@@ -29,7 +29,7 @@ class Console1984::Supervisor
   end
 
   def execute(&block)
-    @encryption_mode.execute(&block)
+    with_encryption_mode(&block)
   end
 
   # Used only for testing purposes
