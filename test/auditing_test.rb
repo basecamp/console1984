@@ -1,9 +1,8 @@
 require "test_helper"
 
-class SupervisorTest < ActiveSupport::TestCase
+class AuditingTest < ActiveSupport::TestCase
   setup do
     @console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
-    Person.logger = ActiveRecord::Base.logger
   end
 
   teardown do
@@ -12,8 +11,9 @@ class SupervisorTest < ActiveSupport::TestCase
 
   test "executing statements show the output" do
     @console.execute <<~RUBY
-      puts "Result is #{1+1}"
+      puts "Result is \#{1+1}"
     RUBY
+
     assert @console.output.include?("Result is 2")
   end
 
@@ -33,7 +33,6 @@ class SupervisorTest < ActiveSupport::TestCase
 
   test "captures ActiveRecord output" do
     @console.execute "puts Person.last.name"
-    puts @console.last_json_entry
     assert @console.last_json_entry.include?(%q{SELECT \"people\".* FROM \"people\" ORDER BY \"people\".\"id\" DESC LIMIT})
   end
 
