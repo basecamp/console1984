@@ -36,6 +36,17 @@ class AuditingTest < ActiveSupport::TestCase
     assert @console.last_json_entry.include?(%q{SELECT \"people\".* FROM \"people\" ORDER BY \"people\".\"id\" DESC LIMIT})
   end
 
+  test "commands in protected mode are not flagged as sensitive" do
+    @console.execute "puts Person.last.name"
+    assert_not @console.last_audit_trail.sensitive
+  end
+
+  test "commands in unprotected mode are flagged as sensitive" do
+    @console.execute "decrypt!"
+    @console.execute "puts Person.last.name"
+    assert @console.last_audit_trail.sensitive
+  end
+
   private
     def assert_audit_trail(audit_trail, expected_properties)
       expected_properties.each do |key, value|

@@ -21,7 +21,7 @@ class Console1984::Supervisor
   def execute_supervised(statements, &block)
     before_executing statements
     ActiveSupport::Notifications.instrument "console.audit_trail", \
-      audit_trail: Console1984::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")) do
+      audit_trail: Console1984::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n"), sensitive: sensitive_access?) do
       execute(&block)
     end
   ensure
@@ -38,6 +38,10 @@ class Console1984::Supervisor
   end
 
   private
+    def sensitive_access?
+      unprotected_mode?
+    end
+
     def before_executing(statements)
       # This could be used to record commands *before* they get executed, to prevent hijacking
       # the console auditing system (or, at least, knowing if someone tries)

@@ -6,6 +6,7 @@ module Console1984
           json.user audit_trail.user
           json.reason audit_trail.reason
           json.statements audit_trail.statements
+          json.sensitive audit_trail.sensitive
         end
       end
     end

@@ -16,4 +16,8 @@ module Console1984::Supervisor::EncryptionMode
   def with_encryption_mode(&block)
     @encryption_mode.execute(&block)
   end
+
+  def unprotected_mode?
+    @encryption_mode.is_a?(Unprotected)
+  end
 end
