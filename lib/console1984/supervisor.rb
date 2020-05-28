@@ -75,7 +75,7 @@ class Console1984::Supervisor
     end
 
     def show_warning(message)
-      puts ColorizedString.new("\n\n#{message}\n\n").yellow
+      puts ColorizedString.new("\n\n#{message}\n").yellow
     end
 
     def extend_irb
