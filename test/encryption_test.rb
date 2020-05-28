@@ -19,8 +19,9 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "decrypt! will reveal encrypted attributes" do
+    @console.execute "decrypt!"
+
     @console.execute <<~RUBY
-      decrypt!
       puts Person.find(#{@person.id}).name
     RUBY
 
@@ -28,12 +29,48 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "encrypt! will hide encrypted attributes" do
+    @console.execute "decrypt!"
+    @console.execute "encrypt!"
+
     @console.execute <<~RUBY
-      decrypt!
-      encrypt!
       puts Person.find(#{@person.id}).name
     RUBY
 
     assert_not_includes @console.output, @person.name
+  end
+
+  test "can't modify encrypted attributes in protected mode" do
+    assert_raises ActiveRecord::RecordInvalid do
+      @console.execute <<~RUBY
+        person = Person.find(#{@person.id})
+        person.update! name: "Other name"
+      RUBY
+    end
+  end
+
+  test "can modify unencrypted attributes in unprotected mode" do
+    @console.execute "decrypt!"
+
+    assert_nothing_raised do
+      @console.execute <<~RUBY
+        person = Person.find(#{@person.id})
+        person.update! email: "other@email.com"
+      RUBY
+    end
+
+    assert_equal "other@email.com", @person.reload.email
+  end
+
+  test "can modify encrypted attributes in unprotected mode" do
+    @console.execute "decrypt!"
+
+    assert_nothing_raised do
+      @console.execute <<~RUBY
+        person = Person.find(#{@person.id})
+        person.update! name: "Other name"
+      RUBY
+    end
+
+    assert_equal "Other name", @person.reload.name
   end
 end

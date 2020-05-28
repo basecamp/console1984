@@ -25,10 +25,8 @@ class SupervisedTestConsole
     return_value = nil
 
     output, error = capture_io do
-      statement.split("\n").each do |line|
-        @supervisor.execute_supervised [line] do
-          return_value = simulate_evaluation(line)
-        end
+      @supervisor.execute_supervised [statement] do
+        return_value = simulate_evaluation(statement)
       end
     end
 
@@ -56,7 +54,7 @@ class SupervisedTestConsole
     }
 
     def simulate_evaluation(statement)
-      mapped_command  = MAPPED_COMMANDS[statement.to_sym]
+      mapped_command = MAPPED_COMMANDS[statement.to_sym]
       if mapped_command && @supervisor.respond_to?(mapped_command)
         @supervisor.send(mapped_command)
       else
