@@ -1,4 +1,4 @@
-module Console1984::EncryptionMode
+module Console1984::Supervisor::EncryptionMode
   include Console1984::Messages
 
   def enable_access_to_encrypted_content(silent: false)

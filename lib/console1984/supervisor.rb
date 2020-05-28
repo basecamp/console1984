@@ -2,7 +2,7 @@ require 'colorized_string'
 require 'rails/console/app'
 
 class Console1984::Supervisor
-  include Console1984::EncryptionMode, Console1984::Messages
+  include EncryptionMode, Console1984::Messages
 
   attr_reader :reason, :logger, :encryption_mode
 
