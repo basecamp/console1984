@@ -4,7 +4,7 @@ require 'rails/console/app'
 class Console1984::Supervisor
   include EncryptionMode, Console1984::Messages
 
-  attr_reader :reason, :logger, :encryption_mode
+  attr_reader :reason, :logger
 
   def initialize(logger: Console1984.audit_logger)
     @logger = logger
