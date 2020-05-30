@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/basecamp/active_record_encryption.git
-  revision: 66964c036ab9a92a93007de08b3f96ca74488a93
+  revision: 8183c6da6a6e86cf3c4f55f8ea7418c1ced33bc5
   specs:
     active_record_encryption (0.1.9)
       rails (>= 6.0.0)
