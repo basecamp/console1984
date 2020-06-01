@@ -15,5 +15,7 @@ module Dummy
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.console1984.protected_environments.push(* %i[ test development ])
+
+    config.active_record_encryption.encrypt_fixtures = true
   end
 end

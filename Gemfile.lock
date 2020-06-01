@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/basecamp/active_record_encryption.git
-  revision: fcc0df3e50dd8ad55cfcf5c08153038a5c50663f
+  revision: 8183c6da6a6e86cf3c4f55f8ea7418c1ced33bc5
   specs:
     active_record_encryption (0.1.9)
       rails (>= 6.0.0)
@@ -171,10 +171,10 @@ GEM
     sqlite3 (1.4.2)
     thor (1.0.1)
     thread_safe (0.3.6)
-    tzinfo (1.2.6)
+    tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
-    websocket-driver (0.7.1)
+    websocket-driver (0.7.2)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
     zeitwerk (2.3.0)

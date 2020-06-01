@@ -1,12 +1,14 @@
 require 'colorized_string'
+require 'rails/console/app'
 
 class Console1984::Supervisor
-  include Console1984::Messages
+  include EncryptionMode, Console1984::Messages
 
   attr_reader :reason, :logger
 
   def initialize(logger: Console1984.audit_logger)
     @logger = logger
+    disable_access_to_encrypted_content(silent: true)
   end
 
   def start
@@ -19,10 +21,15 @@ class Console1984::Supervisor
   def execute_supervised(statements, &block)
     before_executing statements
     ActiveSupport::Notifications.instrument "console.audit_trail", \
-      audit_trail: Console1984::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n")), \
-      &block
+      audit_trail: Console1984::AuditTrail.new(user: user, reason: reason, statements: statements.join("\n"), sensitive: sensitive_access?) do
+      execute(&block)
+    end
   ensure
     after_executing statements
+  end
+
+  def execute(&block)
+    with_encryption_mode(&block)
   end
 
   # Used only for testing purposes
@@ -31,7 +38,13 @@ class Console1984::Supervisor
   end
 
   private
+    def sensitive_access?
+      unprotected_mode?
+    end
+
     def before_executing(statements)
+      # This could be used to record commands *before* they get executed, to prevent hijacking
+      # the console auditing system (or, at least, knowing if someone tries)
     end
 
     def after_executing(statements)
@@ -62,11 +75,17 @@ class Console1984::Supervisor
     end
 
     def show_production_data_warning
-      puts ColorizedString.new(PRODUCTION_DATA_WARNING).yellow
+      show_warning PRODUCTION_DATA_WARNING
+    end
+
+    def show_warning(message)
+      puts ColorizedString.new("\n\n#{message}\n").yellow
     end
 
     def extend_irb
       IRB::WorkSpace.prepend(Console1984::CommandsSniffer)
+      IRB::Context.prepend(Console1984::ProtectedContext)
+      Rails::ConsoleMethods.include(Console1984::Commands)
     end
 
     def ask_for_reason
