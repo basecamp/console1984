@@ -42,7 +42,7 @@ a JSON entry that looks like this:
   "console": {
     "user": "Jorge",
     "reason": "fix something",
-    "statements": "Account.first\n"
+    "commands": "Account.first\n"
   },
   "rails": {
     "application": "haystack",

@@ -44,27 +44,42 @@ class SupervisedTestConsole
   end
 
   def last_audit_trail
-    Console1984::AuditTrail.new(**JSON.parse(last_json_entry)["console"])
+    console_json = JSON.parse(last_json_entry)["console"]
+    audit_trail_args = console_json.slice("session_id", "user", "commands", "sensitive")
+
+    audit_trail_args["access_reason"] = Console1984::AccessReason.new.tap do |access_reason|
+      access_reason.for_session = console_json.dig("access_reason", "for_session")
+      access_reason.for_commands = console_json.dig("access_reason", "for_commands")
+      access_reason.for_sensitive_access = console_json.dig("access_reason", "for_sensitive_access")
+    end
+
+    Console1984::AuditTrail.new(**audit_trail_args.symbolize_keys)
   end
 
   private
-    MAPPED_COMMANDS = {
-        decrypt!: "enable_access_to_encrypted_content",
-        encrypt!: "disable_access_to_encrypted_content"
-    }
-
     def simulate_evaluation(statement)
-      mapped_command = MAPPED_COMMANDS[statement.to_sym]
-      if mapped_command && @supervisor.respond_to?(mapped_command)
-        @supervisor.send(mapped_command)
-      else
-        eval(statement)
-      end
+      simulated_console.instance_eval(statement)
+    rescue NoMethodError
+      eval(statement)
     end
 
     def start_supervisor(reason)
       type_when_prompted reason do
         @supervisor.start
+      end
+    end
+
+    def simulated_console
+      @simulated_console ||= SimulatedConsole.new(@supervisor)
+    end
+
+    class SimulatedConsole
+      include Console1984::Commands
+
+      attr_reader :supervisor
+
+      def initialize(supervisor)
+        @supervisor = supervisor
       end
     end
 end
