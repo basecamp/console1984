@@ -19,7 +19,7 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "decrypt! will reveal encrypted attributes" do
-    @console.execute "decrypt!"
+    execute_decrypt_and_enter_reason
 
     @console.execute <<~RUBY
       puts Person.find(#{@person.id}).name
@@ -29,7 +29,7 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "encrypt! will hide encrypted attributes" do
-    @console.execute "decrypt!"
+    execute_decrypt_and_enter_reason
     @console.execute "encrypt!"
 
     @console.execute <<~RUBY
@@ -49,7 +49,7 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "can modify unencrypted attributes in unprotected mode" do
-    @console.execute "decrypt!"
+    execute_decrypt_and_enter_reason
 
     assert_nothing_raised do
       @console.execute <<~RUBY
@@ -62,7 +62,7 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "can modify encrypted attributes in unprotected mode" do
-    @console.execute "decrypt!"
+    execute_decrypt_and_enter_reason
 
     assert_nothing_raised do
       @console.execute <<~RUBY
@@ -73,4 +73,11 @@ class EncryptionTest < ActiveSupport::TestCase
 
     assert_equal "Other name", @person.reload.name
   end
+
+  private
+    def execute_decrypt_and_enter_reason
+      type_when_prompted "I need to fix encoding issue with Message 123456" do
+        @console.execute "decrypt!"
+      end
+    end
 end
