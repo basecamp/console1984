@@ -8,6 +8,8 @@ module Console1984::Messages
 
   ENTER_UNPROTECTED_ENCRYPTION_MODE_WARNING = <<~TXT
   Ok! You have access to encrypted information now. We pay extra close attention to any commands entered while you have this access. You can go back to protected mode with 'encrypt!'
+
+  WARNING: Make sure you don't save objects that were loaded while in protected mode, as this can result in saving the encrypted texts.
   TXT
 
   ENTER_PROTECTED_MODE_WARNING = <<~TXT
