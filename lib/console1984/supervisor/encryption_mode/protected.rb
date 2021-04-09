@@ -1,10 +1,10 @@
 class Console1984::Supervisor::EncryptionMode::Protected
   def execute(&block)
-    ActiveRecordEncryption.protecting_encrypted_data(&block)
+    ActiveRecord::Encryption.protecting_encrypted_data(&block)
   end
 
   private
     def null_encryptor
-      @null_encryptor ||= ActiveRecordEncryption::NullEncryptor.new
+      @null_encryptor ||= ActiveRecord::Encryption::NullEncryptor.new
     end
 end

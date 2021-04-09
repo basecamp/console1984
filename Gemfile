@@ -14,5 +14,6 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
+gem 'rubyzip'
+gem 'rails', github: 'basecamp/rails-are-temp', branch: 'active-record-encryption'
 gem 'rails_structured_logging', github: 'basecamp/rails-structured-logging'
-gem 'active_record_encryption', github: 'basecamp/active_record_encryption'
