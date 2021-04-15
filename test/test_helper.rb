@@ -25,3 +25,9 @@ end
 class ActiveSupport::TestCase
   include IoStreamTestHelper
 end
+
+ActiveRecord::Encryption.configure \
+  primary_key: "test master key",
+  deterministic_key: "test deterministic key",
+  key_derivation_salt: "testing key derivation salt",
+  support_unencrypted_data: true

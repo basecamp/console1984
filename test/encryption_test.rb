@@ -14,7 +14,6 @@ class EncryptionTest < ActiveSupport::TestCase
     @console.execute <<~RUBY
       puts Person.find(#{@person.id}).name
     RUBY
-
     assert_not_includes @console.output, @person.name
   end
 

@@ -1,7 +1,14 @@
 GIT
-  remote: https://github.com/basecamp/rails-are-temp.git
-  revision: 8486593a6b5ac6a0d20da2bb5e2db64823e3c0ea
-  branch: active-record-encryption
+  remote: https://github.com/basecamp/rails-structured-logging.git
+  revision: 69b6cb06fd8bbf44316b71092fd9e1934d15f426
+  specs:
+    rails_structured_logging (0.1.0)
+      rails (>= 6.0.0)
+
+GIT
+  remote: https://github.com/rails/rails.git
+  revision: 92b8cda4c9ba87c82d737fd4303f4bbc535395f3
+  ref: 92b8cda4c9ba87c82d737fd4303f4bbc535395f3
   specs:
     actioncable (7.0.0.alpha)
       actionpack (= 7.0.0.alpha)
@@ -54,8 +61,8 @@ GIT
       activejob (= 7.0.0.alpha)
       activerecord (= 7.0.0.alpha)
       activesupport (= 7.0.0.alpha)
-      marcel (~> 0.3.1)
-      mimemagic (~> 0.3.2)
+      marcel (~> 1.0.0)
+      mini_mime (~> 1.0.2)
     activesupport (7.0.0.alpha)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -81,15 +88,8 @@ GIT
       actionpack (= 7.0.0.alpha)
       activesupport (= 7.0.0.alpha)
       method_source
-      rake (>= 0.8.7)
+      rake (>= 0.13)
       thor (~> 1.0)
-
-GIT
-  remote: https://github.com/basecamp/rails-structured-logging.git
-  revision: 69b6cb06fd8bbf44316b71092fd9e1934d15f426
-  specs:
-    rails_structured_logging (0.1.0)
-      rails (>= 6.0.0)
 
 PATH
   remote: .
@@ -110,25 +110,23 @@ GEM
     erubi (1.10.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    i18n (1.8.9)
+    i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
-    loofah (2.9.0)
+    loofah (2.9.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (0.3.3)
-      mimemagic (~> 0.3.2)
+    marcel (1.0.1)
     method_source (1.0.0)
-    mimemagic (0.3.5)
-    mini_mime (1.0.2)
+    mini_mime (1.0.3)
     mini_portile2 (2.5.0)
     minitest (5.14.4)
     mocha (1.11.2)
     nio4r (2.5.7)
-    nokogiri (1.11.1)
+    nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     parallel (1.19.1)
