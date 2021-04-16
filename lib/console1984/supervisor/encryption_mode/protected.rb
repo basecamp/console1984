@@ -1,6 +1,8 @@
 class Console1984::Supervisor::EncryptionMode::Protected
   def execute(&block)
-    ActiveRecord::Encryption.protecting_encrypted_data(&block)
+    Console1984.protecting_connections do
+      ActiveRecord::Encryption.protecting_encrypted_data(&block)
+    end
   end
 
   private

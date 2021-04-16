@@ -6,12 +6,19 @@ module Console1984
 
     config.console1984 = ActiveSupport::OrderedOptions.new
     config.console1984.protected_environments ||= %i[ production ]
+    config.console1984.protected_urls ||= []
 
     console do
       Console1984.protected_environments ||= config.console1984.protected_environments
       Console1984.audit_logger = config.console1984.audit_logger || ActiveSupport::Logger.new(STDOUT)
       Console1984.supervisor = Supervisor.new
+      Console1984.protected_urls = config.console1984.protected_urls
+
       Console1984.supervisor.start if Console1984.running_protected_environment?
+    end
+
+    initializer "console1984.protected_urls" do
+      TCPSocket.include Console1984::ProtectedTcpSocket
     end
   end
 end
