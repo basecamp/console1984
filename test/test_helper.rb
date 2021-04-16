@@ -31,3 +31,9 @@ ActiveRecord::Encryption.configure \
   deterministic_key: "test deterministic key",
   key_derivation_salt: "testing key derivation salt",
   support_unencrypted_data: true
+
+class ActiveSupport::TestCase
+  setup do
+    Console1984.protected_urls = []
+  end
+end
