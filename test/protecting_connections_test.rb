@@ -37,7 +37,7 @@ class EncryptionTest < ActiveSupport::TestCase
 
     @console.execute <<~RUBY
       socket = TCPSocket.new 'localhost', 39201
-      socket.puts "forbidden request!", 39201
+      socket.puts "forbidden request!"
     RUBY
 
     assert_includes @console.output, "127.0.0.1:39201"

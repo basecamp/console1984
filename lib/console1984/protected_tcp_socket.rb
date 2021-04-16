@@ -21,14 +21,31 @@ module Console1984::ProtectedTcpSocket
     end
 
     def protected?
-      protected_addresses.include?(ComparableAddress.new(remote_address))
+      protected_addresses&.include?(ComparableAddress.new(remote_address))
     end
 
     def protected_addresses
       Console1984.currently_protected_urls&.collect do |url|
-        uri = URI(url)
-        Array(Addrinfo.getaddrinfo(uri.host, uri.port)).collect { |addrinfo| ComparableAddress.new(addrinfo) }
+        host, port = host_and_port_from(url)
+        Array(Addrinfo.getaddrinfo(host, port)).collect { |addrinfo| ComparableAddress.new(addrinfo) }
       end&.flatten
+    end
+
+    def host_and_port_from(url)
+      URI(url).then do |parsed_uri|
+        if parsed_uri.host
+          [parsed_uri.host, parsed_uri.port]
+        else
+          host_and_port_from_invalid_uri(url)
+        end
+      end
+    rescue URI::InvalidURIError
+      host_and_port_from_invalid_uri(url)
+    end
+
+    def host_and_port_from_invalid_uri(url)
+      host, _, port = url.rpartition(':')
+      [host, port]
     end
 
     ComparableAddress = Struct.new(:ip, :port) do
