@@ -14,6 +14,12 @@ module Console1984
   thread_mattr_accessor :currently_protected_urls
 
   class << self
+    def install_support
+      [TCPSocket, OpenSSL::SSL::SSLSocket].each do |socket_klass|
+        socket_klass.prepend Console1984::ProtectedTcpSocket
+      end
+    end
+
     def running_protected_environment?
       protected_environments.collect(&:to_sym).include?(Rails.env.to_sym)
     end

@@ -16,17 +16,13 @@ module Console1984
 
       Console1984.supervisor.start if Console1984.running_protected_environment?
 
+      Console1984.install_support
+
       class OpenSSL::SSL::SSLSocket
         # Make it serve remote address as TCPSocket so that our extension works for it
         def remote_address
           Addrinfo.getaddrinfo(hostname, 443).first
         end
-      end
-    end
-
-    initializer "console1984.protected_urls" do
-      [TCPSocket, OpenSSL::SSL::SSLSocket].each do |socket_klass|
-        socket_klass.include Console1984::ProtectedTcpSocket
       end
     end
   end
