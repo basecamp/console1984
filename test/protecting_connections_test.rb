@@ -1,12 +1,11 @@
 require "test_helper"
 
+# See application.rb in test/dummy to see the protected urls in tests
 class EncryptionTest < ActiveSupport::TestCase
   SERVER_PORT = 9097
 
   setup do
     @console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason", capture_log_trails: false)
-
-    Console1984.protected_urls = ["localhost:#{39201}"]
   end
 
   teardown do
@@ -33,13 +32,19 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "works when URLs include the user/password" do
-    Console1984.protected_urls = ["http://elastic:changeme@localhost:39201"]
-
     @console.execute <<~RUBY
       socket = TCPSocket.new 'localhost', 39201
       socket.puts "forbidden request!"
     RUBY
 
     assert_includes @console.output, "127.0.0.1:39201"
+  end
+
+  test "can't clear protected urls" do
+    assert_raises FrozenError do
+      @console.execute <<~RUBY
+        Console1984.protected_urls.clear
+      RUBY
+    end
   end
 end
