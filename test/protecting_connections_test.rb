@@ -19,7 +19,7 @@ class EncryptionTest < ActiveSupport::TestCase
     RUBY
 
     assert_includes @console.output, "127.0.0.1:39201"
-    assert_includes @console.output, "connections are protected"
+    assert_includes @console.output, "connection attempt was prevented"
   end
 
   test "won't interfere with non protected connections" do

@@ -34,7 +34,7 @@ class Console1984::Supervisor
   def execute(&block)
     with_encryption_mode(&block)
   rescue Console1984::Errors::ProtectedConnection => error
-    puts "#{error.message} connections are protected. Please run decrypt! and try again. You will be asked to justify this access."
+    puts "A connection attempt was prevented because it represents a sensitive access. Please run decrypt! and try again. You will be asked to justify this access: #{error.message}"
   end
 
   # Used only for testing purposes
