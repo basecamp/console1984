@@ -14,8 +14,13 @@ module Console1984
   thread_mattr_accessor :currently_protected_urls
 
   class << self
-    def install_support
-      [TCPSocket, OpenSSL::SSL::SSLSocket].each do |socket_klass|
+    def patch_socket_classes
+      socket_classes = [ TCPSocket, OpenSSL::SSL::SSLSocket ]
+      if defined?(Redis::Connection)
+        socket_classes.push *[ Redis::Connection::TCPSocket, Redis::Connection::SSLSocket ]
+      end
+
+      socket_classes.compact.each do |socket_klass|
         socket_klass.prepend Console1984::ProtectedTcpSocket
       end
     end

@@ -32,7 +32,7 @@ ActiveRecord::Encryption.configure \
   key_derivation_salt: "testing key derivation salt",
   support_unencrypted_data: true
 
-Console1984.install_support
+Console1984.patch_socket_classes
 
 class ActiveSupport::TestCase
   setup do

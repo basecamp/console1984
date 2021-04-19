@@ -16,7 +16,7 @@ module Console1984
 
       Console1984.supervisor.start if Console1984.running_protected_environment?
 
-      Console1984.install_support
+      Console1984.patch_socket_classes
 
       class OpenSSL::SSL::SSLSocket
         # Make it serve remote address as TCPSocket so that our extension works for it
