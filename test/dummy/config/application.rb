@@ -15,6 +15,7 @@ module Dummy
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.console1984.protected_environments.push(* %i[ test development ])
+    config.console1984.protected_urls = [ "localhost:#{39201}", "http://elastic:changeme@localhost:39201" ]
 
     config.active_record.encryption.encrypt_fixtures = true
   end

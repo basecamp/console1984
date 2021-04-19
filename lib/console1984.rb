@@ -9,20 +9,19 @@ module Console1984
 
   mattr_accessor :supervisor
   mattr_accessor :protected_environments
-  mattr_accessor :protected_urls
+  mattr_reader :protected_urls, default: []
 
   thread_mattr_accessor :currently_protected_urls
 
   class << self
-    def patch_socket_classes
-      socket_classes = [ TCPSocket, OpenSSL::SSL::SSLSocket ]
-      if defined?(Redis::Connection)
-        socket_classes.push *[ Redis::Connection::TCPSocket, Redis::Connection::SSLSocket ]
-      end
+    def install_support(config)
+      self.protected_environments ||= config.protected_environments
+      self.audit_logger = config.audit_logger || ActiveSupport::Logger.new(STDOUT)
+      self.supervisor = Supervisor.new
+      self.protected_urls.push *config.protected_urls
 
-      socket_classes.compact.each do |socket_klass|
-        socket_klass.prepend Console1984::ProtectedTcpSocket
-      end
+      self.protected_urls.freeze
+      patch_socket_classes
     end
 
     def running_protected_environment?
@@ -35,5 +34,17 @@ module Console1984
     ensure
       self.currently_protected_urls = []
     end
+
+    private
+      def patch_socket_classes
+        socket_classes = [ TCPSocket, OpenSSL::SSL::SSLSocket ]
+        if defined?(Redis::Connection)
+          socket_classes.push *[ Redis::Connection::TCPSocket, Redis::Connection::SSLSocket ]
+        end
+
+        socket_classes.compact.each do |socket_klass|
+          socket_klass.prepend Console1984::ProtectedTcpSocket
+        end
+      end
   end
 end

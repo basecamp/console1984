@@ -32,10 +32,6 @@ ActiveRecord::Encryption.configure \
   key_derivation_salt: "testing key derivation salt",
   support_unencrypted_data: true
 
-Console1984.patch_socket_classes
+Console1984.install_support(Rails.application.config.console1984)
 
-class ActiveSupport::TestCase
-  setup do
-    Console1984.protected_urls = []
-  end
-end
+

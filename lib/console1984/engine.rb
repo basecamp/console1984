@@ -9,14 +9,8 @@ module Console1984
     config.console1984.protected_urls ||= []
 
     console do
-      Console1984.protected_environments ||= config.console1984.protected_environments
-      Console1984.audit_logger = config.console1984.audit_logger || ActiveSupport::Logger.new(STDOUT)
-      Console1984.supervisor = Supervisor.new
-      Console1984.protected_urls = config.console1984.protected_urls
-
+      Console1984.install_support(config.console1984)
       Console1984.supervisor.start if Console1984.running_protected_environment?
-
-      Console1984.patch_socket_classes
 
       class OpenSSL::SSL::SSLSocket
         # Make it serve remote address as TCPSocket so that our extension works for it
