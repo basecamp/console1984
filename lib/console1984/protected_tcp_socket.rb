@@ -25,10 +25,10 @@ module Console1984::ProtectedTcpSocket
     end
 
     def protected_addresses
-      Console1984.currently_protected_urls&.collect do |url|
+      @protected_addresses ||= Console1984.currently_protected_urls&.collect do |url|
         host, port = host_and_port_from(url)
-        Array(Addrinfo.getaddrinfo(host, port)).collect { |addrinfo| ComparableAddress.new(addrinfo) }
-      end&.flatten
+        Array(Addrinfo.getaddrinfo(host, port)).collect { |addrinfo| ComparableAddress.new(addrinfo) if addrinfo.ip_address }
+      end&.flatten.compact.uniq
     end
 
     def host_and_port_from(url)
@@ -50,7 +50,7 @@ module Console1984::ProtectedTcpSocket
 
     ComparableAddress = Struct.new(:ip, :port) do
       def initialize(addrinfo)
-        @ip, @port = addrinfo.ip_address, addrinfo.ip_port
+        super(addrinfo.ip_address, addrinfo.ip_port)
       end
     end
 end
