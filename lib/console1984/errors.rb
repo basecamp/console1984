@@ -1,5 +1,10 @@
 module Console1984
   module Errors
-    class ProtectedConnection < StandardError; end
+    class ProtectedConnection < StandardError
+      def initialize(details)
+        super "A connection attempt was prevented because it represents a sensitive access."\
+          "Please run decrypt! and try again. You will be asked to justify this access: #{details}"
+      end
+    end
   end
 end

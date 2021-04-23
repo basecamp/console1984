@@ -13,13 +13,12 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "can't connect to protected connections by default" do
-    @console.execute <<~RUBY
-      socket = TCPSocket.new 'localhost', 39201
-      socket.puts "forbidden request!"
-    RUBY
-
-    assert_includes @console.output, "127.0.0.1:39201"
-    assert_includes @console.output, "connection attempt was prevented"
+    assert_raises Console1984::Errors::ProtectedConnection do
+      @console.execute <<~RUBY
+        socket = TCPSocket.new 'localhost', 39201
+        socket.puts "forbidden request!"
+      RUBY
+    end
   end
 
   test "won't interfere with non protected connections" do
@@ -32,12 +31,12 @@ class EncryptionTest < ActiveSupport::TestCase
   end
 
   test "works when URLs include the user/password" do
-    @console.execute <<~RUBY
-      socket = TCPSocket.new 'localhost', 39201
-      socket.puts "forbidden request!"
-    RUBY
-
-    assert_includes @console.output, "127.0.0.1:39201"
+    assert_raises Console1984::Errors::ProtectedConnection do
+      @console.execute <<~RUBY
+        socket = TCPSocket.new 'localhost', 39201
+        socket.puts "forbidden request!"
+      RUBY
+    end
   end
 
   test "can't clear protected urls" do
