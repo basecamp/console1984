@@ -11,7 +11,7 @@ module Console1984
   mattr_accessor :protected_environments
   mattr_reader :protected_urls, default: []
 
-  thread_mattr_accessor :currently_protected_urls
+  thread_mattr_accessor :currently_protected_urls, default: []
 
   class << self
     def install_support(config)
@@ -29,10 +29,11 @@ module Console1984
     end
 
     def protecting_connections
+      old_currently_protected_urls = self.currently_protected_urls
       self.currently_protected_urls = protected_urls
       yield
     ensure
-      self.currently_protected_urls = []
+      self.currently_protected_urls = old_currently_protected_urls
     end
 
     private
