@@ -29,8 +29,9 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'benchmark-ips'
   spec.add_development_dependency 'mocha'
-  spec.add_development_dependency 'rubocop', '>= 0.82.0'
+  spec.add_development_dependency 'rubocop', '>= 1.18.4'
   spec.add_development_dependency 'rubocop-performance'
+  spec.add_development_dependency 'rubocop-packaging'
   spec.add_development_dependency 'rubocop-rails'
   spec.add_development_dependency 'sqlite3'
 end

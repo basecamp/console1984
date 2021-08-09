@@ -22,7 +22,7 @@ module Console1984::Messages
   }
 
   COMMANDS_HELP = <<~TXT
-  
+#{'  '}
   Commands:
 
   #{COMMANDS.collect { |command, help_line| "* #{ColorizedString.new(command.to_s).light_blue}: #{help_line}" }.join("\n")}

@@ -33,5 +33,3 @@ ActiveRecord::Encryption.configure \
   support_unencrypted_data: true
 
 Console1984.install_support(Rails.application.config.console1984)
-
-

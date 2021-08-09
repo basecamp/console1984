@@ -39,23 +39,6 @@ class SupervisedTestConsole
     @string_io.string.strip
   end
 
-  def last_json_entry
-    output.split("\n").reverse.find { |line| line =~ /@timestamp/ }
-  end
-
-  def last_audit_trail
-    console_json = JSON.parse(last_json_entry)["console"]
-    audit_trail_args = console_json.slice("session_id", "user", "commands", "sensitive")
-
-    audit_trail_args["access_reason"] = Console1984::AccessReason.new.tap do |access_reason|
-      access_reason.for_session = console_json.dig("access_reason", "for_session")
-      access_reason.for_commands = console_json.dig("access_reason", "for_commands")
-      access_reason.for_sensitive_access = console_json.dig("access_reason", "for_sensitive_access")
-    end
-
-    Console1984::AuditTrail.new(**audit_trail_args.symbolize_keys)
-  end
-
   private
     def simulate_evaluation(statement)
       simulated_console.instance_eval(statement)

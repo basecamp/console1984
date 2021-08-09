@@ -17,59 +17,58 @@ class AuditingTest < ActiveSupport::TestCase
     assert @console.output.include?("Result is 2")
   end
 
-  test "executing commands log an audit trail with reason, user and executed commands" do
-    @console.execute "1+1"
-    audit_trail = @console.last_audit_trail
-    assert_audit_trail audit_trail, user: "jorge", commands: "1+1" do |access_reason|
-      assert_equal "Some very good reason", access_reason.for_session
+  test "starting a console creates a session" do
+    assert_difference -> { Console1984::Session.count }, +1 do
+      SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
     end
+
+    session = Console1984::Session.last
+    assert "Some very good reason", session.reason
   end
 
-  test "can execute multiple commands" do
-    %w[ 1+1 2+2 3+3 ].each do |commands|
-      @console.execute commands
-      audit_trail = @console.last_audit_trail
-      assert_audit_trail audit_trail, user: "jorge", commands: commands do |access_reason|
-        assert_equal "Some very good reason", access_reason.for_session
-      end
+  test "executing commands tracks their execution" do
+    assert_audit_trail commands: ["puts 1+1", "puts 2+2"] do
+      @console.execute "puts 1+1"
+      @console.execute "puts 2+2"
     end
-  end
 
-  test "captures ActiveRecord output" do
-    @console.execute "puts Person.last.name"
-    assert @console.last_json_entry.include?(%q{SELECT \"people\".* FROM \"people\" ORDER BY \"people\".\"id\" DESC LIMIT})
+    assert_includes @console.output, "2"
+    assert_includes @console.output, "4"
   end
 
   test "commands in protected mode are not flagged as sensitive" do
     @console.execute "puts Person.last.name"
-    assert_not @console.last_audit_trail.sensitive
-  end
 
-  test "can log further reasons with the log command" do
-    @console.execute "log 'I really need the name OMG'"
-    @console.execute "puts Person.last.name"
-    assert_audit_trail @console.last_audit_trail, sensitive: false do |access_reason|
-      assert_equal "I really need the name OMG", access_reason.for_commands
-    end
+    assert_not Console1984::Command.last.sensitive?
   end
 
   test "commands in unprotected mode are justified and flagged as sensitive" do
-    type_when_prompted "I need to fix encoding issue with Message 123456" do
-      @console.execute "decrypt!"
+    assert_difference -> { Console1984::SensitiveAccess.count }, +1 do
+      type_when_prompted "I need to fix encoding issue with Message 123456" do
+        @console.execute "decrypt!"
+      end
     end
-    @console.execute "puts Person.last.name"
 
-    assert_audit_trail @console.last_audit_trail, sensitive: true do |access_reason|
-      assert_equal "I need to fix encoding issue with Message 123456", access_reason.for_sensitive_access
+    assert_audit_trail commands: ["puts Person.last.name"] do
+      @console.execute "puts Person.last.name"
     end
+
+    sensitive_access = Console1984::SensitiveAccess.last
+    assert_equal "I need to fix encoding issue with Message 123456", sensitive_access.justification
+
+    last_command = Console1984::Command.last
+    assert last_command.sensitive?
+    assert_equal sensitive_access, last_command.sensitive_access
   end
 
   private
-    def assert_audit_trail(audit_trail, expected_properties)
-      expected_properties.each do |key, value|
-        assert_equal value, audit_trail.send(key)
+    def assert_audit_trail(commands: [])
+      assert_difference -> { Console1984::Command.count }, commands.length do
+        yield
       end
 
-      yield audit_trail.access_reason
+      Console1984::Command.last(commands.length).each.with_index do |command, index|
+        assert_equal commands[index], command.statements
+      end
     end
 end
