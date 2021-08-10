@@ -12,6 +12,9 @@ module Console1984
   mattr_accessor :session_logger
   mattr_accessor :username_resolver
   mattr_reader :protected_urls, default: []
+  mattr_accessor :incinerate, default: true
+  mattr_accessor :incinerate_after, default: 30.days
+  mattr_accessor :incineration_queue, default: "console1984_incineration"
 
   thread_mattr_accessor :currently_protected_urls, default: []
 

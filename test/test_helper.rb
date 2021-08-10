@@ -23,7 +23,7 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
 end
 
 class ActiveSupport::TestCase
-  include IoStreamTestHelper
+  include IoStreamTestHelper, ActiveJob::TestHelper
 end
 
 ActiveRecord::Encryption.configure \
