@@ -20,9 +20,19 @@ class Console1984::SessionsLogger::Database
   end
 
   def before_executing(statements)
-    @current_session.commands.create! statements: Array(statements).join("\n"), sensitive_access: current_sensitive_access
+    @before_commands_count = @current_session.commands.count
+    record_statements(statements)
   end
 
   def after_executing(statements)
+    if @current_session.commands.count != @before_commands_count + 1
+      start_sensitive_access "Flagged as it manipulated the number of tracked commands: #{statements.join("\n")}"
+      record_statements(statements)
+    end
   end
+
+  private
+    def record_statements(statements)
+      @current_session.commands.create! statements: Array(statements).join("\n"), sensitive_access: current_sensitive_access
+    end
 end

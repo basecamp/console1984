@@ -61,6 +61,16 @@ class AuditingTest < ActiveSupport::TestCase
     assert_equal sensitive_access, last_command.sensitive_access
   end
 
+  test "deleting commands will be flagged" do
+    @console.execute "puts Person.last.name"
+
+    assert_audit_trail commands: ["Console1984::Command.last.destroy"] do
+      @console.execute "Console1984::Command.last.destroy"
+    end
+
+    assert Console1984::Command.last.sensitive?
+  end
+
   private
     def assert_audit_trail(commands: [])
       assert_difference -> { Console1984::Command.count }, commands.length do
