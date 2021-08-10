@@ -15,5 +15,5 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 gem 'rubyzip'
-gem 'rails', github: 'rails/rails', ref: '92b8cda4c9ba87c82d737fd4303f4bbc535395f3'
+gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails_structured_logging', github: 'basecamp/rails-structured-logging'
