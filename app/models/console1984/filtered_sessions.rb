@@ -24,7 +24,7 @@ module Console1984
     end
 
     def before(session)
-      all.pending.where("id < ?", session.id).first
+      all.pending.where("console1984_sessions.id < ?", session.id).first
     end
   end
 end
