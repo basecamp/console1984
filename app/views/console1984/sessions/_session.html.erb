@@ -14,8 +14,10 @@
     </div>
 
     <div class="media-right">
-      <% session.audits.each do |audit| %>
-        <span><%= audit.status.humanize %> by <%= audit.auditor.name %></span>
+      <% if session.audits.any? %>
+        <%= session.audits.pluck(:status).collect(&:humanize).join(",") %>
+      <% else %>
+        Pending
       <% end %>
     </div>
   </article>
