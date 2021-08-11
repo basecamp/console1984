@@ -1,0 +1,36 @@
+require "test_helper"
+
+class IncinerationTest < ActiveSupport::TestCase
+  test "incinerating sessions 30 days after their creation" do
+    freeze_time
+
+    assert_enqueued_with job: Console1984::IncinerationJob, at: 30.days.from_now do
+      console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
+      console.execute "1+1"
+      type_when_prompted "Create trail data to test its deletion" do
+        console.execute "decrypt!"
+      end
+      console.execute "2+2"
+    end
+
+    travel 30.days
+
+    assert_difference -> { Console1984::Session.count }, -1 do
+      assert_difference -> { Console1984::Command.count }, -3 do
+        assert_difference -> { Console1984::SensitiveAccess.count }, -1 do
+          perform_enqueued_jobs only: Console1984::IncinerationJob
+        end
+      end
+    end
+  end
+
+  test "skipping incineration" do
+    original, Console1984.incinerate = Console1984.incinerate, false
+
+    assert_no_enqueued_jobs only: Console1984::IncinerationJob do
+      SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
+    end
+  ensure
+    Console1984.incinerate = original
+  end
+end

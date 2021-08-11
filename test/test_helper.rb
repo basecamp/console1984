@@ -23,7 +23,7 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
 end
 
 class ActiveSupport::TestCase
-  include IoStreamTestHelper
+  include IoStreamTestHelper, ActiveJob::TestHelper
 end
 
 ActiveRecord::Encryption.configure \
@@ -33,5 +33,3 @@ ActiveRecord::Encryption.configure \
   support_unencrypted_data: true
 
 Console1984.install_support(Rails.application.config.console1984)
-
-
