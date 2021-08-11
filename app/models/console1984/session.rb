@@ -8,6 +8,8 @@ module Console1984
     has_many :audits, dependent: :destroy
 
     scope :sensitive, ->{ joins(:sensitive_accesses) }
+    scope :reviewed, ->{ joins(:audits) }
+    scope :pending, ->{ where.not(id: reviewed) }
 
     def sensitive?
       sensitive_accesses.any?

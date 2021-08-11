@@ -1,5 +1,11 @@
 <%= render "console1984/sessions/filter" %>
 
+<article class="message is-primary">
+  <div class="message-body">
+    <%= @sessions.count %> sessions, <%= @sessions.pending.count %> pending to be reviewed.
+  </div>
+</article>
+
 <turbo-frame id="sessions">
   <div class="sessions">
     <%= render partial: "console1984/sessions/session", collection: @sessions, cached: true %>
