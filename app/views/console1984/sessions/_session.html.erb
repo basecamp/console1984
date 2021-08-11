@@ -1,6 +1,19 @@
-<tr>
-  <td style="white-space: nowrap;"><%= format_date(session.created_at) %></td>
-  <td><%= session.user.username %></td>
-  <td><%= link_to session.reason, session_path(session) %></td>
-  <td> Pending</td>
-</tr>
+<%= link_to session_path(session) do %>
+  <article class="session media">
+    <div class="media-left">
+      <%= format_date session.created_at %>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong><%= session.reason %></strong>
+          <br>
+          by <%= session.user.username %>
+        </p>
+      </div>
+    </div>
+    <div class="media-right">
+      pending...
+    </div>
+  </article>
+<% end %>
