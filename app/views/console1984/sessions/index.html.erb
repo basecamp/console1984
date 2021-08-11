@@ -1,10 +1,5 @@
-<%= render "console1984/sessions/filter" %>
-
-<article class="message is-primary">
-  <div class="message-body">
-    <%= @sessions.count %> sessions, <%= @sessions.pending.count %> pending to be reviewed.
-  </div>
-</article>
+<%= render "console1984/sessions/filter", filtered_sessions: @filtered_sessions %>
+<%= render "console1984/sessions/summary", sessions: @sessions %>
 
 <turbo-frame id="sessions">
   <div class="sessions">

@@ -1,0 +1,13 @@
+<div class="card">
+  <div class="card-content">
+    <div class="media">
+      <div class="media-content">
+        <p class="title is-4"><%= session.reason %></p>
+        <p class="subtitle is-6">by <%= session.user.username %> <br> <%= format_date_and_time(session.created_at) %></p>
+      </div>
+    </div>
+
+    <div class="content">
+    </div>
+  </div>
+</div>

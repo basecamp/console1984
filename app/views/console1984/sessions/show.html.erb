@@ -1,21 +1,9 @@
-<div class="card">
-  <div class="card-content">
-    <div class="media">
-      <div class="media-content">
-        <p class="title is-4"><%= @session.reason %></p>
-        <p class="subtitle is-6">by <%= @session.user.username %> <br> <%= format_date_and_time(@session.created_at) %></p>
-      </div>
-    </div>
+<nav class="breadcrumb">
+  <ul>
+    <li><%= link_to "Sessions", sessions_path %></li>
+    <li class="is-active"><a href="#" aria-current="page">Session <%= @session.id %> by <%= @session.user.username %></a></li>
+  </ul>
+</nav>
 
-    <div class="content">
-    </div>
-  </div>
-</div>
-
-<style>
-  <%= Rouge::Theme.find('github').render(scope: '.highlight') %>
-</style>
-
-<pre class="highlight">
-  <%= highlight_code @session.executed_code %>
-</pre>
+<%= render "console1984/sessions/header", session: @session %>
+<%= render "console1984/sessions/executed_code", session: @session %>

@@ -4,7 +4,7 @@
   </p>
   <div class="panel-block">
 
-    <%= form_with model: @filtered_sessions, url: filtered_sessions_path, method: :put, authenticity_token: true do |form| %>
+    <%= form_with model: filtered_sessions, url: filtered_sessions_path, method: :put, authenticity_token: true do |form| %>
       <div class="field is-grouped">
         <div class="control">
           <%= form.label :from_date, "From" %>
@@ -29,10 +29,6 @@
           <%= form.submit "Filter", class: "button is-link" %>
         </div>
       </div>
-
-
     <% end %>
-
-
   </div>
 </nav>

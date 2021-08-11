@@ -1,0 +1,7 @@
+<style>
+  <%= Rouge::Theme.find('github').render(scope: '.highlight') %>
+</style>
+
+<pre class="highlight">
+  <%= highlight_code session.executed_code %>
+</pre>
