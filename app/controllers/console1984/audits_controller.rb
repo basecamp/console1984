@@ -37,7 +37,7 @@ module Console1984
           sessions_path
         end
 
-        redirect_to next_path, notice: "Review for session #{@session.id} was saved!"
+        redirect_to next_path, notice: "Review for session #{@session.id} was reviewed as #{@audit.status}"
       end
   end
 end
