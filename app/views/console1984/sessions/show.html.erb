@@ -5,5 +5,6 @@
   </ul>
 </nav>
 
-<%= render "console1984/sessions/header", session: @session %>
+<%= render "console1984/sessions/header", session: @session, audit: @audit %>
 <%= render "console1984/sessions/executed_code", session: @session %>
+<%= render "console1984/sessions/audit_form", session: @session, audit: @audit %>

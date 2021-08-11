@@ -1,0 +1,26 @@
+<article class="panel mt-5">
+  <p class="panel-heading">
+    Your review
+  </p>
+
+  <div class="panel-block">
+    <%= form_with model: [session, audit], authenticity_token: true do |form| %>
+      <div class="field">
+        <div class="control is-fullwidth">
+          <%= form.label :from_date, "Notes" %>
+          <%= form.text_area :notes, class: "textarea", placeholder: "Enter optional comments..." %>
+        </div>
+      </div>
+      <div class="field is-grouped">
+        <div class="control">
+          <%= form.button name: "audit[status]", value: :approved, class: "button is-primary" do %>
+            Approve
+          <% end %>
+          <%= form.button name: "audit[status]", value: :flagged, class: "button is-danger" do %>
+            Flag as inappropriate
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</article>

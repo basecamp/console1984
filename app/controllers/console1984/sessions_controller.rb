@@ -10,6 +10,7 @@ module Console1984
 
     def show
       @session = Console1984::Session.find(params[:id])
+      @audit = @session.audits.find_by(auditor: Current.auditor) || @session.audits.build(auditor: Current.auditor)
     end
 
     private

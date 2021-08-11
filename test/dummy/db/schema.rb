@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 2021_08_10_092639) do
 
   create_table "console1984_audits", force: :cascade do |t|
     t.integer "status", default: 0, null: false
+    t.text "notes"
     t.integer "session_id", null: false
     t.integer "auditor_id", null: false
     t.datetime "created_at", precision: 6, null: false
