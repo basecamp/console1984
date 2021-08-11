@@ -8,7 +8,7 @@ module Console1984
     before_action :set_audit, only: %i[ update ]
 
     def create
-      @session.audits.create!(audit_param.merge(auditor: Current.auditor))
+      @audit = @session.audits.create!(audit_param.merge(auditor: Current.auditor))
       redirect_to_next_session
     end
 

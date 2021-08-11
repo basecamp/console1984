@@ -9,7 +9,7 @@
     </div>
 
     <div class="content">
-      <% if session.audits.any? %>
+      <% if session.audits.without(@audit).any? %>
         <p>Audited by:</p>
         <ul>
           <% session.audits.each do |audit| %>
