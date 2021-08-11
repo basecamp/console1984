@@ -12,8 +12,11 @@
         </p>
       </div>
     </div>
+
     <div class="media-right">
-      pending...
+      <% session.audits.each do |audit| %>
+        <span><%= audit.status.humanize %> by <%= audit.auditor.name %></span>
+      <% end %>
     </div>
   </article>
 <% end %>
