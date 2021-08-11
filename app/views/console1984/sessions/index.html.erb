@@ -1,12 +1,7 @@
-<nav class="panel">
-  <p class="panel-heading">
-    Filter console sessions
-  </p>
-  <div class="panel-block">
+<%= render "console1984/sessions/filter" %>
 
+<turbo-frame id="sessions">
+  <div class="sessions">
+    <%= render partial: "console1984/sessions/session", collection: @sessions, cached: true %>
   </div>
-</nav>
-
-<div class="sessions">
-  <%= render partial: "console1984/sessions/session", collection: @sessions, cached: true %>
-</div>
+</turbo-frame>

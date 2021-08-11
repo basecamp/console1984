@@ -98,6 +98,7 @@ PATH
       colorize
       jbuilder
       rouge
+      turbo-rails
 
 GEM
   remote: https://rubygems.org/
@@ -113,7 +114,7 @@ GEM
       activesupport (>= 5.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.10.0)
+    jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     loofah (2.11.0)
       crass (~> 1.0.2)
@@ -178,6 +179,8 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
     thor (1.1.0)
+    turbo-rails (0.7.0)
+      rails (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.0.0)
