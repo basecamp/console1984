@@ -22,5 +22,9 @@ module Console1984
       sessions = sessions.where("console1984_sessions.created_at <= ?", to_date.end_of_day) if to_date.present?
       sessions
     end
+
+    def before(session)
+      all.pending.where("id < ?", session.id).first
+    end
   end
 end
