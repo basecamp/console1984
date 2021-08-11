@@ -5,6 +5,17 @@
   <div class="panel-block">
 
     <%= form_with model: @filtered_sessions, url: filtered_sessions_path, method: :put, authenticity_token: true do |form| %>
+      <div class="field is-grouped">
+        <div class="control">
+          <%= form.label :from_date, "From" %>
+          <%= form.date_field :from_date, class: "input" %>
+        </div>
+
+        <div class="control">
+          <%= form.label :to_date, "To" %>
+          <%= form.date_field :to_date, class: "input" %>
+        </div>
+      </div>
 
       <div class="field">
         <div class="control">
