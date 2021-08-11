@@ -1,0 +1,22 @@
+
+
+<nav class="panel">
+    <p class="panel-heading">
+        Filter console sessions
+    </p>
+    <div class="panel-block">
+
+    </div>
+</nav>
+
+<table class="table is-fullwidth is-hoverable">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>User</th>
+    <th>Reason</th>
+    <th>Review status</th>
+  </tr>
+  </thead>
+  <%= render partial: "console1984/sessions/session", collection: @sessions, cached: true %>
+</table>

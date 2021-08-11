@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'jbuilder'
   spec.add_dependency 'colorize'
+  spec.add_dependency 'rouge'
 
   spec.add_development_dependency 'benchmark-ips'
   spec.add_development_dependency 'mocha'

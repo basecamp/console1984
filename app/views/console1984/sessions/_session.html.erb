@@ -1,0 +1,6 @@
+<tr>
+  <td style="white-space: nowrap;"><%= format_date(session.created_at) %></td>
+  <td><%= session.user.username %></td>
+  <td><%= link_to session.reason, session_path(session) %></td>
+  <td> Pending</td>
+</tr>

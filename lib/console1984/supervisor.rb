@@ -25,6 +25,7 @@ class Console1984::Supervisor
   def execute_supervised(commands, &block)
     session_logger.before_executing commands
     execute(&block)
+  ensure
     session_logger.after_executing commands
   end
 

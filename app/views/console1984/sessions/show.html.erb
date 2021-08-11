@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="card-content">
+    <div class="media">
+      <div class="media-content">
+        <p class="title is-4"><%= @session.user.username %></p>
+        <p class="subtitle is-6"><%= format_date(@session.created_at) %></p>
+      </div>
+    </div>
+
+    <div class="content">
+      <%= @session.reason %>
+    </div>
+  </div>
+</div>
+
+<style>
+  <%= Rouge::Themes::Base16.mode(:light).render(scope: '.highlight') %>
+</style>
+
+<pre class="highlight">
+<%= highlight_code @session.executed_code %>
+  </pre>
