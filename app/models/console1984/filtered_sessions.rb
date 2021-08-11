@@ -18,8 +18,8 @@ module Console1984
     def all
       sessions = Session.order(created_at: :desc, id: :desc)
       sessions = sessions.sensitive if sensitive_only
-      sessions = sessions.where("created_at >= ?", from_date.beginning_of_day) if from_date.present?
-      sessions = sessions.where("created_at <= ?", to_date.end_of_day) if to_date.present?
+      sessions = sessions.where("console1984_sessions.created_at >= ?", from_date.beginning_of_day) if from_date.present?
+      sessions = sessions.where("console1984_sessions.created_at <= ?", to_date.end_of_day) if to_date.present?
       sessions
     end
   end
