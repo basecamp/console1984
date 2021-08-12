@@ -33,7 +33,8 @@ module Console1984
 
       self.supervisor = Supervisor.new
       self.protected_urls.freeze
-      patch_socket_classes
+
+      extend_protected_systems
     end
 
     def running_protected_environment?
@@ -47,10 +48,24 @@ module Console1984
     end
 
     private
-      def patch_socket_classes
-        socket_classes = [ TCPSocket, OpenSSL::SSL::SSLSocket ]
+      def extend_protected_systems
+        extend_active_record
+        extend_socket_classes
+      end
+
+      def extend_active_record
+        %w[ActiveRecord::ConnectionAdapters::Mysql2Adapter ActiveRecord::ConnectionAdapters::PostgreSQLAdapter ActiveRecord::ConnectionAdapters::SQLite3Adapter].each do |class_string|
+          if Object.const_defined?(class_string)
+            klass = class_string.constantize
+            klass.prepend(Console1984::ProtectedAuditableTables)
+          end
+        end
+      end
+
+      def extend_socket_classes
+        socket_classes = [TCPSocket, OpenSSL::SSL::SSLSocket]
         if defined?(Redis::Connection)
-          socket_classes.push(*[ Redis::Connection::TCPSocket, Redis::Connection::SSLSocket ])
+          socket_classes.push(*[Redis::Connection::TCPSocket, Redis::Connection::SSLSocket])
         end
 
         socket_classes.compact.each do |socket_klass|

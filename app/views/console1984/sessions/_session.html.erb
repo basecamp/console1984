@@ -15,7 +15,7 @@
 
     <div class="media-right">
       <% if session.audits.any? %>
-        <%= session.audits.pluck(:status).collect(&:humanize).join(",") %>
+        <%= session.audits.pluck(:status).collect(&:humanize).join(", ") %>
       <% else %>
         Pending
       <% end %>

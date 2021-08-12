@@ -24,17 +24,27 @@ class Console1984::Supervisor
 
   def execute_supervised(commands, &block)
     session_logger.before_executing commands
-    execute(&block)
+    execute(commands, &block)
   ensure
     session_logger.after_executing commands
   end
 
-  def execute(&block)
+  def execute(commands, &block)
+    @executing_user_command = true
     with_encryption_mode(&block)
+  rescue Console1984::Errors::ForbiddenCommand
+    @executing_user_command = false
+    session_logger.start_sensitive_access "Attempt to execute forbidden commands: #{commands.join("\n")}"
+  ensure
+    @executing_user_command = false
   end
 
   def stop
     session_logger.finish_session
+  end
+
+  def executing_user_command?
+    @executing_user_command
   end
 
   private
