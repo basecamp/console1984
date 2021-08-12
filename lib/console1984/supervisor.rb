@@ -2,7 +2,7 @@ require 'colorized_string'
 require 'rails/console/app'
 
 class Console1984::Supervisor
-  include Accesses, InputOutput, Console1984::Messages
+  include Accesses, InputOutput, Executor, Console1984::Messages
 
   attr_reader :access_reason, :logger, :session_id
   delegate :session_logger, :username_resolver, to: Console1984
@@ -22,29 +22,8 @@ class Console1984::Supervisor
     session_logger.start_session current_username, ask_for_session_reason
   end
 
-  def execute_supervised(commands, &block)
-    session_logger.before_executing commands
-    execute(commands, &block)
-  ensure
-    session_logger.after_executing commands
-  end
-
-  def execute(commands, &block)
-    @executing_user_command = true
-    with_encryption_mode(&block)
-  rescue Console1984::Errors::ForbiddenCommand
-    @executing_user_command = false
-    session_logger.start_sensitive_access "Attempt to execute forbidden commands: #{commands.join("\n")}"
-  ensure
-    @executing_user_command = false
-  end
-
   def stop
     session_logger.finish_session
-  end
-
-  def executing_user_command?
-    @executing_user_command
   end
 
   private

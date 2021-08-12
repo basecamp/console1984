@@ -5,7 +5,7 @@ module Console1984
 
     encrypts :statements
 
-    scope :sorted_chronologically, ->{ order(created_at: :asc, id: :asc) }
+    scope :sorted_chronologically, -> { order(created_at: :asc, id: :asc) }
 
     def sensitive?
       sensitive_access.present?

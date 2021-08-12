@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2021_08_10_092639) do
-
   create_table "console1984_audits", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.text "notes"
@@ -65,5 +64,4 @@ ActiveRecord::Schema.define(version: 2021_08_10_092639) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
-
 end

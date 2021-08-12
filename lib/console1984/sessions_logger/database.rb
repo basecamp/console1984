@@ -27,6 +27,11 @@ class Console1984::SessionsLogger::Database
   def after_executing(statements)
   end
 
+  def suspicious_commands_attempted(statements)
+    sensitive_access = start_sensitive_access "Suspicious commands attempted"
+    Console1984::Command.last.update! sensitive_access: sensitive_access
+  end
+
   private
     def record_statements(statements)
       @current_session.commands.create! statements: Array(statements).join("\n"), sensitive_access: current_sensitive_access

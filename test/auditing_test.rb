@@ -86,5 +86,7 @@ class AuditingTest < ActiveSupport::TestCase
           @console.execute command
         end
       end
+
+      assert Console1984::Command.last.sensitive?
     end
 end
