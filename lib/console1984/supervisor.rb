@@ -35,10 +35,6 @@ class Console1984::Supervisor
       show_warning PRODUCTION_DATA_WARNING
     end
 
-    def sensitive_access?
-      unprotected_mode?
-    end
-
     def extend_irb
       IRB::WorkSpace.prepend(Console1984::CommandsSniffer)
       IRB::Context.prepend(Console1984::ProtectedContext)
@@ -47,14 +43,6 @@ class Console1984::Supervisor
 
     def ask_for_session_reason
       ask_for_value("#{current_username}, why are you using this console today?")
-    end
-
-    def log_audit_trail
-      logger.info read_audit_trail_json
-    end
-
-    def read_audit_trail_json
-      structured_logger_string_io.string.strip[/(^.+)\Z/, 0] # grab the last line
     end
 
     def show_commands
