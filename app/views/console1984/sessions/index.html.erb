@@ -1,8 +1,0 @@
-<%= render "console1984/sessions/filter", filtered_sessions: @filtered_sessions %>
-<%= render "console1984/sessions/summary", sessions: @sessions %>
-
-<turbo-frame id="sessions">
-  <div class="sessions">
-    <%= render partial: "console1984/sessions/session", collection: @sessions, cached: true %>
-  </div>
-</turbo-frame>

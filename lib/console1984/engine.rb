@@ -19,10 +19,6 @@ module Console1984
       end
     end
 
-    initializer "console1984.assets.precompile" do |app|
-      app.config.assets.precompile << "console1984_manifest.js"
-    end
-
     console do
       Console1984.install_support(config.console1984)
       Console1984.supervisor.start if Console1984.running_protected_environment?

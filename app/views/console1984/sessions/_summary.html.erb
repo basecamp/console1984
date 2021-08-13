@@ -1,8 +1,0 @@
-<article class="message is-info">
-  <div class="message-body">
-    <%= sessions.count %> sessions, <%= sessions.pending.count %> pending to be reviewed
-    <% if sessions.flagged.any? %>
-      (<%= sessions.flagged.count %> flagged)
-    <% end %>
-  </div>
-</article>

@@ -18,9 +18,6 @@ module Console1984
   mattr_accessor :incinerate_after, default: 30.days
   mattr_accessor :incineration_queue, default: "console1984_incineration"
 
-  mattr_accessor :auditor_class, default: "::User"
-  mattr_accessor :base_controller_class, default: "::ApplicationController"
-
   thread_mattr_accessor :currently_protected_urls, default: []
 
   class << self

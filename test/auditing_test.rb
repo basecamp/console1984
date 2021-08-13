@@ -64,7 +64,7 @@ class AuditingTest < ActiveSupport::TestCase
   test "trail-tampering commands will be flagged" do
     assert_forbidden_command_attempted "Console1984::Command.last.destroy"
     assert_forbidden_command_attempted "Console1984::Command.last.delete"
-    assert_forbidden_command_attempted "Console1984::Audit.update_all status: 1"
+    assert_forbidden_command_attempted "Console1984::Session.destroy_all"
   end
 
   private
