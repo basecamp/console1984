@@ -1,24 +1,13 @@
-<div class="card mb-5">
-  <div class="card-content">
-    <div class="media">
-      <div class="media-content">
-        <p class="title is-4"><%= session.reason %></p>
-        <p class="subtitle is-6">by <%= session.user.username %>
-          <br> <%= format_date_and_time(session.created_at) %></p>
-      </div>
-    </div>
+<h2 class="title"><%= session.reason %></h2>
+<h3 class="subtitle">by <%= session.user.username %>
+  <br> <%= format_date_and_time(session.created_at) %></h3>
 
-    <div class="content">
-      <% if session.audits.without(@audit).any? %>
-        <p>Audited by:</p>
-        <ul>
-          <% session.audits.each do |audit| %>
-            <li> <%= audit.status.humanize %> by <%= audit.auditor.name %>
-              (<%= format_date_and_time(audit.created_at) %>)
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
-    </div>
-  </div>
-</div>
+<% if session.audits.any? %>
+  <ul class="mb-6">
+    <% session.audits.each do |audit| %>
+      <li> <%= audit.status.humanize %> by <%= audit.auditor == Console1984::Current.auditor ? "You" : audit.auditor.name %>
+        (<%= format_date_and_time(audit.created_at) %>)
+      </li>
+    <% end %>
+  </ul>
+<% end %>

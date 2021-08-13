@@ -18,7 +18,7 @@
 
       <div class="content">
         <pre class="highlight">
-          <%= highlight_code commands.collect(&:statements).collect(&:strip).filter(&:present?).join("\n") %>
+          <%= highlighted_code_from commands %>
         </pre>
       </div>
     </div>
