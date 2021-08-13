@@ -7,7 +7,7 @@
     <% session.audits.except(&:new_record?).each do |audit| %>
       <li> <%= audit.status.humanize %>
         by <%= audit.auditor == Console1984::Current.auditor ? "You" : audit.auditor.name %>
-        (<%= format_date_and_time(audit.created_at) %>)
+        on <%= format_date_and_time(audit.created_at) %>
       </li>
     <% end %>
   </ul>
