@@ -7,6 +7,7 @@ module Console1984::Supervisor::Executor
   rescue Console1984::Errors::ForbiddenCommand
     puts "Forbidden command attempted: #{commands.join("\n")}"
     session_logger.suspicious_commands_attempted commands
+    nil
   ensure
     session_logger.after_executing commands
   end
