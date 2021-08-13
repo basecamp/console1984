@@ -7,13 +7,13 @@ module Console1984::Session::Iterable
     group = []
     current_sensitive_access = nil
     commands.includes(:sensitive_access).sorted_chronologically.each.with_index do |command, index|
-      group << command
       current_sensitive_access = command.sensitive_access if index == 0
       if index > 0 && command.sensitive_access != current_sensitive_access
         yield current_sensitive_access, group
         group = []
         current_sensitive_access = command.sensitive_access
       end
+      group << command
     end
 
     if group.present?
