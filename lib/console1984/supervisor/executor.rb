@@ -5,6 +5,7 @@ module Console1984::Supervisor::Executor
     session_logger.before_executing commands
     execute(&block)
   rescue Console1984::Errors::ForbiddenCommand
+    puts "Forbidden command attempted: #{commands.join("\n")}"
     session_logger.suspicious_commands_attempted commands
   ensure
     session_logger.after_executing commands

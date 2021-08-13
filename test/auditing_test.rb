@@ -62,9 +62,9 @@ class AuditingTest < ActiveSupport::TestCase
   end
 
   test "trail-tampering commands will be flagged" do
-    assert_sensitive_access_detected  "Console1984::Command.last.destroy"
-    assert_sensitive_access_detected  "Console1984::Command.last.delete"
-    assert_sensitive_access_detected  "Console1984::Audit.update_all status: 1"
+    assert_forbidden_command_attempted "Console1984::Command.last.destroy"
+    assert_forbidden_command_attempted "Console1984::Command.last.delete"
+    assert_forbidden_command_attempted "Console1984::Audit.update_all status: 1"
   end
 
   private
@@ -78,7 +78,7 @@ class AuditingTest < ActiveSupport::TestCase
       end
     end
 
-    def assert_sensitive_access_detected(command)
+    def assert_forbidden_command_attempted(command)
       @console.execute "puts Person.last.name"
 
       assert_audit_trail commands: [ command ] do
@@ -87,6 +87,7 @@ class AuditingTest < ActiveSupport::TestCase
         end
       end
 
+      assert_includes @console.output, "Forbidden command attempted"
       assert Console1984::Command.last.sensitive?
     end
 end
