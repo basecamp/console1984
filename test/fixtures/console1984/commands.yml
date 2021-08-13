@@ -1,0 +1,26 @@
+arithmetic_1:
+  session: arithmetic
+  statements: 1+1
+arithmetic_2:
+  session: arithmetic
+  statements: 2+2
+arithmetic_3:
+  session: arithmetic
+  statements: 3+3
+
+sensitive_1:
+  session: sensitive_printing
+  statements: "puts 'so sensitive 1'"
+  sensitive_access: sensitive_printing
+sensitive_2:
+  session: sensitive_printing
+  statements: "puts 'so sensitive 2'"
+  sensitive_access: sensitive_printing
+sensitive_3:
+  session: sensitive_printing
+  statements: "puts 'so sensitive 3'"
+  sensitive_access: sensitive_printing
+
+
+
+
