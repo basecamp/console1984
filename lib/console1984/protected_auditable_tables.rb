@@ -4,7 +4,6 @@ module Console1984
       define_method method do |*args|
         sql = args.first
         if Console1984.supervisor.executing_user_command? && sql =~ auditable_tables_regexp
-          puts "Se detecta: #{sql}"
           raise Console1984::Errors::ForbiddenCommand, "#{sql}"
         else
           super(*args)

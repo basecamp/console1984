@@ -3,17 +3,17 @@ module Console1984::Supervisor::Executor
 
   def execute_supervised(commands, &block)
     session_logger.before_executing commands
-    execute(commands, &block)
+    execute(&block)
+  rescue Console1984::Errors::ForbiddenCommand
+    session_logger.suspicious_commands_attempted commands
   ensure
     session_logger.after_executing commands
   end
 
-  def execute(commands, &block)
+  def execute(&block)
     run_user_command do
       with_encryption_mode(&block)
     end
-  rescue Console1984::Errors::ForbiddenCommand
-    session_logger.suspicious_commands_attempted commands
   end
 
   def executing_user_command?
