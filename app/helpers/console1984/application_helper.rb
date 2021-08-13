@@ -21,5 +21,9 @@ module Console1984
       lexer = Rouge::Lexers::Ruby.new
       formatter.format(lexer.lex(source)).html_safe
     end
+
+    def sensitive_session_decoration(session)
+      "*" if session.sensitive?
+    end
   end
 end
