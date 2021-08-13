@@ -2,6 +2,25 @@
   <%= Rouge::Theme.find('github').render(scope: '.highlight') %>
 </style>
 
-<pre class="highlight">
-  <%= highlight_code session.executed_code %>
-</pre>
+<% session.each_batch_of_commands_grouped_by_sensitive_access do |sensitive_access, commands| %>
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-content">
+          <% if sensitive_access %>
+            <p class="title is-4">Sensitive access</p>
+            <p class="subtitle is-6"><%= sensitive_access.justification %></p>
+          <% else %>
+            <p class="title is-4">Protected access</p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="content">
+        <pre class="highlight">
+          <%= highlight_code commands.collect(&:statements).collect(&:strip).filter(&:present?).join("\n") %>
+        </pre>
+      </div>
+    </div>
+  </div>
+<% end %>
