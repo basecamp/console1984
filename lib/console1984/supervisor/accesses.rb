@@ -1,6 +1,9 @@
 module Console1984::Supervisor::Accesses
   include Console1984::Messages
 
+  PROTECTED_ACCESS = Protected.new
+  UNPROTECTED_ACCESS = Unprotected.new
+
   def enable_access_to_encrypted_content(silent: false)
     run_system_command do
       show_warning Console1984.enter_unprotected_encryption_mode_warning if !silent && protected_mode?
@@ -9,7 +12,7 @@ module Console1984::Supervisor::Accesses
       nil
     end
   ensure
-    @access = Unprotected.new
+    @access = UNPROTECTED_ACCESS
     nil
   end
 
@@ -20,7 +23,7 @@ module Console1984::Supervisor::Accesses
       nil
     end
   ensure
-    @access = Protected.new
+    @access = PROTECTED_ACCESS
     nil
   end
 

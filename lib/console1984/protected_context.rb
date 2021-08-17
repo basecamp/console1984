@@ -8,7 +8,7 @@ module Console1984::ProtectedContext
   end
 
   def evaluate(line, line_no, exception: nil)
-    Console1984.supervisor.execute do
+    Console1984.supervisor.execute_supervised(Array(line)) do
       super
     end
   end

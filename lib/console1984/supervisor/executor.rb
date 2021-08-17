@@ -2,14 +2,14 @@ module Console1984::Supervisor::Executor
   extend ActiveSupport::Concern
 
   def execute_supervised(commands, &block)
-    session_logger.before_executing commands
+    run_system_command { session_logger.before_executing commands }
     execute(&block)
   rescue Console1984::Errors::ForbiddenCommand
     puts "Forbidden command attempted: #{commands.join("\n")}"
-    session_logger.suspicious_commands_attempted commands
+    run_system_command { session_logger.suspicious_commands_attempted commands }
     nil
   ensure
-    session_logger.after_executing commands
+    run_system_command { session_logger.after_executing commands }
   end
 
   def execute(&block)
