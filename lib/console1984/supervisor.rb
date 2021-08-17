@@ -2,7 +2,7 @@ require 'colorized_string'
 require 'rails/console/app'
 
 class Console1984::Supervisor
-  include Accesses, InputOutput, Executor, Console1984::Messages
+  include Accesses, InputOutput, Executor
 
   attr_reader :access_reason, :logger, :session_id
   delegate :session_logger, :username_resolver, to: Console1984
@@ -32,7 +32,7 @@ class Console1984::Supervisor
     end
 
     def show_production_data_warning
-      show_warning PRODUCTION_DATA_WARNING
+      show_warning Console1984.production_data_warning
     end
 
     def extend_irb

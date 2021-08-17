@@ -5,6 +5,8 @@ loader = Zeitwerk::Loader.for_gem
 loader.setup
 
 module Console1984
+  include Messages
+
   mattr_accessor :audit_logger
 
   mattr_accessor :supervisor
@@ -13,6 +15,10 @@ module Console1984
 
   mattr_accessor :protected_environments
   mattr_reader :protected_urls, default: []
+
+  mattr_reader :production_data_warning, default: DEFAULT_PRODUCTION_DATA_WARNING
+  mattr_reader :enter_unprotected_encryption_mode_warning, default: DEFAULT_ENTER_UNPROTECTED_ENCRYPTION_MODE_WARNING
+  mattr_reader :enter_protected_mode_warning, default: DEFAULT_ENTER_PROTECTED_MODE_WARNING
 
   mattr_accessor :incinerate, default: true
   mattr_accessor :incinerate_after, default: 30.days

@@ -3,7 +3,7 @@ module Console1984::Supervisor::Accesses
 
   def enable_access_to_encrypted_content(silent: false)
     run_system_command do
-      show_warning ENTER_UNPROTECTED_ENCRYPTION_MODE_WARNING if !silent && protected_mode?
+      show_warning Console1984.enter_unprotected_encryption_mode_warning if !silent && protected_mode?
       justification = ask_for_value "\nBefore you can access personal information, you need to ask for and get explicit consent from the user(s). #{current_username}, where can we find this consent (a URL would be great)?"
       session_logger.start_sensitive_access justification
     end
@@ -14,7 +14,7 @@ module Console1984::Supervisor::Accesses
 
   def disable_access_to_encrypted_content(silent: false)
     run_system_command do
-      show_warning ENTER_PROTECTED_MODE_WARNING if !silent && unprotected_mode?
+      show_warning Console1984.enter_protected_mode_warning if !silent && unprotected_mode?
       session_logger.end_sensitive_access
     end
   ensure
