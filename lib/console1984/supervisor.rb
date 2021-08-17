@@ -4,13 +4,11 @@ require 'rails/console/app'
 class Console1984::Supervisor
   include Accesses, InputOutput, Executor
 
-  attr_reader :access_reason, :logger, :session_id
+  attr_reader :session_id
   delegate :session_logger, :username_resolver, to: Console1984
 
-  def initialize(logger: Console1984.audit_logger)
-    @logger = logger
+  def initialize
     disable_access_to_encrypted_content(silent: true)
-    @access_reason = Console1984::AccessReason.new
   end
 
   def start

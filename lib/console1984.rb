@@ -7,8 +7,6 @@ loader.setup
 module Console1984
   include Messages
 
-  mattr_accessor :audit_logger
-
   mattr_accessor :supervisor
   mattr_accessor :session_logger
   mattr_accessor :username_resolver
@@ -24,14 +22,13 @@ module Console1984
   mattr_accessor :incinerate_after, default: 30.days
   mattr_accessor :incineration_queue, default: "console1984_incineration"
 
-  mattr_accessor :debug
+  mattr_accessor :debug, default: false
 
   thread_mattr_accessor :currently_protected_urls, default: []
 
   class << self
     def install_support(config)
       self.protected_environments ||= config.protected_environments
-      self.audit_logger = config.audit_logger || ActiveSupport::Logger.new(STDOUT)
       self.protected_urls.push(*config.protected_urls)
       self.session_logger = config.session_logger || Console1984::SessionsLogger::Database.new
       self.username_resolver = config.username_resolver || Console1984::Username::EnvResolver.new("CONSOLE_USER")
