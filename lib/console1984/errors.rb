@@ -8,5 +8,6 @@ module Console1984
     end
 
     class ForbiddenCommand < StandardError; end
+    class ForbiddenIncineration < StandardError; end
   end
 end
