@@ -22,7 +22,7 @@ module Console1984
         ActiveSupport.on_load(:console_1984_base) do
           null_logger = Logger.new(nil)
           Console1984::Base.logger = null_logger
-          Console1984::IncinerationJob.logger = null_logger unless debug
+          Console1984::IncinerationJob.logger = null_logger
         end
       end
 
