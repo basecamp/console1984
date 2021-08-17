@@ -1,6 +1,6 @@
 module Console1984
   class Session < Base
-    include Incineratable, Iterable
+    include Incineratable
 
     belongs_to :user
     has_many :commands, dependent: :destroy
