@@ -12,16 +12,19 @@ module Console1984
       config.console1984.each do |key, value|
         Console1984.send("#{key}=", value) unless %i[ protected_urls protected_environments ].include?(key.to_sym)
       end
-
-      debug = config.console1984.debug
-      ActiveSupport.on_load(:console_1984_base) do
-        ActiveRecord::Base.logger = Logger.new(nil) unless debug
-      end
     end
 
     console do
       Console1984.install_support(config.console1984)
       Console1984.supervisor.start if Console1984.running_protected_environment?
+
+      unless Console1984.debug
+        ActiveSupport.on_load(:console_1984_base) do
+          null_logger = Logger.new(nil)
+          Console1984::Base.logger = null_logger
+          Console1984::IncinerationJob.logger = null_logger unless debug
+        end
+      end
 
       class OpenSSL::SSL::SSLSocket
         # Make it serve remote address as TCPSocket so that our extension works for it

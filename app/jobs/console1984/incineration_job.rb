@@ -13,3 +13,5 @@ module Console1984
     end
   end
 end
+
+ActiveSupport.run_load_hooks(:console_1984_incineration_job, Console1984::IncinerationJob)
