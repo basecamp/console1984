@@ -10,7 +10,7 @@ class SupervisedTestConsole
     else
       ActiveSupport::Logger.new("/dev/null")
     end
-    @supervisor = Console1984::Supervisor.new(logger: logger)
+    @supervisor = Console1984::Supervisor.new
     Console1984.supervisor = @supervisor
 
     ENV["CONSOLE_USER"] = user
