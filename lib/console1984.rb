@@ -24,6 +24,8 @@ module Console1984
   mattr_accessor :incinerate_after, default: 30.days
   mattr_accessor :incineration_queue, default: "console1984_incineration"
 
+  mattr_accessor :debug
+
   thread_mattr_accessor :currently_protected_urls, default: []
 
   class << self
