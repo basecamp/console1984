@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_17_203931) do
+ActiveRecord::Schema.define(version: 2021_08_10_092639) do
+  create_table "console1984_audits", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.text "notes"
+    t.integer "session_id", null: false
+    t.integer "auditor_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["auditor_id"], name: "index_console1984_audits_on_auditor_id"
+    t.index ["session_id"], name: "index_console1984_audits_on_session_id"
+  end
+
   create_table "console1984_commands", force: :cascade do |t|
     t.text "statements"
     t.integer "sensitive_access_id"

@@ -11,6 +11,7 @@ class SupervisedTestConsole
       ActiveSupport::Logger.new("/dev/null")
     end
     @supervisor = Console1984::Supervisor.new(logger: logger)
+    Console1984.supervisor = @supervisor
 
     ENV["CONSOLE_USER"] = user
 

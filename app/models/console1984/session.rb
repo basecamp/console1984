@@ -1,6 +1,6 @@
 module Console1984
   class Session < Base
-    include Incineratable
+    include Incineratable, Iterable
 
     belongs_to :user
     has_many :commands, dependent: :destroy
@@ -11,3 +11,5 @@ module Console1984
     end
   end
 end
+
+ActiveSupport.run_load_hooks(:console_1984_session, Console1984::Session)

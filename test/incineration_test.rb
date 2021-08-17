@@ -33,4 +33,20 @@ class IncinerationTest < ActiveSupport::TestCase
   ensure
     Console1984.incinerate = original
   end
+
+  test "trying to incinerate a session ahead of time will raise" do
+    freeze_time
+    session = console1984_sessions(:arithmetic)
+    session.update! created_at: Time.now
+
+    assert_raise Console1984::Errors::ForbiddenIncineration do
+      session.incinerate
+    end
+
+    travel 30.days
+
+    assert_nothing_raised do
+      session.incinerate
+    end
+  end
 end

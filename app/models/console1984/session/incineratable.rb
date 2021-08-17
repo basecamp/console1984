@@ -10,6 +10,21 @@ module Console1984::Session::Incineratable
   end
 
   def incinerate
-    destroy
+    if incineratable?
+      destroy
+    else
+      raise Console1984::Errors::ForbiddenIncineration,
+            "Session #{id} was created at #{created_at.utc}. It shouldn't be deleted"\
+            " until #{earliest_possible_incineration_date.utc}, and now it's #{Time.now.utc}"
+    end
   end
+
+  private
+    def incineratable?
+      Time.now >= earliest_possible_incineration_date
+    end
+
+    def earliest_possible_incineration_date
+      created_at + Console1984.incinerate_after
+    end
 end

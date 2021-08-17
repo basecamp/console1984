@@ -6,5 +6,8 @@ module Console1984
           "Please run decrypt! and try again. You will be asked to justify this access: #{details}"
       end
     end
+
+    class ForbiddenCommand < StandardError; end
+    class ForbiddenIncineration < StandardError; end
   end
 end

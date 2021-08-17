@@ -16,4 +16,3 @@ gemspec
 
 gem 'rubyzip'
 gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails_structured_logging', github: 'basecamp/rails-structured-logging'

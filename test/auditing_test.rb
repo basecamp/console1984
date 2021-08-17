@@ -61,14 +61,10 @@ class AuditingTest < ActiveSupport::TestCase
     assert_equal sensitive_access, last_command.sensitive_access
   end
 
-  test "deleting commands will be flagged" do
-    @console.execute "puts Person.last.name"
-
-    assert_audit_trail commands: ["Console1984::Command.last.destroy"] do
-      @console.execute "Console1984::Command.last.destroy"
-    end
-
-    assert Console1984::Command.last.sensitive?
+  test "trail-tampering commands will be flagged" do
+    assert_forbidden_command_attempted "Console1984::Command.last.destroy"
+    assert_forbidden_command_attempted "Console1984::Command.last.delete"
+    assert_forbidden_command_attempted "Console1984::Session.destroy_all"
   end
 
   private
@@ -80,5 +76,18 @@ class AuditingTest < ActiveSupport::TestCase
       Console1984::Command.last(commands.length).each.with_index do |command, index|
         assert_equal commands[index], command.statements
       end
+    end
+
+    def assert_forbidden_command_attempted(command)
+      @console.execute "puts Person.last.name"
+
+      assert_audit_trail commands: [ command ] do
+        assert_difference -> { Console1984::SensitiveAccess.count }, +1 do
+          @console.execute command
+        end
+      end
+
+      assert_includes @console.output, "Forbidden command attempted"
+      assert Console1984::Command.last.sensitive?
     end
 end

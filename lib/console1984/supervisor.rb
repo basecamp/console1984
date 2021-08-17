@@ -2,7 +2,7 @@ require 'colorized_string'
 require 'rails/console/app'
 
 class Console1984::Supervisor
-  include Accesses, InputOutput, Console1984::Messages
+  include Accesses, InputOutput, Executor
 
   attr_reader :access_reason, :logger, :session_id
   delegate :session_logger, :username_resolver, to: Console1984
@@ -22,16 +22,6 @@ class Console1984::Supervisor
     session_logger.start_session current_username, ask_for_session_reason
   end
 
-  def execute_supervised(commands, &block)
-    session_logger.before_executing commands
-    execute(&block)
-    session_logger.after_executing commands
-  end
-
-  def execute(&block)
-    with_encryption_mode(&block)
-  end
-
   def stop
     session_logger.finish_session
   end
@@ -42,11 +32,7 @@ class Console1984::Supervisor
     end
 
     def show_production_data_warning
-      show_warning PRODUCTION_DATA_WARNING
-    end
-
-    def sensitive_access?
-      unprotected_mode?
+      show_warning Console1984.production_data_warning
     end
 
     def extend_irb
@@ -57,14 +43,6 @@ class Console1984::Supervisor
 
     def ask_for_session_reason
       ask_for_value("#{current_username}, why are you using this console today?")
-    end
-
-    def log_audit_trail
-      logger.info read_audit_trail_json
-    end
-
-    def read_audit_trail_json
-      structured_logger_string_io.string.strip[/(^.+)\Z/, 0] # grab the last line
     end
 
     def show_commands

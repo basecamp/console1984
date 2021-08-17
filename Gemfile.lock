@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/basecamp/rails-structured-logging.git
-  revision: 69b6cb06fd8bbf44316b71092fd9e1934d15f426
-  specs:
-    rails_structured_logging (0.1.0)
-      rails (>= 6.0.0)
-
-GIT
   remote: https://github.com/rails/rails.git
   revision: 6983a89c726243fb38fe28cff49cba3a5f63ba6f
   branch: main
@@ -96,7 +89,6 @@ PATH
   specs:
     console1984 (0.1.0)
       colorize
-      jbuilder
 
 GEM
   remote: https://rubygems.org/
@@ -112,8 +104,6 @@ GEM
       activesupport (>= 5.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.10.0)
-      activesupport (>= 5.0.0)
     loofah (2.11.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -192,7 +182,6 @@ DEPENDENCIES
   console1984!
   mocha
   rails!
-  rails_structured_logging!
   rubocop (>= 1.18.4)
   rubocop-packaging
   rubocop-performance
