@@ -6,4 +6,10 @@ module Console1984::ProtectedContext
       super
     end
   end
+
+  def evaluate(line, line_no, exception: nil)
+    Console1984.supervisor.execute do
+      super
+    end
+  end
 end
