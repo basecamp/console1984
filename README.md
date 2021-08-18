@@ -2,7 +2,11 @@
 
 # Console1984
 
-Console1984 is an extension for Rails consoles that protects sensitive accesses and makes them auditable.
+A Rails console that protects sensitive accesses and makes them auditable.
+
+> “If you want to keep a secret, you must also hide it from yourself.”
+>
+> ― George Orwell, 1984
 
 If you are looking for the auditing tool, check [`audits1984`](https://github.com/basecamp/audits1984).
 
