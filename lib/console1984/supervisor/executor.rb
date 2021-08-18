@@ -4,7 +4,7 @@ module Console1984::Supervisor::Executor
   def execute_supervised(commands, &block)
     run_system_command { session_logger.before_executing commands }
     execute(&block)
-  rescue Console1984::Errors::ForbiddenCommand
+  rescue Console1984::Errors::ForbiddenCommand, Console1984::Errors::ForbiddenClassManipulation
     puts "Forbidden command attempted: #{commands.join("\n")}"
     run_system_command { session_logger.suspicious_commands_attempted commands }
     nil

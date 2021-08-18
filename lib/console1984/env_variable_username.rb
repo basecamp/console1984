@@ -6,4 +6,6 @@ class Console1984::EnvVariableUsername
   def current_user_name
     @username
   end
+
+  include Console1984::FrozenMethods
 end

@@ -7,35 +7,18 @@ loader.setup
 module Console1984
   include Messages
 
-  mattr_accessor :supervisor
-  mattr_accessor :session_logger
-  mattr_accessor :username_resolver
-
-  mattr_accessor :protected_environments
-  mattr_reader :protected_urls, default: []
-
-  mattr_reader :production_data_warning, default: DEFAULT_PRODUCTION_DATA_WARNING
-  mattr_reader :enter_unprotected_encryption_mode_warning, default: DEFAULT_ENTER_UNPROTECTED_ENCRYPTION_MODE_WARNING
-  mattr_reader :enter_protected_mode_warning, default: DEFAULT_ENTER_PROTECTED_MODE_WARNING
-
-  mattr_accessor :incinerate, default: true
-  mattr_accessor :incinerate_after, default: 30.days
-  mattr_accessor :incineration_queue, default: "console1984_incineration"
-
-  mattr_accessor :debug, default: false
+  mattr_reader :supervisor, default: Supervisor.new
+  mattr_reader :config, default: Config.new
 
   thread_mattr_accessor :currently_protected_urls, default: []
 
   class << self
-    def install_support(config)
-      self.protected_environments ||= config.protected_environments
-      self.protected_urls.push(*config.protected_urls)
-      self.session_logger = config.session_logger || Console1984::SessionsLogger::Database.new
-      self.username_resolver = config.username_resolver || Console1984::Username::EnvResolver.new("CONSOLE_USER")
+    Config::PROPERTIES.each do |property|
+      delegate property, to: :config
+    end
 
-      self.supervisor = Supervisor.new
-      self.protected_urls.freeze
-
+    def install_support(properties)
+      config.set properties
       extend_protected_systems
     end
 

@@ -23,4 +23,6 @@ module Console1984
         @auditable_tables ||= AUDITABLE_MODELS.collect(&:table_name)
       end
   end
+
+  include Console1984::FrozenMethods
 end

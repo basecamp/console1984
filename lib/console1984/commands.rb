@@ -11,4 +11,6 @@ module Console1984::Commands
     def supervisor
       Console1984.supervisor
     end
+
+    include Console1984::FrozenMethods
 end

@@ -12,4 +12,6 @@ module Console1984::ProtectedContext
       super
     end
   end
+
+  include Console1984::FrozenMethods
 end

@@ -6,7 +6,7 @@ class SupervisedTestConsole
   def initialize(reason: "No reason", user: "Not set")
     @string_io = StringIO.new
     @supervisor = Console1984::Supervisor.new
-    Console1984.supervisor = @supervisor
+    Console1984.class_variable_set "@@supervisor", @supervisor
 
     ENV["CONSOLE_USER"] = user
 
