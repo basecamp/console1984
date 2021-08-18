@@ -4,6 +4,8 @@
 
 Console1984 is an extension for Rails consoles that protects sensitive accesses and makes them auditable.
 
+If you are looking for the auditing tool, check [`audits1984`](https://github.com/basecamp/audits1984).
+
 ## Installation
 
 Add it to your `Gemfile`:
@@ -32,6 +34,10 @@ config.console1984.protected_environments = %i[ production staging ]
 When starting a console session, it will ask for a reason. Internally, it will use this reason to document the console session and record all the commands executed in it.
 
 ![console-session-reason](docs/images/console-session-reason.png)
+
+### Auditing sessions
+
+Check out [`audits1984`](https://github.com/basecamp/audits1984), a companion auditing tool prepared to work with `console1984` database session trails.
 
 ### Access to encrypted data
 
@@ -76,5 +82,5 @@ These config options are namespaced in `config.console1984`:
 
 ## About built-in protection mechanisms
 
-`console1984` uses Ruby to add several protection mechanisms. However, because Ruby is highly dynamic, it's technically possible to circumvent most of these controls if you know what you are doing. We have made an effort to prevent such attempts, but if your organization needs bullet-proof protection against malicious actors using the console, you should consider adding additional security measures.
+`console1984` uses Ruby to add several protection mechanisms. However, because Ruby is highly dynamic, it's technically possible to circumvent most of these controls if you know what you are doing. We have made an effort to prevent such attempts, but if your organization needs bullet-proof protection against malicious actors using the console, you should consider additional security measures.
 
