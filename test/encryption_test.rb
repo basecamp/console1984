@@ -2,7 +2,7 @@ require "test_helper"
 
 class EncryptionTest < ActiveSupport::TestCase
   setup do
-    @console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason", capture_log_trails: false)
+    @console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
     @person = people(:julia)
   end
 
