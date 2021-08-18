@@ -32,4 +32,4 @@ ActiveRecord::Encryption.configure \
   key_derivation_salt: "testing key derivation salt",
   support_unencrypted_data: true
 
-Console1984.install_support(Rails.application.config.console1984)
+Console1984.config.set_from Rails.application.config.console1984
