@@ -17,8 +17,7 @@ module Console1984::Messages
   TXT
 
   COMMANDS = {
-      "decrypt!": "enter unprotected mode with access to encrypted information",
-      "log '<reason>'": "provide further information about what you are going to do in the middle of a console session"
+      "decrypt!": "enter unprotected mode with access to encrypted information"
   }
 
   COMMANDS_HELP = <<~TXT
