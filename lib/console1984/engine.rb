@@ -15,7 +15,8 @@ module Console1984
     end
 
     console do
-      Console1984.install_support(config.console1984)
+      Console1984.config.set_from(config.console1984)
+
       Console1984.supervisor.start if Console1984.running_protected_environment?
 
       class OpenSSL::SSL::SSLSocket

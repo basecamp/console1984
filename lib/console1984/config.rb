@@ -15,7 +15,7 @@ class Console1984::Config
     set_defaults
   end
 
-  def set(properties)
+  def set_from(properties)
     properties.each do |key, value|
       public_send("#{key}=", value) if value.present?
     end
