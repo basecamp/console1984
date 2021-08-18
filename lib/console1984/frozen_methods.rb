@@ -1,3 +1,7 @@
+# Prevents adding new methods to classes.
+#
+# This prevents manipulating certain Console1984 classes
+# during a console session.
 module Console1984::FrozenMethods
   extend ActiveSupport::Concern
 

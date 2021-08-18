@@ -1,3 +1,4 @@
+# Container for config options.
 class Console1984::Config
   include Console1984::Messages
 

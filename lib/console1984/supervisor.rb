@@ -1,11 +1,13 @@
 require 'colorized_string'
 require 'rails/console/app'
 
+# Protects console sessions and executes code in supervised mode.
 class Console1984::Supervisor
   include Accesses, InputOutput, Executor, Protector
 
-  attr_reader :session_id
-
+  # Starts a console session extending IRB and several systems to inject
+  # the protection logic, and notifies the session logger to record the
+  # session.
   def start
     Console1984.config.freeze
     extend_protected_systems

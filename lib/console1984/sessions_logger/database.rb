@@ -1,3 +1,4 @@
+# A session logger that saves audit trails in the database.
 class Console1984::SessionsLogger::Database
   attr_reader :current_session, :current_sensitive_access
 

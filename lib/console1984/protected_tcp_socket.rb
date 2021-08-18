@@ -1,3 +1,4 @@
+# Wraps socket methods to execute supervised.
 module Console1984::ProtectedTcpSocket
   def write(*args)
     protecting do

@@ -1,4 +1,5 @@
 module Console1984
+  # Prevents accessing trail model tables when executing console commands.
   module ProtectedAuditableTables
     %i[ execute exec_query exec_insert exec_delete exec_update exec_insert_all ].each do |method|
       define_method method do |*args|
