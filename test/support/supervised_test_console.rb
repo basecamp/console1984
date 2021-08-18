@@ -3,13 +3,8 @@ class SupervisedTestConsole
   include IoStreamTestHelper
   include Minitest::Assertions
 
-  def initialize(reason: "No reason", user: "Not set", capture_log_trails: true)
+  def initialize(reason: "No reason", user: "Not set")
     @string_io = StringIO.new
-    logger = if capture_log_trails
-      ActiveSupport::Logger.new(@string_io)
-    else
-      ActiveSupport::Logger.new("/dev/null")
-    end
     @supervisor = Console1984::Supervisor.new
     Console1984.supervisor = @supervisor
 

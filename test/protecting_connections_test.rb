@@ -5,7 +5,7 @@ class EncryptionTest < ActiveSupport::TestCase
   SERVER_PORT = 9097
 
   setup do
-    @console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason", capture_log_trails: false)
+    @console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
   end
 
   teardown do
