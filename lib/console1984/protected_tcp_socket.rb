@@ -53,4 +53,6 @@ module Console1984::ProtectedTcpSocket
         super(addrinfo.ip_address, addrinfo.ip_port)
       end
     end
+
+    include Console1984::FrozenMethods
 end

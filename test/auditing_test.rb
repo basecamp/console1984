@@ -67,6 +67,15 @@ class AuditingTest < ActiveSupport::TestCase
     assert_forbidden_command_attempted "Console1984::Session.destroy_all"
   end
 
+  test "trying to override built-in class methods will be prevented and flagged" do
+    assert_forbidden_command_attempted <<~RB
+      class Console1984::Supervisor
+        def some_evil_method_override(*args)
+        end
+      end
+    RB
+  end
+
   private
     def assert_audit_trail(commands: [])
       assert_difference -> { Console1984::Command.count }, commands.length do

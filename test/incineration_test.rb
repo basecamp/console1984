@@ -25,13 +25,13 @@ class IncinerationTest < ActiveSupport::TestCase
   end
 
   test "skipping incineration" do
-    original, Console1984.incinerate = Console1984.incinerate, false
+    original, Console1984.config.incinerate = Console1984.incinerate, false
 
     assert_no_enqueued_jobs only: Console1984::IncinerationJob do
       SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
     end
   ensure
-    Console1984.incinerate = original
+    Console1984.config.incinerate = original
   end
 
   test "trying to incinerate a session ahead of time will raise" do
