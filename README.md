@@ -69,7 +69,7 @@ To decrypt data, enter the command `decrypt!`. It will ask for a justification, 
 irb(main)> Topic.last.name
   Topic Load (1.4ms)  SELECT `topics`.* FROM `topics` ORDER BY `topics`.`id` DESC LIMIT 1
 => "{\"p\":\"iu6+LfnNlurC6sL++JyOIDvedjNSz/AvnZQ=\",\"h\":{\"iv\":\"BYa86+JNM/LdkC18\",\"at\":\"r4sQNoSyIlAjJdZEKHVMow==\",\"k\":{\"p\":\"7L1l/5UiYsFQqqo4jfMZtLwp90KqcrIgS7HqgteVjuM=\",\"h\":{\"iv\":\"ItwRYxZAerKIoSZ8\",\"at\":\"ZUSNVfvtm4wAYWLBKRAx/g==\",\"e\":\"QVNDSUktOEJJVA==\"}},\"i\":\"OTdiOQ==\"}}"
-irb(main):002:0> decrypt!
+irb(main)> decrypt!
 ```
 
 ```
