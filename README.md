@@ -10,6 +10,8 @@ A Rails console that protects sensitive accesses and makes them auditable.
 
 If you are looking for the auditing tool, check [`audits1984`](https://github.com/basecamp/audits1984).
 
+![console-session-reason](docs/images/console-session-reason.png)
+
 ## Installation
 
 Add it to your `Gemfile`:
@@ -37,7 +39,21 @@ config.console1984.protected_environments = %i[ production staging ]
 
 When starting a console session, it will ask for a reason. Internally, it will use this reason to document the console session and record all the commands executed in it.
 
-![console-session-reason](docs/images/console-session-reason.png)
+```
+$ rails c
+
+You have access to production data here. That's a big deal. As part of our promise to keep customer data safe and private, we audit the commands you type here. Let's get started!
+
+
+
+Commands:
+
+* decrypt!: enter unprotected mode with access to encrypted information
+
+Unnamed, why are you using this console today?
+
+> 
+```
 
 ### Auditing sessions
 
@@ -49,15 +65,51 @@ By default, `console1984` won't decrypt data encrypted with [Active Record encry
 
 To decrypt data, enter the command `decrypt!`. It will ask for a justification, and these accesses will be flagged internally as sensitive.
 
-![console-session-reason](docs/images/console-decrypt.png)
+```ruby
+irb(main)> Topic.last.name
+  Topic Load (1.4ms)  SELECT `topics`.* FROM `topics` ORDER BY `topics`.`id` DESC LIMIT 1
+=> "{\"p\":\"iu6+LfnNlurC6sL++JyOIDvedjNSz/AvnZQ=\",\"h\":{\"iv\":\"BYa86+JNM/LdkC18\",\"at\":\"r4sQNoSyIlAjJdZEKHVMow==\",\"k\":{\"p\":\"7L1l/5UiYsFQqqo4jfMZtLwp90KqcrIgS7HqgteVjuM=\",\"h\":{\"iv\":\"ItwRYxZAerKIoSZ8\",\"at\":\"ZUSNVfvtm4wAYWLBKRAx/g==\",\"e\":\"QVNDSUktOEJJVA==\"}},\"i\":\"OTdiOQ==\"}}"
+irb(main):002:0> decrypt!
+```
+
+```text
+Ok! You have access to encrypted information now. We pay extra close attention to any commands entered while you have this access. You can go back to protected mode with 'encrypt!'
+
+WARNING: Make sure you don`t save objects that were loaded while in protected mode, as this can result in saving the encrypted texts.
+
+
+
+Before you can access personal information, you need to ask for and get explicit consent from the user(s). Unnamed, where can we find this consent (a URL would be great)?
+This is a console1984 demo, seeing seed data
+```
+
+```ruby
+irb(main)> Topic.last.name
+  Topic Load (1.2ms)  SELECT `topics`.* FROM `topics` ORDER BY `topics`.`id` DESC LIMIT 1
+=> "Thanks for the inspiration"
+```
 
 You can type `encrypt!` to go back to protected mode again.
 
-![console-session-reason](docs/images/console-encrypt.png)
+```ruby
+irb(main):004:0> encrypt!
+```
+
+```
+Great! You are back in protected mode. When we audit, we may reach out for a conversation about the commands you entered. What went well? Did you solve the problem without accessing personal data?
+```
+
+```ruby
+irb(main)> Topic.last.name
+  Topic Load (1.4ms)  SELECT `topics`.* FROM `topics` ORDER BY `topics`.`id` DESC LIMIT 1
+=> "{\"p\":\"iu6+LfnNlurC6sL++JyOIDvedjNSz/AvnZQ=\",\"h\":{\"iv\":\"BYa86+JNM/LdkC18\",\"at\":\"r4sQNoSyIlAjJdZEKHVMow==\",\"k\":{\"p\":\"7L1l/5UiYsFQqqo4jfMZtLwp90KqcrIgS7HqgteVjuM=\",\"h\":{\"iv\":\"ItwRYxZAerKIoSZ8\",\"at\":\"ZUSNVfvtm4wAYWLBKRAx/g==\",\"e\":\"QVNDSUktOEJJVA==\"}},\"i\":\"OTdiOQ==\"}}"
+```
 
 While in protected mode, you can't modify encrypted data, but can save unencrypted attributes normally. If you try to modify an encrypted column it will raise an error:
 
-![console-session-reason](docs/images/console-protect-urls.png)
+```ruby
+irb(main)> Rails.cache.read("some key") # raises Console1984::Errors::ProtectedConnection
+```
 
 ### Access to external systems
 
