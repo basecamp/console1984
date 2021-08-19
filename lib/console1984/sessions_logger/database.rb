@@ -4,7 +4,7 @@ class Console1984::SessionsLogger::Database
 
   def start_session(username, reason)
     silence_logging do
-      user = Console1984::User.create_or_find_by!(username: username)
+      user = Console1984::User.find_or_create_by!(username: username)
       @current_session = user.sessions.create! reason: reason
     end
   end
