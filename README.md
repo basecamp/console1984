@@ -52,7 +52,7 @@ Commands:
 
 Unnamed, why are you using this console today?
 
-> 
+> ...
 ```
 
 ### Auditing sessions
@@ -72,15 +72,14 @@ irb(main)> Topic.last.name
 irb(main):002:0> decrypt!
 ```
 
-```text
+```
+Before you can access personal information, you need to ask for and get explicit consent from the user(s). Unnamed, where can we find this consent (a URL would be great)?
+
+> ...
+
 Ok! You have access to encrypted information now. We pay extra close attention to any commands entered while you have this access. You can go back to protected mode with 'encrypt!'
 
 WARNING: Make sure you don`t save objects that were loaded while in protected mode, as this can result in saving the encrypted texts.
-
-
-
-Before you can access personal information, you need to ask for and get explicit consent from the user(s). Unnamed, where can we find this consent (a URL would be great)?
-This is a console1984 demo, seeing seed data
 ```
 
 ```ruby
