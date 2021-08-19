@@ -2,7 +2,7 @@
 
 # Console1984
 
-A Rails console that protects sensitive accesses and makes them auditable.
+A Rails console extension that protects sensitive accesses and makes them auditable.
 
 > “If you want to keep a secret, you must also hide it from yourself.”
 >
