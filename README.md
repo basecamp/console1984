@@ -61,7 +61,7 @@ Check out [`audits1984`](https://github.com/basecamp/audits1984), a companion au
 
 ### Access to encrypted data
 
-By default, `console1984` won't decrypt data encrypted with [Active Record encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html).
+By default, `console1984` won't decrypt data encrypted with [Active Record encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html). Users will just see the ciphertexts.
 
 To decrypt data, enter the command `decrypt!`. It will ask for a justification, and these accesses will be flagged internally as sensitive.
 
