@@ -10,7 +10,7 @@ A Rails console extension that protects sensitive accesses and makes them audita
 
 If you are looking for the auditing tool, check [`audits1984`](https://github.com/basecamp/audits1984).
 
-![console-session-reason](docs/images/console-session-reason.png)
+![Terminal screenshot showing console1984 asking for a reason for the session](docs/images/console-session-reason.png)
 
 ## Installation
 
