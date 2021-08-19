@@ -125,16 +125,26 @@ As with encryption data, running `decrypt!` will let you access these systems no
 
 This will work for systems that use Ruby sockets as the underlying communication mechanism.
 
+### Automatic scheduled incineration for sessions
+
+By default, sessions will be incinerated with a job 30 days after they are created. You can configure this period by setting `config.console1984.incinerate_after = 1.year` and you can disable incineration completely by setting `config.console1984.incinerate = false`.
+
 ## Configuration
 
 These config options are namespaced in `config.console1984`:
 
-| Name                     | Description                                                  |
-| ------------------------ | ------------------------------------------------------------ |
-| `protected_environments` | The list of environments where `console1984` will act on. Defaults to `%i[ production ]` |
-| `protected_urls`         | The list of URLs corresponding with external systems to protect. |
-| `session_logger`         | The system used to record session data. The default logger is `Console1984::SessionsLogger::Database`. |
-| `username_resolver`      | Configure an object responsible of resolving the current database username. The default is `Console1984::Username::EnvResolver.new("CONSOLE_USER")`, which returns the value of the environment variable `CONSOLE_USER`. |
+| Name                                        | Description                                                  |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| `protected_environments`                    | The list of environments where `console1984` will act on. Defaults to `%i[ production ]`. |
+| `protected_urls`                            | The list of URLs corresponding with external systems to protect. |
+| `session_logger`                            | The system used to record session data. The default logger is `Console1984::SessionsLogger::Database`. |
+| `username_resolver`                         | Configure an object responsible of resolving the current database username. The default is `Console1984::Username::EnvResolver.new("CONSOLE_USER")`, which returns the value of the environment variable `CONSOLE_USER`. |
+| `production_data_warning`                   | The text to show when a console session starts.              |
+| `enter_unprotected_encryption_mode_warning` | The text to show when user enters into unprotected mode.     |
+| `enter_protected_mode_warning`              | The text to show when user go backs to protected mode.       |
+| `incinerate`                                | Whether incinerate sessions automatically after a period of time or not. Default to `true`. |
+| `incinerate_after`                          | The period to keep sessions around before incinerate them. Default `30.days`. |
+| `incineration_queue`                        | The name of the queue for session incineration jobs. Default `console1984_incineration`. |
 
 ## About built-in protection mechanisms
 
