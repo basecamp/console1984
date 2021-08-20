@@ -14,6 +14,8 @@ If you are looking for the auditing tool, check [`audits1984`](https://github.co
 
 ## Installation
 
+**Important:** `console1984` depends on [Active Record encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html) which is a Rails 7 feature. Since no gem for Rails 7 has been released yet, you need to run Rails edge in your project (point the gem to latest `main` in the [repo](https://github.com/rails/rails)).
+
 Add it to your `Gemfile`:
 
 ```ruby
