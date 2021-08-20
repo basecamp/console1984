@@ -114,7 +114,7 @@ irb(main)> Rails.cache.read("some key") # raises Console1984::Errors::ProtectedC
 
 ### Access to external systems
 
-While Active Record encryption can protect personal information in the database, are other systems can contain very sensitive information. For example: Elasticsearch indexing user information or Redis caching template fragments.
+While Active Record encryption can protect personal information in the database, there are other systems can contain very sensitive information. For example: Elasticsearch indexing user information or Redis caching template fragments.
 
 To protect the access to such systems, you can add their URLs to `config.console1984.protected_urls` in the corresponding environment config file (e.g: `production.rb`):
 
