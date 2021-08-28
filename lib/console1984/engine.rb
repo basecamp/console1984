@@ -21,13 +21,6 @@ module Console1984
         Console1984.supervisor.install
         Console1984.supervisor.start
       end
-
-      class OpenSSL::SSL::SSLSocket
-        # Make it serve remote address as TCPSocket so that our extension works for it
-        def remote_address
-          Addrinfo.getaddrinfo(hostname, 443).first
-        end
-      end
     end
   end
 end
