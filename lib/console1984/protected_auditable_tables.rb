@@ -19,7 +19,11 @@ module Console1984::ProtectedAuditableTables
     end
 
     def auditable_tables
-      @auditable_tables ||= Console1984::Base.descendants.collect(&:table_name)
+      @auditable_tables ||= auditable_models.collect(&:table_name)
+    end
+
+    def auditable_models
+      @auditable_models ||= Console1984::Base.descendants
     end
 
     include Console1984::Freezeable
