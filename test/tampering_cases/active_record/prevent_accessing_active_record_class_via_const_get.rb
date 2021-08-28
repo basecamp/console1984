@@ -1,0 +1,1 @@
+"ActiveRecord".constantize

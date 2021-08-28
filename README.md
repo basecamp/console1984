@@ -130,6 +130,10 @@ This will work for systems that use Ruby sockets as the underlying communication
 
 By default, sessions will be incinerated with a job 30 days after they are created. You can configure this period by setting `config.console1984.incinerate_after = 1.year` and you can disable incineration completely by setting `config.console1984.incinerate = false`.
 
+### Eager loading
+
+When starting a console session, `console1984` will eager load all the application classes if necessary. In practice, production environments already load classes eagerly, so this won't represent any change for those.  
+
 ## Configuration
 
 These config options are namespaced in `config.console1984`:

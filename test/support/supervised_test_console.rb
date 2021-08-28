@@ -5,23 +5,20 @@ class SupervisedTestConsole
 
   def initialize(reason: "No reason", user: "Not set")
     @string_io = StringIO.new
-    @supervisor = Console1984::Supervisor.new
-    Console1984.class_variable_set "@@supervisor", @supervisor
-
     ENV["CONSOLE_USER"] = user
 
     start_supervisor(reason)
   end
 
   def stop
-    @supervisor.stop
+    Console1984.supervisor.stop
   end
 
   def execute(statement)
     return_value = nil
 
     output, error = capture_io do
-      @supervisor.execute_supervised [statement] do
+      Console1984.supervisor.execute_supervised [statement] do
         return_value = simulate_evaluation(statement)
       end
     end
@@ -44,12 +41,12 @@ class SupervisedTestConsole
 
     def start_supervisor(reason)
       type_when_prompted reason do
-        @supervisor.start
+        Console1984.supervisor.start
       end
     end
 
     def simulated_console
-      @simulated_console ||= SimulatedConsole.new(@supervisor)
+      @simulated_console ||= SimulatedConsole.new(Console1984.supervisor)
     end
 
     class SimulatedConsole

@@ -38,12 +38,4 @@ class EncryptionTest < ActiveSupport::TestCase
       RUBY
     end
   end
-
-  test "can't clear protected urls" do
-    assert_raises FrozenError do
-      @console.execute <<~RUBY
-        Console1984.protected_urls.clear
-      RUBY
-    end
-  end
 end

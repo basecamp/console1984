@@ -1,13 +1,13 @@
 # Container for config options.
 class Console1984::Config
-  include Console1984::Messages
+  include Console1984::Freezeable, Console1984::Messages
 
   PROPERTIES = %i[
     session_logger username_resolver
     protected_environments protected_urls
     production_data_warning enter_unprotected_encryption_mode_warning enter_protected_mode_warning
     incinerate incinerate_after incineration_queue
-    debug freeze_config
+    debug test_mode
   ]
 
   attr_accessor(*PROPERTIES)
@@ -23,7 +23,7 @@ class Console1984::Config
   end
 
   def freeze
-    super if freeze_config
+    super
     protected_urls.freeze
   end
 
@@ -44,6 +44,6 @@ class Console1984::Config
       self.incineration_queue = "console1984_incineration"
 
       self.debug = false
-      self.freeze_config = true
+      self.test_mode = false
     end
 end

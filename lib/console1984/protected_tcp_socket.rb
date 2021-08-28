@@ -1,5 +1,7 @@
 # Wraps socket methods to execute supervised.
 module Console1984::ProtectedTcpSocket
+  include Console1984::Freezeable
+
   def write(*args)
     protecting do
       super
@@ -55,5 +57,5 @@ module Console1984::ProtectedTcpSocket
       end
     end
 
-    include Console1984::FrozenMethods
+    include Console1984::Freezeable
 end

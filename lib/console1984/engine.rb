@@ -17,13 +17,9 @@ module Console1984
     console do
       Console1984.config.set_from(config.console1984)
 
-      Console1984.supervisor.start if Console1984.running_protected_environment?
-
-      class OpenSSL::SSL::SSLSocket
-        # Make it serve remote address as TCPSocket so that our extension works for it
-        def remote_address
-          Addrinfo.getaddrinfo(hostname, 443).first
-        end
+      if Console1984.running_protected_environment?
+        Console1984.supervisor.install
+        Console1984.supervisor.start
       end
     end
   end

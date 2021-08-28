@@ -1,0 +1,1 @@
+Console1984.protected_urls.clear
