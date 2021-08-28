@@ -87,7 +87,7 @@ GIT
 PATH
   remote: .
   specs:
-    console1984 (0.1.4)
+    console1984 (0.1.5)
       colorize
 
 GEM
