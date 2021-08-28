@@ -1,6 +1,6 @@
 # Container for config options.
 class Console1984::Config
-  include Console1984::Messages
+  include Console1984::Freezeable, Console1984::Messages
 
   PROPERTIES = %i[
     session_logger username_resolver

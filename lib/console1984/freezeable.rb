@@ -13,17 +13,10 @@ module Console1984::Freezeable
 
   class_methods do
     SENSITIVE_INSTANCE_METHODS = %i[ instance_variable_set ]
-    SENSITIVE_CLASS_METHODS = %i[ class_variable_set ]
 
     def prevent_sensitive_overrides
       SENSITIVE_INSTANCE_METHODS.each do |method|
         prevent_sensitive_method method
-      end
-
-      class_eval do
-        SENSITIVE_CLASS_METHODS.each do |method|
-          prevent_sensitive_method method
-        end
       end
     end
 
