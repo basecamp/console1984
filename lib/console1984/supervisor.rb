@@ -36,7 +36,7 @@ class Console1984::Supervisor
 
     def freeze_all
       eager_load_all_classes
-      Console1984.protected_urls.freeze
+      Console1984.config.freeze unless Console1984.config.test_mode
       Console1984::Freezeable.freeze_all
     end
 
