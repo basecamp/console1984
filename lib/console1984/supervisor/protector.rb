@@ -5,9 +5,14 @@ module Console1984::Supervisor::Protector
 
   private
     def extend_protected_systems
+      extend_object
       extend_irb
       extend_active_record
       extend_socket_classes
+    end
+
+    def extend_object
+      Object.prepend Console1984::ProtectedObject
     end
 
     def extend_irb
