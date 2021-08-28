@@ -20,10 +20,22 @@ class TamperingProtectionTest < ActiveSupport::TestCase
     end
   end
 
+  test "let users create classes on the fly and open existing classes" do
+    assert_no_difference -> { Console1984::SensitiveAccess.count } do
+      @console.execute <<~RB
+      class String
+        def my_test_console1984_method
+        end#{' '}
+      end
+
+      class SomeConsoleTestClass
+      end
+      RB
+    end
+  end
+
   private
     def assert_forbidden_command_attempted(command)
-      @console.execute "puts Person.last.name"
-
       assert_audit_trail commands: [ command ] do
         assert_difference -> { Console1984::SensitiveAccess.count }, +1 do
           @console.execute command
