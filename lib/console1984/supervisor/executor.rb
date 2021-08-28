@@ -9,7 +9,7 @@ module Console1984::Supervisor::Executor
     execute(&block)
   rescue Console1984::Errors::ForbiddenCommand, Console1984::Errors::ForbiddenCodeManipulation, FrozenError
     flag_forbidden(commands)
-  rescue FrozenError => exception
+  rescue FrozenError
     flag_forbidden(commands)
   ensure
     run_system_command { session_logger.after_executing commands }
@@ -47,7 +47,7 @@ module Console1984::Supervisor::Executor
     end
 
     def forbidden_command?(command)
-      command =~ /Console1984|console_1984/
+      command =~ /Console1984|console_1984|(class|module)\s+ActiveRecord::/
     end
 
     def run_command(run_by_user, &block)
