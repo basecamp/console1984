@@ -47,6 +47,11 @@ module Console1984::Supervisor::Executor
     end
 
     def forbidden_command?(command)
+      # This is a first protection layer. Very simple for now. We'll likely make this
+      # more sophisticated and configurable in future versions.
+      #
+      # We can't use our +Freezable+ concern in ActiveRecord since it relies on code
+      # generation on the fly.
       command =~ /Console1984|console_1984|(class|module)\s+ActiveRecord::/
     end
 
