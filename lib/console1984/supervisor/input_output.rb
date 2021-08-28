@@ -1,5 +1,5 @@
 module Console1984::Supervisor::InputOutput
-  include Console1984::Messages
+  include Console1984::Freezeable, Console1984::Messages
 
   private
     def show_welcome_message

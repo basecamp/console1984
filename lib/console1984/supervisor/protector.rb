@@ -1,6 +1,8 @@
 module Console1984::Supervisor::Protector
   extend ActiveSupport::Concern
 
+  include Console1984::Freezeable
+
   private
     def extend_protected_systems
       extend_irb

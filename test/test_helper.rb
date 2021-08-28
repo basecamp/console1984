@@ -9,6 +9,7 @@ require "rails/test_help"
 require "minitest/mock"
 
 require_relative "support/io_stream_test_helper"
+require_relative "support/audit_helpers"
 require_relative "support/supervised_test_console"
 
 # Filter out the backtrace from minitest while preserving the one from other libraries.
@@ -23,7 +24,7 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
 end
 
 class ActiveSupport::TestCase
-  include IoStreamTestHelper, ActiveJob::TestHelper
+  include AuditHelpers, IoStreamTestHelper, ActiveJob::TestHelper
 end
 
 ActiveRecord::Encryption.configure \
@@ -33,3 +34,4 @@ ActiveRecord::Encryption.configure \
   support_unencrypted_data: true
 
 Console1984.config.set_from Rails.application.config.console1984
+Console1984.supervisor.install

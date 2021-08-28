@@ -1,5 +1,5 @@
 module Console1984::Supervisor::Accesses
-  include Console1984::Messages
+  include Console1984::Messages, Console1984::Freezeable
 
   PROTECTED_ACCESS = Protected.new
   UNPROTECTED_ACCESS = Unprotected.new

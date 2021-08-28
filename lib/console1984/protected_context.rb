@@ -1,4 +1,6 @@
 module Console1984::ProtectedContext
+  include Console1984::Freezeable
+
   # This method is invoked for showing returned objects in the console
   # Overridden to make sure their evaluation is supervised.
   def inspect_last_value
@@ -14,5 +16,5 @@ module Console1984::ProtectedContext
     end
   end
 
-  include Console1984::FrozenMethods
+  include Console1984::Freezeable
 end

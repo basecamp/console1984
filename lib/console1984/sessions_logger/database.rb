@@ -1,11 +1,13 @@
 # A session logger that saves audit trails in the database.
 class Console1984::SessionsLogger::Database
+  include Console1984::Freezeable
+
   attr_reader :current_session, :current_sensitive_access
 
   def start_session(username, reason)
     silence_logging do
       user = Console1984::User.find_or_create_by!(username: username)
-      @current_session = user.sessions.create! reason: reason
+      @current_session = user.sessions.create!(reason: reason)
     end
   end
 

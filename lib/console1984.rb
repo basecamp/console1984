@@ -1,14 +1,15 @@
 require 'console1984/engine'
 
 require "zeitwerk"
-loader = Zeitwerk::Loader.for_gem
-loader.setup
+class_loader = Zeitwerk::Loader.for_gem
+class_loader.setup
 
 module Console1984
-  include Messages
+  include Messages, Freezeable
 
-  mattr_reader :supervisor, default: Supervisor.new
+  mattr_accessor :supervisor, default: Supervisor.new
   mattr_reader :config, default: Config.new
+  mattr_accessor :class_loader
 
   thread_mattr_accessor :currently_protected_urls, default: []
 
@@ -37,3 +38,5 @@ module Console1984
       end
   end
 end
+
+Console1984.class_loader = class_loader
