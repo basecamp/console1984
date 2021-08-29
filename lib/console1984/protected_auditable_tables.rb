@@ -3,12 +3,12 @@ module Console1984::ProtectedAuditableTables
   include Console1984::Freezeable
 
   %i[ execute exec_query exec_insert exec_delete exec_update exec_insert_all ].each do |method|
-    define_method method do |*args|
+    define_method method do |*args, **kwargs|
       sql = args.first
       if Console1984.supervisor.executing_user_command? && sql =~ auditable_tables_regexp
         raise Console1984::Errors::ForbiddenCommand, "#{sql}"
       else
-        super(*args)
+        super(*args, **kwargs)
       end
     end
   end
