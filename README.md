@@ -155,3 +155,4 @@ These config options are namespaced in `config.console1984`:
 
 `console1984` uses Ruby to add several protection mechanisms. However, because Ruby is highly dynamic, it's technically possible to circumvent most of these controls if you know what you are doing. We have made an effort to prevent such attempts, but if your organization needs bullet-proof protection against malicious actors using the console, you should consider additional security measures.
 
+If you want prevent tampering to the sessions, you should restrict the permissions of the database user on the `console_1984_sessions` and `console_1984_commands` tables to allow inserts only.
