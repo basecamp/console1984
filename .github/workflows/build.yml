@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        database: [sqlite, postgres]
+        database: [sqlite, postgres, mysql]
     services:
       redis:
         image: redis
@@ -33,6 +33,12 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: "trust"
         ports:
           - 55432:5432
+      mysql:
+        image: percona:5.7.22
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        ports:
+          - 33306:3306
     env:
       TARGET_DB: ${{ matrix.database }}
     steps:

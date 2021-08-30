@@ -1,20 +1,24 @@
-<% if ENV["TARGET_DB"].blank? || ENV["TARGET_DB"]=="sqlite" %>
+<% if ENV["TARGET_DB"]=="mysql" %>
 
+# MySQL
 default: &default
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  adapter: mysql2
+  username: root
+  pool: 5
+  host: "127.0.0.1"
+  port: 33306
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: console1984_development
 
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: console1984_test
 
 <% elsif ENV["TARGET_DB"]=="postgres" %>
 
+# Postgres
 default: &default
   adapter: postgresql
   encoding: unicode
@@ -30,4 +34,21 @@ development:
 test:
   <<: *default
   database: console1984_test
+
+<% else %>
+
+# SQLite by default
+default: &default
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: db/development.sqlite3
+
+test:
+  <<: *default
+  database: db/test.sqlite3
+
 <% end %>
