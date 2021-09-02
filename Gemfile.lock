@@ -89,6 +89,7 @@ PATH
   specs:
     console1984 (0.1.6)
       colorize
+      parser
 
 GEM
   remote: https://rubygems.org/

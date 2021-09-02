@@ -23,7 +23,7 @@ module Console1984::Freezeable
     private
       def prevent_sensitive_method(method_name)
         define_method method_name do |*arguments|
-          raise Console1984::Errors::ForbiddenCodeManipulation, "You can't invoke #{method_name} on #{self}"
+          raise Console1984::Errors::ForbiddenCommand, "You can't invoke #{method_name} on #{self}"
         end
       end
   end

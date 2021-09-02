@@ -1,0 +1,17 @@
+forbidden_reopening:
+  - ActiveRecord
+  - Console1984
+  - PG
+  - Mysql2
+forbidden_constant_reference:
+  always:
+    - Console1984
+  protected:
+    - PG
+    - Mysql2
+    - ActiveRecord::ActiveRecordEncryption
+suspicious_terms:
+  - console_1984
+  - Console1984
+  - secret
+  - credentials

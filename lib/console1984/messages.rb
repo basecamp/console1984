@@ -1,5 +1,3 @@
-require 'colorized_string'
-
 module Console1984::Messages
   DEFAULT_PRODUCTION_DATA_WARNING = <<~TXT
 
@@ -19,12 +17,4 @@ module Console1984::Messages
   COMMANDS = {
       "decrypt!": "enter unprotected mode with access to encrypted information"
   }
-
-  COMMANDS_HELP = <<~TXT
-
-  Commands:
-
-  #{COMMANDS.collect { |command, help_line| "* #{ColorizedString.new(command.to_s).light_blue}: #{help_line}" }.join("\n")}
-
-  TXT
 end

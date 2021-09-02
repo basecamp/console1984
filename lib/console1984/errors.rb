@@ -8,7 +8,7 @@ module Console1984
     end
 
     class ForbiddenCommand < StandardError; end
+    class SuspiciousCommand < StandardError; end
     class ForbiddenIncineration < StandardError; end
-    class ForbiddenCodeManipulation < StandardError; end
   end
 end
