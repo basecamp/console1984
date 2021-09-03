@@ -28,7 +28,7 @@ module Console1984::ProtectedTcpSocket
     end
 
     def protected_addresses
-      @protected_addresses ||= Console1984.currently_protected_urls.collect do |url|
+      @protected_addresses ||= Console1984::Shield::Accesses::PROTECTED_ACCESS.currently_protected_urls.collect do |url|
         host, port = host_and_port_from(url)
         Array(Addrinfo.getaddrinfo(host, port)).collect { |addrinfo| ComparableAddress.new(addrinfo) if addrinfo.ip_address }
       end.flatten.compact.uniq
