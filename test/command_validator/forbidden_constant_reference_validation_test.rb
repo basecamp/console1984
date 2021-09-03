@@ -34,12 +34,12 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
   end
 
   test "validate referencing constant that are forbidden in protected mode will raise a ForbiddenCommand error only in protected mode" do
-    run_validation <<~RUBY, protected: ["SomeClass"], supervisor: OpenStruct.new(protected_mode?: false)
+    run_validation <<~RUBY, protected: ["SomeClass"], shield: OpenStruct.new(protected_mode?: false)
       SomeClass.some_method
     RUBY
 
     assert_raise Console1984::Errors::ForbiddenCommand do
-      run_validation <<~RUBY, protected: ["SomeClass"], supervisor: OpenStruct.new(protected_mode?: true)
+      run_validation <<~RUBY, protected: ["SomeClass"], shield: OpenStruct.new(protected_mode?: true)
         SomeClass.some_method
       RUBY
     end
@@ -52,9 +52,9 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
   end
 
   private
-    def run_validation(command, supervisor: Console1984.supervisor, always: [], protected: [])
+    def run_validation(command, shield: Console1984.shield, always: [], protected: [])
       validation = Console1984::CommandValidator::ForbiddenConstantReferenceValidation.new \
-        supervisor,
+        shield,
         always: always,
         protected: protected
 

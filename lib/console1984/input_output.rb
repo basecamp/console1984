@@ -1,4 +1,4 @@
-module Console1984::Supervisor::InputOutput
+module Console1984::InputOutput
   include Console1984::Freezeable, Console1984::Messages
 
   private

@@ -9,7 +9,7 @@ class AuditingTest < ActiveSupport::TestCase
     @console.stop
   end
 
-  test "executing commands show the output" do
+  test "executing csupommands show the output" do
     @console.execute <<~RUBY
       puts "Result is \#{1+1}"
     RUBY

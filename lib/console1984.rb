@@ -8,7 +8,9 @@ module Console1984
   include Messages, Freezeable
 
   mattr_accessor :supervisor, default: Supervisor.new
+
   mattr_reader :config, default: Config.new
+
   mattr_accessor :class_loader
 
   thread_mattr_accessor :currently_protected_urls, default: []

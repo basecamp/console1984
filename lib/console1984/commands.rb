@@ -1,16 +1,13 @@
 module Console1984::Commands
   include Console1984::Freezeable
 
+  delegate :shield, to: Console1984
+
   def decrypt!
-    supervisor.enable_access_to_encrypted_content
+    shield.enable_unprotected_mode
   end
 
   def encrypt!
-    supervisor.disable_access_to_encrypted_content
+    shield.enable_protected_mode
   end
-
-  private
-    def supervisor
-      Console1984.supervisor
-    end
 end

@@ -1,4 +1,4 @@
-class Console1984::Supervisor::Accesses::Protected
+class Console1984::Shield::Accesses::Protected
   include Console1984::Freezeable
 
   def execute(&block)

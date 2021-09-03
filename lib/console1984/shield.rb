@@ -1,28 +1,20 @@
-module Console1984::Supervisor::Protector
-  extend ActiveSupport::Concern
-
+class Console1984::Shield
+  include Accesses
   include Console1984::Freezeable
 
-  def command_validator
-    @command_validator ||= build_command_validator
-  end
+  delegate :username_resolver, :session_logger, :command_executor, to: Console1984
 
-  def extend_protected_systems
-    extend_object
-    extend_irb
-    extend_active_record
-    extend_socket_classes
+  def install
+    extend_protected_systems
+    freeze_all
   end
 
   private
-    COMMAND_VALIDATOR_CONFIG_FILE_PATH = Console1984::Engine.root.join("config/command_protections.yml")
-
-    def validate_commands(commands)
-      command_validator.validate(commands)
-    end
-
-    def build_command_validator
-      Console1984::CommandValidator.from_config(YAML.safe_load(File.read(COMMAND_VALIDATOR_CONFIG_FILE_PATH)).symbolize_keys)
+    def extend_protected_systems
+      extend_object
+      extend_irb
+      extend_active_record
+      extend_socket_classes
     end
 
     def extend_object
@@ -58,6 +50,17 @@ module Console1984::Supervisor::Protector
         socket_klass.prepend Console1984::ProtectedTcpSocket
         socket_klass.freeze
       end
+    end
+
+    def freeze_all
+      eager_load_all_classes
+      Console1984.config.freeze unless Console1984.config.test_mode
+      Console1984::Freezeable.freeze_all
+    end
+
+    def eager_load_all_classes
+      Rails.application.eager_load! unless Rails.application.config.eager_load
+      Console1984.class_loader.eager_load
     end
 
     module SSLSocketRemoteAddress

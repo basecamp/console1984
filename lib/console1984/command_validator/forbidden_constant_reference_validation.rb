@@ -1,10 +1,10 @@
 class Console1984::CommandValidator::ForbiddenConstantReferenceValidation
   include Console1984::Freezeable
 
-  def initialize(supervisor = Console1984.supervisor, config)
-    # We make supervisor an injectable dependency for testing purposes. Everything is frozen
+  def initialize(shield = Console1984.shield, config)
+    # We make shield an injectable dependency for testing purposes. Everything is frozen
     # for security purposes, so stubbing won't work.
-    @supervisor = supervisor
+    @shield = shield
 
     @forbidden_constants_names = config[:always] || []
     @constant_names_forbidden_in_protected_mode = config[:protected] || []
@@ -12,7 +12,7 @@ class Console1984::CommandValidator::ForbiddenConstantReferenceValidation
 
   def validate(parsed_command)
     if contains_invalid_const_reference?(parsed_command, @forbidden_constants_names) ||
-      (@supervisor.protected_mode? && contains_invalid_const_reference?(parsed_command, @constant_names_forbidden_in_protected_mode))
+      (@shield.protected_mode? && contains_invalid_const_reference?(parsed_command, @constant_names_forbidden_in_protected_mode))
       raise Console1984::Errors::ForbiddenCommand
     end
   end

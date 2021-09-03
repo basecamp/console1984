@@ -5,18 +5,23 @@ module Console1984::ProtectedObject
 
   class_methods do
     def const_get(*arguments)
-      if Console1984.supervisor.executing_user_command? && arguments.first.to_s =~ /#{classes_with_dynamic_loading_banned.join("|")}/
-        raise Console1984::Errors::ForbiddenCommand
+      if Console1984.command_executor.executing_user_command?
+        begin
+          Console1984.command_executor.validate_command("class #{arguments.first}; end")
+          super
+        rescue Console1984::Errors::ForbiddenCommand
+          raise
+        rescue StandardError
+          super
+        end
       else
         super
       end
     end
-
-    private
-      def classes_with_dynamic_loading_banned
-        # We want to prevent dynamic loading of constants that can be used to circumvent class overrides.
-        # For now, it grabs the list from the validation.
-        @classes_with_dynamic_loading_banned ||= Console1984.supervisor.command_validator.validation_for_name(:forbidden_reopening).banned_class_or_module_names
-      end
   end
+
+  private
+    def banned_dynamic_constant_declaration?(arguments)
+      Console1984.command_executor.validate_command("class #{arguments.first}; end")
+    end
 end
