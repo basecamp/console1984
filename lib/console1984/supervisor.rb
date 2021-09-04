@@ -32,7 +32,9 @@ class Console1984::Supervisor
 
   private
     def require_dependencies
-      require 'parser/current'
+      Kernel.silence_warnings do
+        require 'parser/current'
+      end
       require 'colorized_string'
     end
 
