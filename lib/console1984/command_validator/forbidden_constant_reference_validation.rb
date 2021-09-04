@@ -25,7 +25,7 @@ class Console1984::CommandValidator::ForbiddenConstantReferenceValidation
   private
     def contains_invalid_const_reference?(parsed_command, banned_constants)
       parsed_command.constants.find do |constant_name|
-        banned_constants.find { |banned_constant| constant_name.start_with?(banned_constant.to_s) }
+        banned_constants.find { |banned_constant| "#{constant_name}::".start_with?("#{banned_constant}::") }
       end
     end
 end

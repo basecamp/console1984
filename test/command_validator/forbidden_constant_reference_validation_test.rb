@@ -51,6 +51,12 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
     RUBY
   end
 
+  test "doesn't prevent referencing constants that only match partially" do
+    run_validation <<~RUBY, always: ["SomeClass"]
+      SomeClass2.some_method
+    RUBY
+  end
+
   private
     def run_validation(command, shield: Console1984.shield, always: [], protected: [])
       validation = Console1984::CommandValidator::ForbiddenConstantReferenceValidation.new \

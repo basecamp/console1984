@@ -37,6 +37,13 @@ class ForbiddenReopeningValidationTest < ActiveSupport::TestCase
     end
   end
 
+  test "doesn't prevent reopening classes when the constant is a partial match" do
+    run_validation <<~RUBY, ["SomeClass"]
+      class SomeClass2
+      end
+    RUBY
+  end
+
   private
     def run_validation(command, banned_classes_or_modules)
       validation = Console1984::CommandValidator::ForbiddenReopeningValidation.new(banned_classes_or_modules)

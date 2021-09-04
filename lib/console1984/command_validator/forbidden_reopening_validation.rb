@@ -23,7 +23,7 @@ class Console1984::CommandValidator::ForbiddenReopeningValidation
 
     def banned?(class_or_module_name)
       @banned_class_or_module_names.find do |banned_class_or_module_name|
-        class_or_module_name.start_with?(banned_class_or_module_name)
+        "#{class_or_module_name}::".start_with?("#{banned_class_or_module_name}::")
       end
     end
 end
