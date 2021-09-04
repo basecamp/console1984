@@ -20,23 +20,35 @@ class TamperingProtectionTest < ActiveSupport::TestCase
     end
   end
 
+  test "entering suspicious keywords will execute the command but will flag the session as sensitive" do
+    command = "puts 'console_1984 rules'"
+
+    assert_audit_trail commands: [command] do
+      assert_difference -> { Console1984::SensitiveAccess.count }, +1 do
+        @console.execute command
+      end
+
+      assert @console.output.include?("console_1984 rules")
+    end
+  end
+
   test "let users create classes on the fly and open existing classes" do
     assert_no_difference -> { Console1984::SensitiveAccess.count } do
       @console.execute <<~RB
-      class String
-        def my_test_console1984_method
-        end#{' '}
-      end
+        class String
+          def my_test_console1984_method
+          end
+        end
 
-      class SomeConsoleTestClass
-      end
+        class SomeConsoleTestClass
+        end
       RB
     end
   end
 
   private
     def assert_forbidden_command_attempted(command)
-      assert_audit_trail commands: [ command ] do
+      assert_audit_trail commands: [command] do
         assert_difference -> { Console1984::SensitiveAccess.count }, +1 do
           @console.execute command
         end

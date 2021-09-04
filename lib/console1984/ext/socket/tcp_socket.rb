@@ -1,5 +1,5 @@
-# Wraps socket methods to execute supervised.
-module Console1984::ProtectedTcpSocket
+# Wraps socket methods to execute supervised when {protected mode}[rdoc-ref:Console1984::Shield::Modes].
+module Console1984::Ext::Socket::TcpSocket
   include Console1984::Freezeable
 
   def write(*args)
@@ -28,7 +28,7 @@ module Console1984::ProtectedTcpSocket
     end
 
     def protected_addresses
-      @protected_addresses ||= Console1984.currently_protected_urls.collect do |url|
+      @protected_addresses ||= Console1984::Shield::Modes::PROTECTED_MODE.currently_protected_urls.collect do |url|
         host, port = host_and_port_from(url)
         Array(Addrinfo.getaddrinfo(host, port)).collect { |addrinfo| ComparableAddress.new(addrinfo) if addrinfo.ip_address }
       end.flatten.compact.uniq

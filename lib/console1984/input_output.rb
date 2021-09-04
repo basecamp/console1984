@@ -1,4 +1,4 @@
-module Console1984::Supervisor::InputOutput
+module Console1984::InputOutput
   include Console1984::Freezeable, Console1984::Messages
 
   private
@@ -16,7 +16,13 @@ module Console1984::Supervisor::InputOutput
     end
 
     def show_commands
-      puts COMMANDS_HELP
+      puts <<~TXT
+
+      Commands:
+
+      #{COMMANDS.collect { |command, help_line| "* #{ColorizedString.new(command.to_s).light_blue}: #{help_line}" }.join("\n")}
+
+      TXT
     end
 
     def show_warning(message)

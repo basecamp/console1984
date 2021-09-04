@@ -18,7 +18,7 @@ class SupervisedTestConsole
     return_value = nil
 
     output, error = capture_io do
-      Console1984.supervisor.execute_supervised [statement] do
+      Console1984.command_executor.execute [statement] do
         return_value = simulate_evaluation(statement)
       end
     end
@@ -34,7 +34,7 @@ class SupervisedTestConsole
 
   private
     def simulate_evaluation(statement)
-      simulated_console.instance_eval(statement)
+      simulated_console.instance_eval statement
     rescue NoMethodError
       eval(statement)
     end
@@ -50,7 +50,7 @@ class SupervisedTestConsole
     end
 
     class SimulatedConsole
-      include Console1984::Commands
+      include Console1984::Ext::Irb::Commands
 
       attr_reader :supervisor
 

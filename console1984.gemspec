@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md', 'test/fixtures/**/*']
 
   spec.add_dependency 'colorize'
+  spec.add_dependency 'parser'
 
   spec.add_development_dependency 'benchmark-ips'
   spec.add_development_dependency 'mocha'

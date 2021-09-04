@@ -1,5 +1,6 @@
 module Console1984
   module Errors
+    # Attempt to access a protected url while in protected mode.
     class ProtectedConnection < StandardError
       def initialize(details)
         super "A connection attempt was prevented because it represents a sensitive access."\
@@ -7,8 +8,16 @@ module Console1984
       end
     end
 
+    # Attempt to execute a command that is not allowed. The system won't
+    # execute such commands and will flag them as sensitive.
     class ForbiddenCommand < StandardError; end
+
+    # A suspicious command was executed. The command will be flagged but the system
+    # will let it run.
+    class SuspiciousCommand < StandardError; end
+
+    # Attempt to incinerate a session ahead of time as determined by
+    # +config.console1984.incinerate_after+.
     class ForbiddenIncineration < StandardError; end
-    class ForbiddenCodeManipulation < StandardError; end
   end
 end

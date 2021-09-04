@@ -1,7 +1,7 @@
 require "test_helper"
 
 # See application.rb in test/dummy to see the protected urls in tests
-class EncryptionTest < ActiveSupport::TestCase
+class ProtectingConnectionsTest < ActiveSupport::TestCase
   SERVER_PORT = 9097
 
   setup do

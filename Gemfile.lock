@@ -87,8 +87,9 @@ GIT
 PATH
   remote: .
   specs:
-    console1984 (0.1.6)
+    console1984 (0.1.7)
       colorize
+      parser
 
 GEM
   remote: https://rubygems.org/

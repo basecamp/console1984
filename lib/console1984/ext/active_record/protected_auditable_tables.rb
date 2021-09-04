@@ -1,11 +1,11 @@
 # Prevents accessing trail model tables when executing console commands.
-module Console1984::ProtectedAuditableTables
+module Console1984::Ext::ActiveRecord::ProtectedAuditableTables
   include Console1984::Freezeable
 
   %i[ execute exec_query exec_insert exec_delete exec_update exec_insert_all ].each do |method|
     define_method method do |*args, **kwargs|
       sql = args.first
-      if Console1984.supervisor.executing_user_command? && sql =~ auditable_tables_regexp
+      if Console1984.command_executor.executing_user_command? && sql =~ auditable_tables_regexp
         raise Console1984::Errors::ForbiddenCommand, "#{sql}"
       else
         super(*args, **kwargs)
@@ -25,6 +25,4 @@ module Console1984::ProtectedAuditableTables
     def auditable_models
       @auditable_models ||= Console1984::Base.descendants
     end
-
-    include Console1984::Freezeable
 end

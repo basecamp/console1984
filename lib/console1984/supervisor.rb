@@ -1,31 +1,43 @@
-require 'colorized_string'
 require 'rails/console/app'
 
-# Protects console sessions and executes code in supervised mode.
+# Entry point to the system. In charge of installing everything
+# and starting and stopping sessions.
 class Console1984::Supervisor
-  include Accesses, Console1984::Freezeable, Executor, InputOutput, Protector
+  include Console1984::Freezeable, Console1984::InputOutput
 
+  delegate :username_resolver, :session_logger, :shield, to: Console1984
+
+  # Installs the console protections.
+  #
+  # See Console1984::Shield
   def install
-    extend_protected_systems
-    freeze_all
+    require_dependencies
+    shield.install
   end
 
-  # Starts a console session extending IRB and several systems to inject
-  # the protection logic, and notifies the session logger to record the
-  # session.
+  # Starts a console session.
+  #
+  # This will enable protected mode and log the new session in the configured
+  # {session logger}[rdoc-ref:Console1984::SessionsLogger::Database].
   def start
-    disable_access_to_encrypted_content(silent: true)
-
+    shield.enable_protected_mode(silent: true)
     show_welcome_message
-
     start_session
   end
 
+  # Stops a console session
   def stop
     stop_session
   end
 
   private
+    def require_dependencies
+      Kernel.silence_warnings do
+        require 'parser/current'
+      end
+      require 'colorized_string'
+    end
+
     def start_session
       session_logger.start_session current_username, ask_for_session_reason
     end
@@ -34,28 +46,7 @@ class Console1984::Supervisor
       session_logger.finish_session
     end
 
-    def freeze_all
-      eager_load_all_classes
-      Console1984.config.freeze unless Console1984.config.test_mode
-      Console1984::Freezeable.freeze_all
-    end
-
-    def eager_load_all_classes
-      Rails.application.eager_load! unless Rails.application.config.eager_load
-      Console1984.class_loader.eager_load
-    end
-
-    def session_logger
-      Console1984.session_logger
-    end
-
     def current_username
-      Console1984.username_resolver.current
+      username_resolver.current
     end
-
-    def username_resolver
-      Console1984.username_resolver
-    end
-
-    include Console1984::Freezeable
 end

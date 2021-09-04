@@ -14,6 +14,8 @@ module Console1984
       end
     end
 
+    # Console 1984 setup happens when a console is started. Just including the
+    # gem won't install any protection mechanisms.
     console do
       Console1984.config.set_from(config.console1984)
 
