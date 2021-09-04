@@ -1,4 +1,6 @@
 # Container for config options.
+#
+# These config options are accessible via first-level reader methods at Console1984.
 class Console1984::Config
   include Console1984::Freezeable, Console1984::Messages
 
@@ -24,7 +26,7 @@ class Console1984::Config
 
   def freeze
     super
-    protected_urls.freeze
+    [ protected_urls ].each(&:freeze)
   end
 
   private

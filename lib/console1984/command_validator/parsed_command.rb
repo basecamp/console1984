@@ -1,3 +1,6 @@
+# Parses a command string and exposes different constructs to be used by validations.
+#
+# Internally, it uses the {parser}[https://github.com/whitequark/parser] gem to perform the parsing.
 class Console1984::CommandValidator::ParsedCommand
   include Console1984::Freezeable
 
@@ -21,6 +24,7 @@ class Console1984::CommandValidator::ParsedCommand
 
     class CommandProcessor < ::Parser::AST::Processor
       include AST::Processor::Mixin
+      include Console1984::Freezeable
 
       attr_reader :constants, :declared_classes_or_modules
 

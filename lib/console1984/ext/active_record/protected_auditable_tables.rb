@@ -1,5 +1,5 @@
 # Prevents accessing trail model tables when executing console commands.
-module Console1984::ProtectedAuditableTables
+module Console1984::Ext::ActiveRecord::ProtectedAuditableTables
   include Console1984::Freezeable
 
   %i[ execute exec_query exec_insert exec_delete exec_update exec_insert_all ].each do |method|
@@ -25,6 +25,4 @@ module Console1984::ProtectedAuditableTables
     def auditable_models
       @auditable_models ||= Console1984::Base.descendants
     end
-
-    include Console1984::Freezeable
 end

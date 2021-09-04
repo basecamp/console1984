@@ -1,4 +1,5 @@
-class Console1984::Shield::Accesses::Protected
+# An execution mode that protects encrypted information and connection to external systems.
+class Console1984::Shield::Modes::Protected
   include Console1984::Freezeable
 
   delegate :protected_urls, to: Console1984

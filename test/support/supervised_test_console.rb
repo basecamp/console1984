@@ -35,7 +35,7 @@ class SupervisedTestConsole
   private
     def simulate_evaluation(statement)
       simulated_console.instance_eval statement
-    rescue NoMethodError => e
+    rescue NoMethodError
       eval(statement)
     end
 
@@ -50,7 +50,7 @@ class SupervisedTestConsole
     end
 
     class SimulatedConsole
-      include Console1984::Commands
+      include Console1984::Ext::Irb::Commands
 
       attr_reader :supervisor
 

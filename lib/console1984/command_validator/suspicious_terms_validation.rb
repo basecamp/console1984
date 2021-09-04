@@ -1,3 +1,4 @@
+# Validates that the command doesn't include a term based on a configured list.
 class Console1984::CommandValidator::SuspiciousTermsValidation
   include Console1984::Freezeable
 
@@ -5,6 +6,7 @@ class Console1984::CommandValidator::SuspiciousTermsValidation
     @suspicious_terms = suspicious_terms
   end
 
+  # Raises a Console1984::Errors::SuspiciousCommand if the term is referenced.
   def validate(parsed_command)
     if contains_suspicious_term?(parsed_command)
       raise Console1984::Errors::SuspiciousCommand

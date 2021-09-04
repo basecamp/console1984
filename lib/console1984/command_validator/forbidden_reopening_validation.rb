@@ -1,3 +1,4 @@
+# Validates attempts to reopen classes and modules based on a configured set.
 class Console1984::CommandValidator::ForbiddenReopeningValidation
   include Console1984::Freezeable
 
@@ -7,6 +8,8 @@ class Console1984::CommandValidator::ForbiddenReopeningValidation
     @banned_class_or_module_names = banned_classes_or_modules.collect(&:to_s)
   end
 
+  # Raises a Console1984::Errors::ForbiddenCommand if an banned class or module reopening
+  # is detected.
   def validate(parsed_command)
     if contains_invalid_class_or_module_declaration?(parsed_command)
       raise Console1984::Errors::ForbiddenCommand
