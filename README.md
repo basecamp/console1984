@@ -106,11 +106,7 @@ irb(main)> Topic.last.name
 => "{\"p\":\"iu6+LfnNlurC6sL++JyOIDvedjNSz/AvnZQ=\",\"h\":{\"iv\":\"BYa86+JNM/LdkC18\",\"at\":\"r4sQNoSyIlAjJdZEKHVMow==\",\"k\":{\"p\":\"7L1l/5UiYsFQqqo4jfMZtLwp90KqcrIgS7HqgteVjuM=\",\"h\":{\"iv\":\"ItwRYxZAerKIoSZ8\",\"at\":\"ZUSNVfvtm4wAYWLBKRAx/g==\",\"e\":\"QVNDSUktOEJJVA==\"}},\"i\":\"OTdiOQ==\"}}"
 ```
 
-While in protected mode, you can't modify encrypted data, but can save unencrypted attributes normally. If you try to modify an encrypted column it will raise an error:
-
-```ruby
-irb(main)> Rails.cache.read("some key") # raises Console1984::Errors::ProtectedConnection
-```
+While in protected mode, you can't modify encrypted data, but can save unencrypted attributes normally. If you try to modify an encrypted column it will raise an error.
 
 ### Access to external systems
 
@@ -122,7 +118,13 @@ To protect the access to such systems, you can add their URLs to `config.console
 config.console1984.protected_urls = [ "https://my-app-us-east-1-whatever.us-east-1.es.amazonaws.com", "redis://my-app-cache-1.whatever.cache.amazonaws.com:6379" ]
 ```
 
-As with encryption data, running `decrypt!` will let you access these systems normally. The system will ask for a justfication and will flag those accesses as sensitive.
+In the default protected mode, trying to read data from a protected system will be aborted with an error:
+
+```ruby
+irb(main)> Rails.cache.read("some key") # raises Console1984::Errors::ProtectedConnection
+```
+
+Running `decrypt!` will switch you to unprotected mode and let you access these systems normally. The system will ask for a justfication and will flag those accesses as sensitive.
 
 This will work for systems that use Ruby sockets as the underlying communication mechanism.
 
