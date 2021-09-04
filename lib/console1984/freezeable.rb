@@ -13,18 +13,24 @@
 # will look through all the modules/classes freezing them. This way, we can control
 # the moment where we stop classes from being modifiable at setup time.
 module Console1984::Freezeable
-  extend ActiveSupport::Concern
-
   mattr_reader :to_freeze, default: Set.new
 
-  included do
-    Console1984::Freezeable.to_freeze << self
+  # Not using ActiveSupport::Concern because a bunch of classes skip its +.invoked+ hook which
+  # is terrible for our purposes. This happened because it was being included in parent classes
+  # (such as Object), so it was skipping the include block.
+  def self.included(base)
+    Console1984::Freezeable.to_freeze << base
+    base.extend ClassMethods
+
+    # Flag to control manipulating instance data via instance_variable_get and instance_variable_set.
+    # true by default.
+    base.thread_mattr_accessor :prevent_instance_data_manipulation_after_freezing, default: true
   end
 
-  class_methods do
+  module ClassMethods
     SENSITIVE_INSTANCE_METHODS = %i[ instance_variable_get instance_variable_set ]
 
-    def prevent_sensitive_overrides
+    def prevent_instance_data_manipulation
       SENSITIVE_INSTANCE_METHODS.each do |method|
         prevent_sensitive_method method
       end
@@ -51,7 +57,7 @@ module Console1984::Freezeable
       end
 
       def freeze_class_or_module(class_or_module)
-        class_or_module.prevent_sensitive_overrides
+        class_or_module.prevent_instance_data_manipulation if class_or_module.prevent_instance_data_manipulation_after_freezing
         class_or_module.freeze
       end
 
