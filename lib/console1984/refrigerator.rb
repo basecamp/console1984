@@ -26,7 +26,3 @@ class Console1984::Refrigerator
       Console1984.class_loader.eager_load
     end
 end
-
-class Parser::Ruby27
-  include Console1984::Freezeable
-end
