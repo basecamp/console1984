@@ -18,7 +18,7 @@ class Console1984::CommandValidator::ForbiddenReopeningValidation
 
   private
     def contains_invalid_class_or_module_declaration?(parsed_command)
-      parsed_command.declared_classes_or_modules.find { |class_or_module_name| banned?(class_or_module_name) }
+      (parsed_command.declared_classes_or_modules + parsed_command.constant_assignments).find { |class_or_module_name| banned?(class_or_module_name) }
     end
 
     def banned?(class_or_module_name)

@@ -6,7 +6,7 @@ class Console1984::CommandValidator::ParsedCommand
 
   attr_reader :raw_command
 
-  delegate :declared_classes_or_modules, :constants, to: :processed_ast
+  delegate :declared_classes_or_modules, :constants, :constant_assignments, to: :processed_ast
 
   def initialize(raw_command)
     @raw_command = Array(raw_command).join("\n")
@@ -26,20 +26,33 @@ class Console1984::CommandValidator::ParsedCommand
       include AST::Processor::Mixin
       include Console1984::Freezeable
 
-      attr_reader :constants, :declared_classes_or_modules
-
       def initialize
         @constants = []
         @declared_classes_or_modules = []
+        @constant_assignments = []
+      end
+
+      # We define accessors to define lists without duplicates. We are not using a +SortedSet+ because we want
+      # to mutate strings in the list while the processing is happening. And we don't use metapgroamming to define the
+      # accessors to prevent having problems with freezable and its instance_variable* protection.
+
+      def constants
+        @constants.uniq
+      end
+
+      def declared_classes_or_modules
+        @declared_classes_or_modules.uniq
+      end
+
+      def constant_assignments
+        @constant_assignments.uniq
       end
 
       def on_class(node)
         super
         const_declaration, _, _ = *node
-
-        processor = self.class.new
-        processor.process(const_declaration)
-        @declared_classes_or_modules << processor.constants.first if processor.constants.present?
+        constant = extract_constants(const_declaration).first
+        @declared_classes_or_modules << constant if constant.present?
       end
 
       alias_method :on_module, :on_class
@@ -60,5 +73,18 @@ class Console1984::CommandValidator::ParsedCommand
           last_constant << "::#{const_name}"
         end
       end
+
+      def on_casgn(node)
+        super
+        scope_node, name, value_node = *node
+        @constant_assignments.push(*extract_constants(value_node))
+      end
+
+      private
+        def extract_constants(node)
+          self.class.new.tap do |processor|
+            processor.process(node)
+          end.constants
+        end
     end
 end
