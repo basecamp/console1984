@@ -19,7 +19,9 @@ class Console1984::Shield
   # that aren't mean to be modified once the console is running.
   def install
     extend_protected_systems
-    freeze_all
+    prevent_invoking_protected_methods
+
+    refrigerator.freeze_all
   end
 
   private
@@ -37,6 +39,7 @@ class Console1984::Shield
 
     def extend_core_ruby
       Object.prepend Console1984::Ext::Core::Object
+      Module.prepend Console1984::Ext::Core::Module
     end
 
     def extend_sockets
@@ -65,16 +68,12 @@ class Console1984::Shield
       end
     end
 
-    def freeze_all
-      eager_load_all_classes
-      Console1984.config.freeze unless Console1984.config.test_mode
-      Console1984::Freezeable.freeze_all
-      Parser::CurrentRuby.freeze
+    def prevent_invoking_protected_methods
+      MethodInvocationShell.install_for(Console1984.protections_config.forbidden_methods)
     end
 
-    def eager_load_all_classes
-      Rails.application.eager_load! unless Rails.application.config.eager_load
-      Console1984.class_loader.eager_load
+    def refrigerator
+      @refrigerator ||= Console1984::Refrigerator.new
     end
 
     module SSLSocketRemoteAddress

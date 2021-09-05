@@ -12,6 +12,7 @@ module Console1984::Ext::Core::Object
   extend ActiveSupport::Concern
 
   include Console1984::Freezeable
+  self.prevent_instance_data_manipulation_after_freezing = false
 
   class_methods do
     def const_get(*arguments)

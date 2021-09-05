@@ -19,13 +19,11 @@ class Console1984::CommandExecutor
     run_as_system { session_logger.before_executing commands }
     validate_command commands
     execute_in_protected_mode(&block)
-  rescue Console1984::Errors::ForbiddenCommand, FrozenError
+  rescue Console1984::Errors::ForbiddenCommand, FrozenError => e
     flag_suspicious(commands)
   rescue Console1984::Errors::SuspiciousCommand
     flag_suspicious(commands)
     execute_in_protected_mode(&block)
-  rescue FrozenError
-    flag_suspicious(commands)
   ensure
     run_as_system { session_logger.after_executing commands }
   end
@@ -68,14 +66,12 @@ class Console1984::CommandExecutor
   end
 
   private
-    COMMAND_VALIDATOR_CONFIG_FILE_PATH = Console1984::Engine.root.join("config/command_protections.yml")
-
     def command_validator
       @command_validator ||= build_command_validator
     end
 
     def build_command_validator
-      Console1984::CommandValidator.from_config(YAML.safe_load(File.read(COMMAND_VALIDATOR_CONFIG_FILE_PATH)).symbolize_keys)
+      Console1984::CommandValidator.from_config(Console1984.protections_config.static_validations)
     end
 
     def flag_suspicious(commands)

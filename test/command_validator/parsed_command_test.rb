@@ -52,6 +52,16 @@ class ParsedCommandTest < ActiveSupport::TestCase
     RB
   end
 
+  test "parse constant assignments" do
+    assert_constant_assignment ["Topic"], <<~RB
+      MyTopic = Topic
+    RB
+
+    assert_constant_assignment ["Topic"], <<~RB
+      MyTopic = MyOtherTopic = Topic
+    RB
+  end
+
   test "syntax errors are handled gracefully" do
     parsed_command = Console1984::CommandValidator::ParsedCommand.new <<~RB
       def 12'39u````
@@ -70,5 +80,10 @@ class ParsedCommandTest < ActiveSupport::TestCase
     def assert_declaration(expected_constants, source)
       parsed_command = Console1984::CommandValidator::ParsedCommand.new(source)
       assert_equal expected_constants, parsed_command.declared_classes_or_modules
+    end
+
+    def assert_constant_assignment(expected_constants, source)
+      parsed_command = Console1984::CommandValidator::ParsedCommand.new(source)
+      assert_equal expected_constants, parsed_command.constant_assignments
     end
 end

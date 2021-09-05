@@ -10,7 +10,7 @@ module Console1984
 
     initializer "console1984.config" do
       config.console1984.each do |key, value|
-        Console1984.config.send("#{key}=", value) unless %i[ protected_urls protected_environments ].include?(key.to_sym)
+        Console1984.config.send("#{key}=", value)
       end
     end
 
