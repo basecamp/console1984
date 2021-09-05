@@ -16,4 +16,15 @@ static_validations:
     - Console1984
     - secret
     - credentials
-
+forbidden_methods:
+  always:
+  user:
+    Kernel:
+      - eval
+    Object:
+      - eval
+    BasicObject:
+      - eval
+      - instance_eval
+    Module:
+      - class_eval

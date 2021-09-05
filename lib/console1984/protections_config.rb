@@ -9,7 +9,9 @@ class Console1984::ProtectionsConfig
     @config = config
   end
 
-  def static_validations
-    config[:static_validations]
+  %i[ static_validations forbidden_methods ].each do |method_name|
+    define_method method_name do
+      config[method_name].symbolize_keys
+    end
   end
 end

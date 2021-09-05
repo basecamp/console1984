@@ -28,10 +28,14 @@ module Console1984::Ext::Socket::TcpSocket
     end
 
     def protected_addresses
-      @protected_addresses ||= Console1984::Shield::Modes::PROTECTED_MODE.currently_protected_urls.collect do |url|
+      @protected_addresses ||= protected_urls.collect do |url|
         host, port = host_and_port_from(url)
         Array(Addrinfo.getaddrinfo(host, port)).collect { |addrinfo| ComparableAddress.new(addrinfo) if addrinfo.ip_address }
       end.flatten.compact.uniq
+    end
+
+    def protected_urls
+      Console1984::Shield::Modes::PROTECTED_MODE.currently_protected_urls || []
     end
 
     def host_and_port_from(url)

@@ -19,7 +19,7 @@ module Console1984::Ext::ActiveRecord::ProtectedAuditableTables
     end
 
     def auditable_tables
-      @auditable_tables ||= auditable_models.collect(&:table_name)
+      @auditable_tables ||= Console1984.command_executor.run_as_system { auditable_models.collect(&:table_name) }
     end
 
     def auditable_models

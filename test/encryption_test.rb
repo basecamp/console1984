@@ -62,16 +62,14 @@ class EncryptionTest < ActiveSupport::TestCase
   test "can modify encrypted attributes in unprotected mode" do
     execute_decrypt_and_enter_reason
 
-    # assert_nothing_raised do
-    @console.execute <<~RUBY
+    assert_nothing_raised do
+      @console.execute <<~RUBY
         person = Person.find(#{@person.id})
         person.update! name: "Other name"
-    RUBY
-    # end
+      RUBY
+    end
 
-    puts @console.output
-
-    # assert_equal "Other name", @person.reload.name
+    assert_equal "Other name", @person.reload.name
   end
 
   private

@@ -35,7 +35,7 @@ class TamperingProtectionTest < ActiveSupport::TestCase
   test "let users create classes on the fly and open existing classes" do
     assert_no_difference -> { Console1984::SensitiveAccess.count } do
       @console.execute <<~RB
-        class String
+        class Integer
           def my_test_console1984_method
           end
         end

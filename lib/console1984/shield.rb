@@ -19,6 +19,8 @@ class Console1984::Shield
   # that aren't mean to be modified once the console is running.
   def install
     extend_protected_systems
+    prevent_invoking_protected_methods
+
     refrigerator.freeze_all
   end
 
@@ -37,6 +39,7 @@ class Console1984::Shield
 
     def extend_core_ruby
       Object.prepend Console1984::Ext::Core::Object
+      Module.prepend Console1984::Ext::Core::Module
     end
 
     def extend_sockets
@@ -63,6 +66,10 @@ class Console1984::Shield
           klass.include(Console1984::Freezeable)
         end
       end
+    end
+
+    def prevent_invoking_protected_methods
+      MethodInvocationShell.install_for(Console1984.protections_config.forbidden_methods)
     end
 
     def refrigerator

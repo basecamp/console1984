@@ -19,13 +19,11 @@ class Console1984::CommandExecutor
     run_as_system { session_logger.before_executing commands }
     validate_command commands
     execute_in_protected_mode(&block)
-  rescue Console1984::Errors::ForbiddenCommand, FrozenError
+  rescue Console1984::Errors::ForbiddenCommand, FrozenError => e
     flag_suspicious(commands)
   rescue Console1984::Errors::SuspiciousCommand
     flag_suspicious(commands)
     execute_in_protected_mode(&block)
-  rescue FrozenError
-    flag_suspicious(commands)
   ensure
     run_as_system { session_logger.after_executing commands }
   end
@@ -68,7 +66,6 @@ class Console1984::CommandExecutor
   end
 
   private
-
     def command_validator
       @command_validator ||= build_command_validator
     end
