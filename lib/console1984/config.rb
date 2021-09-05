@@ -4,11 +4,14 @@
 class Console1984::Config
   include Console1984::Freezeable, Console1984::Messages
 
+  PROTECTIONS_CONFIG_FILE_PATH = Console1984::Engine.root.join("config/protections.yml")
+
   PROPERTIES = %i[
     session_logger username_resolver shield command_executor
     protected_environments protected_urls
     production_data_warning enter_unprotected_encryption_mode_warning enter_protected_mode_warning
     incinerate incinerate_after incineration_queue
+    protections_config
     debug test_mode
   ]
 
@@ -24,9 +27,14 @@ class Console1984::Config
     end
   end
 
+  # Initialize lazily so that it only gets instantiated during console sessions
+  def protections_config
+    @protections_config ||= Console1984::ProtectionsConfig.new(YAML.safe_load(File.read(PROTECTIONS_CONFIG_FILE_PATH)).symbolize_keys)
+  end
+
   def freeze
     super
-    [ protected_urls ].each(&:freeze)
+    [ protected_urls, protections_config ].each(&:freeze)
   end
 
   private
