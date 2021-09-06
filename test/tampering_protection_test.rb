@@ -46,11 +46,29 @@ class TamperingProtectionTest < ActiveSupport::TestCase
     end
   end
 
+  test "reopening a forbidden class will exit from IRB" do
+    @console.execute <<~RB
+      def my_constant
+        ActiveRecord
+      end
+
+      class my_constant::Base
+        # This will execute, so we don't want to override a real method that could affect other tests.
+        def fake_save!(*args)
+          puts "ActiveRecord::Base#save! overridden!"
+        end
+      end
+    RB
+
+    assert IRB.CurrentContext.exited?
+  end
+
   private
     def assert_forbidden_command_attempted(command)
       assert_audit_trail commands: [command] do
         assert_difference -> { Console1984::SensitiveAccess.count }, +1 do
           @console.execute command
+          puts @console.output
         end
       end
 

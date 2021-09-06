@@ -25,8 +25,9 @@ class Console1984::CommandExecutor
     flag_suspicious(commands)
     execute_in_protected_mode(&block)
   rescue Console1984::Errors::ForbiddenCommandExecuted
+    # We detected that a forbidden command was executed. We exit IRB right away.
     flag_suspicious(commands)
-    Console1984.supervisor.stop
+    Console1984.supervisor.exit_irb
   ensure
     run_as_system { session_logger.after_executing commands }
   end
@@ -68,13 +69,21 @@ class Console1984::CommandExecutor
     command_validator.validate(command)
   end
 
+  def from_irb?(backtrace)
+    executing_user_command? && backtrace.find do |line|
+      line_from_irb = line =~ /^[^\/]/
+      break if !(line =~ /console1984\/lib/ || line_from_irb)
+      line_from_irb
+    end
+  end
+
   private
     def command_validator
       @command_validator ||= build_command_validator
     end
 
     def build_command_validator
-      Console1984::CommandValidator.from_config(Console1984.protections_config.static_validations)
+      Console1984::CommandValidator.from_config(Console1984.protections_config.validations)
     end
 
     def flag_suspicious(commands)

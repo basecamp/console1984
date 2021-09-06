@@ -5,7 +5,7 @@
 #
 # The validation itself happens as a chain of validation objects. The system will invoke
 # each validation in order. Validations will raise an error if the validation fails (typically
-# a Console1984::Errors::ForbiddenCommand or Console1984::Errors::SuspiciousCommands).
+# a Console1984::Errors::ForbiddenCommandAttempted or Console1984::Errors::SuspiciousCommands).
 #
 # Internally, validations will receive a Console1984::CommandValidator::ParsedCommand object. This
 # exposes parsed constructs in addition to the raw strings so that validations can use those.

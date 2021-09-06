@@ -1,7 +1,7 @@
 class Console1984::ProtectionsConfig
   include Console1984::Freezeable
 
-  delegate :static_validations, to: :instance
+  delegate :validations, to: :instance
 
   attr_reader :config
 
@@ -9,7 +9,7 @@ class Console1984::ProtectionsConfig
     @config = config
   end
 
-  %i[ static_validations forbidden_methods ].each do |method_name|
+  %i[ validations forbidden_methods ].each do |method_name|
     define_method method_name do
       config[method_name].symbolize_keys
     end

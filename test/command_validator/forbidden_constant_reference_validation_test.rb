@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
-  test "validate referencing constant that are always forbidden will raise a ForbiddenCommand error" do
+  test "validate referencing constant that are always forbidden will raise a ForbiddenCommandAttempted error" do
     assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, always: ["SomeClass"]
         SomeClass.some_method
@@ -9,7 +9,7 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
     end
   end
 
-  test "validate referencing namespaced constants that are always forbidden will raise a ForbiddenCommand error" do
+  test "validate referencing namespaced constants that are always forbidden will raise a ForbiddenCommandAttempted error" do
     assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, always: ["Some::Base::Class"]
         puts Some::Base::Class.config
@@ -33,7 +33,7 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
     end
   end
 
-  test "validate referencing constant that are forbidden in protected mode will raise a ForbiddenCommand error only in protected mode" do
+  test "validate referencing constant that are forbidden in protected mode will raise a ForbiddenCommandAttempted error only in protected mode" do
     run_validation <<~RUBY, protected: ["SomeClass"], shield: OpenStruct.new(protected_mode?: false)
       SomeClass.some_method
     RUBY
