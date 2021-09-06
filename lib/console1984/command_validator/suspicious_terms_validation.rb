@@ -9,7 +9,7 @@ class Console1984::CommandValidator::SuspiciousTermsValidation
   # Raises a Console1984::Errors::SuspiciousCommand if the term is referenced.
   def validate(parsed_command)
     if contains_suspicious_term?(parsed_command)
-      raise Console1984::Errors::SuspiciousCommand
+      raise Console1984::Errors::SuspiciousCommandAttempted
     end
   end
 

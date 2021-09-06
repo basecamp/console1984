@@ -8,11 +8,11 @@ class Console1984::CommandValidator::ForbiddenReopeningValidation
     @banned_class_or_module_names = banned_classes_or_modules.collect(&:to_s)
   end
 
-  # Raises a Console1984::Errors::ForbiddenCommand if an banned class or module reopening
+  # Raises a Console1984::Errors::ForbiddenCommandAttempted if an banned class or module reopening
   # is detected.
   def validate(parsed_command)
     if contains_invalid_class_or_module_declaration?(parsed_command)
-      raise Console1984::Errors::ForbiddenCommand
+      raise Console1984::Errors::ForbiddenCommandAttempted
     end
   end
 

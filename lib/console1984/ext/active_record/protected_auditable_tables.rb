@@ -6,7 +6,7 @@ module Console1984::Ext::ActiveRecord::ProtectedAuditableTables
     define_method method do |*args, **kwargs|
       sql = args.first
       if Console1984.command_executor.executing_user_command? && sql =~ auditable_tables_regexp
-        raise Console1984::Errors::ForbiddenCommand, "#{sql}"
+        raise Console1984::Errors::ForbiddenCommandAttempted, "#{sql}"
       else
         super(*args, **kwargs)
       end

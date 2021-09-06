@@ -7,6 +7,9 @@ Performance:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Lint/UselessAssignment:
+  Enabled: false
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes

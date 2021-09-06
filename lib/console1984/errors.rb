@@ -10,11 +10,15 @@ module Console1984
 
     # Attempt to execute a command that is not allowed. The system won't
     # execute such commands and will flag them as sensitive.
-    class ForbiddenCommand < StandardError; end
+    class ForbiddenCommandAttempted < StandardError; end
 
     # A suspicious command was executed. The command will be flagged but the system
     # will let it run.
-    class SuspiciousCommand < StandardError; end
+    class SuspiciousCommandAttempted < StandardError; end
+
+    # A forbidden command was executed. The system will flag the command
+    # and exit.
+    class ForbiddenCommandExecuted < StandardError; end
 
     # Attempt to incinerate a session ahead of time as determined by
     # +config.console1984.incinerate_after+.

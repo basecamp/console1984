@@ -14,11 +14,11 @@ class Console1984::CommandValidator::ForbiddenConstantReferenceValidation
     @constant_names_forbidden_in_protected_mode = config[:protected] || []
   end
 
-  # Raises a Console1984::Errors::ForbiddenCommand if a banned constant is referenced.
+  # Raises a Console1984::Errors::ForbiddenCommandAttempted if a banned constant is referenced.
   def validate(parsed_command)
     if contains_invalid_const_reference?(parsed_command, @forbidden_constants_names) ||
       (@shield.protected_mode? && contains_invalid_const_reference?(parsed_command, @constant_names_forbidden_in_protected_mode))
-      raise Console1984::Errors::ForbiddenCommand
+      raise Console1984::Errors::ForbiddenCommandAttempted
     end
   end
 

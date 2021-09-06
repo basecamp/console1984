@@ -7,6 +7,8 @@ class SupervisedTestConsole
     @string_io = StringIO.new
     ENV["CONSOLE_USER"] = user
 
+    @context = Context.new
+    IRB.stubs(CurrentContext: @context)
     start_supervisor(reason)
   end
 
@@ -56,6 +58,16 @@ class SupervisedTestConsole
 
       def initialize(supervisor)
         @supervisor = supervisor
+      end
+    end
+
+    class Context
+      def exit
+        @exited = true
+      end
+
+      def exited?
+        @exited
       end
     end
 end

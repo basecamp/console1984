@@ -30,6 +30,11 @@ class Console1984::Supervisor
     stop_session
   end
 
+  def exit_irb
+    stop
+    IRB.CurrentContext.exit
+  end
+
   private
     def require_dependencies
       Kernel.silence_warnings do
