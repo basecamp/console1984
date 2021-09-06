@@ -7,7 +7,7 @@ module Console1984::Ext::Core::Module
 
   def instance_eval(*)
     if Console1984.command_executor.executing_user_command?
-      raise Console1984::Errors::ForbiddenCommand
+      raise Console1984::Errors::ForbiddenCommandAttempted
     else
       super
     end

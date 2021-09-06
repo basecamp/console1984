@@ -2,7 +2,7 @@ require "test_helper"
 
 class ForbiddenReopeningValidationTest < ActiveSupport::TestCase
   test "validate reopening classes that are always forbidden will raise a ForbiddenCommand error" do
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, ["SomeClass"]
         class SomeClass
         end
@@ -11,7 +11,7 @@ class ForbiddenReopeningValidationTest < ActiveSupport::TestCase
   end
 
   test "validate reopening modules that are always forbidden will raise a ForbiddenCommand error" do
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, ["SomeModule"]
         module SomeModule
         end
@@ -20,7 +20,7 @@ class ForbiddenReopeningValidationTest < ActiveSupport::TestCase
   end
 
   test "validate reopening namespaced classes" do
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, ["Some::Base::Class"]
         class Some::Base::Class
         end
@@ -29,7 +29,7 @@ class ForbiddenReopeningValidationTest < ActiveSupport::TestCase
   end
 
   test "validate reopening namespaced classes when the parent module is banned" do
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, ["Some"]
         module Some::Base::Class
         end

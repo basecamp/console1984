@@ -12,7 +12,7 @@ class Console1984::CommandValidator::ForbiddenReopeningValidation
   # is detected.
   def validate(parsed_command)
     if contains_invalid_class_or_module_declaration?(parsed_command)
-      raise Console1984::Errors::ForbiddenCommand
+      raise Console1984::Errors::ForbiddenCommandAttempted
     end
   end
 

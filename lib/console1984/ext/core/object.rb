@@ -25,7 +25,7 @@ module Console1984::Ext::Core::Object
           # See the list +forbidden_reopening+ in +config/command_protections.yml+.
           Console1984.command_executor.validate_command("class #{arguments.first}; end")
           super
-        rescue Console1984::Errors::ForbiddenCommand
+        rescue Console1984::Errors::ForbiddenCommandAttempted
           raise
         rescue StandardError
           super

@@ -18,7 +18,7 @@ class Console1984::CommandValidator::ForbiddenConstantReferenceValidation
   def validate(parsed_command)
     if contains_invalid_const_reference?(parsed_command, @forbidden_constants_names) ||
       (@shield.protected_mode? && contains_invalid_const_reference?(parsed_command, @constant_names_forbidden_in_protected_mode))
-      raise Console1984::Errors::ForbiddenCommand
+      raise Console1984::Errors::ForbiddenCommandAttempted
     end
   end
 

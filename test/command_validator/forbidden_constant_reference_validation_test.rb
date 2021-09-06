@@ -2,7 +2,7 @@ require "test_helper"
 
 class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
   test "validate referencing constant that are always forbidden will raise a ForbiddenCommand error" do
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, always: ["SomeClass"]
         SomeClass.some_method
       RUBY
@@ -10,7 +10,7 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
   end
 
   test "validate referencing namespaced constants that are always forbidden will raise a ForbiddenCommand error" do
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, always: ["Some::Base::Class"]
         puts Some::Base::Class.config
       RUBY
@@ -18,7 +18,7 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
   end
 
   test "validate referencing a namespaced constant where the parent constant is banned" do
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, always: ["Some"]
         puts Some::Base::Class.config
       RUBY
@@ -26,7 +26,7 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
   end
 
   test "validate constants with leading ::" do
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, always: ["Some"]
         puts ::Some::Base::Class.config
       RUBY
@@ -38,7 +38,7 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
       SomeClass.some_method
     RUBY
 
-    assert_raise Console1984::Errors::ForbiddenCommand do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
       run_validation <<~RUBY, protected: ["SomeClass"], shield: OpenStruct.new(protected_mode?: true)
         SomeClass.some_method
       RUBY
