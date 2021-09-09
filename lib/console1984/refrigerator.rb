@@ -11,14 +11,17 @@ class Console1984::Refrigerator
   end
 
   private
-    EXTERNAL_MODULES_AND_CLASSES_TO_FREEZE = [Parser::CurrentRuby]
-
     def freeze_internal_instances
       Console1984.config.freeze unless Console1984.config.test_mode
     end
 
     def freeze_external_modules_and_classes
-      EXTERNAL_MODULES_AND_CLASSES_TO_FREEZE.each { |klass| klass.include(Console1984::Freezeable) }
+      external_modules_and_classes_to_freeze.each { |klass| klass.include(Console1984::Freezeable) }
+    end
+
+    def external_modules_and_classes_to_freeze
+      # Not using a constant because we want this to run lazily (console-dependant dependencies might not be loaded).
+      [Parser::CurrentRuby]
     end
 
     def eager_load_all_classes

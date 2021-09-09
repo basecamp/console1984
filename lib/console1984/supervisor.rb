@@ -41,6 +41,10 @@ class Console1984::Supervisor
         require 'parser/current'
       end
       require 'colorized_string'
+
+      # Explicit lazy loading because it depends on +parser+, which we want to only load
+      # in console sessions.
+      require_relative "./command_validator/.command_parser"
     end
 
     def start_session
