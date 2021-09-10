@@ -5,6 +5,7 @@ validations:
     - PG
     - Mysql2
     - IRB
+    - Parser
   forbidden_constant_reference:
     always:
       - Console1984
