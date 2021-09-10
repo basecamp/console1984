@@ -11,6 +11,11 @@ class Console1984::Refrigerator
   end
 
   private
+    def eager_load_all_classes
+      Rails.application.eager_load! unless Rails.application.config.eager_load
+      Console1984.class_loader.eager_load
+    end
+
     def freeze_internal_instances
       Console1984.config.freeze unless Console1984.config.test_mode
     end
@@ -22,10 +27,5 @@ class Console1984::Refrigerator
     def external_modules_and_classes_to_freeze
       # Not using a constant because we want this to run lazily (console-dependant dependencies might not be loaded).
       [Parser::CurrentRuby]
-    end
-
-    def eager_load_all_classes
-      Rails.application.eager_load! unless Rails.application.config.eager_load
-      Console1984.class_loader.eager_load
     end
 end
