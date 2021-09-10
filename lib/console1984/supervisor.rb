@@ -45,6 +45,12 @@ class Console1984::Supervisor
       # Explicit lazy loading because it depends on +parser+, which we want to only load
       # in console sessions.
       require_relative "./command_validator/.command_parser"
+
+      # This solves a weird class loading error where ActiveRecord dosn't resolve +Relation+ properly.
+      # See https://github.com/basecamp/console1984/issues/29
+      #
+      # TODO: This is a temporary fix. Need to figure out why/when this happens.
+      require "active_record/relation"
     end
 
     def start_session
