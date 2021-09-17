@@ -6,7 +6,7 @@ module Console1984::Ext::Core::Module
   extend ActiveSupport::Concern
 
   def instance_eval(*)
-    if Console1984.command_executor.executing_user_command?
+    if Console1984.command_executor.from_irb?(caller)
       raise Console1984::Errors::ForbiddenCommandAttempted
     else
       super

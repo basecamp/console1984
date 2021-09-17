@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'colorize'
   spec.add_dependency 'parser'
 
+  spec.add_development_dependency 'activeresource' # only for testing
   spec.add_development_dependency 'benchmark-ips'
   spec.add_development_dependency 'mocha'
   spec.add_development_dependency 'rubocop', '>= 1.18.4'

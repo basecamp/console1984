@@ -87,13 +87,21 @@ GIT
 PATH
   remote: .
   specs:
-    console1984 (0.1.14)
+    console1984 (0.1.15)
       colorize
       parser
 
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel-serializers-xml (1.0.2)
+      activemodel (> 5.x)
+      activesupport (> 5.x)
+      builder (~> 3.1)
+    activeresource (5.1.1)
+      activemodel (>= 5.0, < 7)
+      activemodel-serializers-xml (~> 1.0)
+      activesupport (>= 5.0, < 7)
     ast (2.4.2)
     benchmark-ips (2.8.2)
     builder (3.2.4)
@@ -183,6 +191,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activeresource
   benchmark-ips
   console1984!
   mocha
