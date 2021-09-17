@@ -11,12 +11,20 @@ class TamperingProtectionTest < ActiveSupport::TestCase
 
   CASES_PATH = Console1984::Engine.root.join("test", "tampering_cases")
 
-  Dir.glob(File.join(CASES_PATH, "**/*.rb")) do |file_path|
+  Dir.glob(File.join(CASES_PATH, "flagged", "**/*.rb")) do |file_path|
     relative_path = Pathname.new(file_path).relative_path_from CASES_PATH
-    test "tampering case #{relative_path}" do
+    test "detected tampering case #{relative_path}" do
       source = File.read(file_path)
 
       assert_forbidden_command_attempted source
+    end
+  end
+
+  Dir.glob(File.join(CASES_PATH, "allowed", "**/*.rb")) do |file_path|
+    relative_path = Pathname.new(file_path).relative_path_from CASES_PATH
+    test "allowed example #{relative_path}" do
+      source = File.read(file_path)
+      assert_command_allowed source
     end
   end
 
@@ -74,5 +82,16 @@ class TamperingProtectionTest < ActiveSupport::TestCase
 
       assert_includes @console.output, "Forbidden command attempted"
       assert Console1984::Command.last.sensitive?
+    end
+
+    def assert_command_allowed(command)
+      assert_no_difference -> { Console1984::SensitiveAccess.count } do
+        @console.execute command
+        puts @console.output
+      end
+
+      puts @console.output
+      assert_not_includes @console.output, "Forbidden command attempted"
+      assert_not Console1984::Command.last.sensitive?
     end
 end

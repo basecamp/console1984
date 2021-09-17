@@ -9,6 +9,7 @@ require "rails/test_help"
 require "mocha/minitest"
 require "minitest/mock"
 require "parser/current"
+require "activeresource"
 
 require_relative "support/io_stream_test_helper"
 require_relative "support/audit_helpers"
