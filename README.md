@@ -155,9 +155,9 @@ These config options are namespaced in `config.console1984`:
 
 ## About built-in protection mechanisms
 
-`console1984` uses Ruby to add several protection mechanisms. However, because Ruby is highly dynamic, it's technically possible to circumvent most of these controls if you know what you are doing. We have made an effort to prevent such attempts, but if your organization needs bullet-proof protection against malicious actors using the console, you should consider additional security measures.
+`console1984` adds many protection mechanisms to prevent tampering. This includes attempts to alter data in auditing tables or monkey patching certain classes to change how the system works. If you find a way to circumvent these tampering controls, please [report an issue](https://github.com/basecamp/console1984/issues).
 
-The current version includes protection mechanisms to avoid tampering the tables that store console sessions. A bullet-proof mechanism would be using a read only connection when user commands are evaluated. Implementing such scheme is possible by writing a custom session logger and leveraging Rails' multi-database support. We would like that future versions of `console1984` supported this scheme directly as a configuration option.
+We aim to make these defense mechanisms as robust as possible, but there might always be open doors because Ruby is highly dynamic. If your organization needs bullet-proof protection against malicious actors using the console, you should consider additional security measures. An example would be using a read-only database user for auditing data while in a console. The gem doesn't offer direct support for doing this, but it's on our radar for future improvement.
 
 ## Running the test suite
 
