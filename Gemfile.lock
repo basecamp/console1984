@@ -87,7 +87,7 @@ GIT
 PATH
   remote: .
   specs:
-    console1984 (0.1.15)
+    console1984 (0.1.16)
       colorize
       parser
 
