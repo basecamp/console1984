@@ -10,6 +10,7 @@ class Console1984::CommandExecutor
   include Console1984::Freezeable
 
   delegate :username_resolver, :session_logger, :shield, to: Console1984
+  attr_reader :last_suspicious_command_error
 
   # Logs and validates +commands+, and executes the passed block in a protected environment.
   #
@@ -19,14 +20,14 @@ class Console1984::CommandExecutor
     run_as_system { session_logger.before_executing commands }
     validate_command commands
     execute_in_protected_mode(&block)
-  rescue Console1984::Errors::ForbiddenCommandAttempted, FrozenError
-    flag_suspicious(commands)
-  rescue Console1984::Errors::SuspiciousCommandAttempted
-    flag_suspicious(commands)
+  rescue Console1984::Errors::ForbiddenCommandAttempted, FrozenError => error
+    flag_suspicious(commands, error: error)
+  rescue Console1984::Errors::SuspiciousCommandAttempted => error
+    flag_suspicious(commands, error: error)
     execute_in_protected_mode(&block)
-  rescue Console1984::Errors::ForbiddenCommandExecuted
+  rescue Console1984::Errors::ForbiddenCommandExecuted => error
     # We detected that a forbidden command was executed. We exit IRB right away.
-    flag_suspicious(commands)
+    flag_suspicious(commands, error: error)
     Console1984.supervisor.exit_irb
   ensure
     run_as_system { session_logger.after_executing commands }
@@ -86,9 +87,10 @@ class Console1984::CommandExecutor
       Console1984::CommandValidator.from_config(Console1984.protections_config.validations)
     end
 
-    def flag_suspicious(commands)
+    def flag_suspicious(commands, error: nil)
       puts "Forbidden command attempted: #{commands.join("\n")}"
       run_as_system { session_logger.suspicious_commands_attempted commands }
+      @last_suspicious_command_error = error
       nil
     end
 
