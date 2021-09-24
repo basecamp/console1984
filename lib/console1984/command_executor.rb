@@ -71,11 +71,7 @@ class Console1984::CommandExecutor
   end
 
   def from_irb?(backtrace)
-    executing_user_command? && backtrace.find do |line|
-      line_from_irb = line =~ /^[^\/]/
-      break if !(line =~ /console1984\/lib/ || line_from_irb)
-      line_from_irb
-    end
+    executing_user_command? && backtrace.first.to_s =~ /^[^\/]/
   end
 
   private

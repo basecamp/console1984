@@ -16,7 +16,7 @@ module Console1984::Ext::Core::Object
 
   class_methods do
     def const_get(*arguments)
-      if Console1984.command_executor.executing_user_command?
+      if Console1984.command_executor.from_irb?(caller)
         begin
           # To validate if it's an invalid constant, we try to declare a class with it.
           # We essentially leverage Console1984::CommandValidator::ForbiddenReopeningValidation here:

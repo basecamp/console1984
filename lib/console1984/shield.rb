@@ -40,6 +40,7 @@ class Console1984::Shield
     def extend_core_ruby
       Object.prepend Console1984::Ext::Core::Object
       Module.prepend Console1984::Ext::Core::Module
+      String.prepend Console1984::Ext::Core::String
     end
 
     def extend_sockets
