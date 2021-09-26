@@ -5,7 +5,7 @@ module Console1984::Ext::ActiveRecord::ProtectedAuditableTables
   %i[ execute exec_query exec_insert exec_delete exec_update exec_insert_all ].each do |method|
     define_method method do |*args, **kwargs|
       sql = args.first
-      if Console1984.command_executor.executing_user_command? && sql =~ auditable_tables_regexp
+      if Console1984.command_executor.executing_user_command? && sql.b =~ auditable_tables_regexp
         raise Console1984::Errors::ForbiddenCommandAttempted, "#{sql}"
       else
         super(*args, **kwargs)
