@@ -64,7 +64,6 @@ class Console1984::Shield
         if Object.const_defined?(class_string)
           klass = class_string.constantize
           klass.prepend(Console1984::Ext::ActiveRecord::ProtectedAuditableTables)
-          klass.include(Console1984::Freezeable)
         end
       end
     end

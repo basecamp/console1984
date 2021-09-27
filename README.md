@@ -35,6 +35,9 @@ By default, console1984 is only enabled in `production`. You can configure the t
 config.console1984.protected_environments = %i[ production staging ]
 ```
 
+Finally, you need to [configure Active Record Encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html#setup) in your
+project. This is because the library stores the tracked console commands encrypted.
+
 ## How it works
 
 ### Session activity logging
