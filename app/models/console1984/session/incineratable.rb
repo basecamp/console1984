@@ -25,6 +25,6 @@ module Console1984::Session::Incineratable
     end
 
     def earliest_possible_incineration_date
-      created_at + Console1984.incinerate_after
+      created_at + Console1984.incinerate_after - 1.second
     end
 end
