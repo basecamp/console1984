@@ -2,13 +2,13 @@
 module Console1984::Ext::Socket::TcpSocket
   include Console1984::Freezeable
 
-  def write(*args)
+  def write(...)
     protecting do
       super
     end
   end
 
-  def write_nonblock(*args)
+  def write_nonblock(...)
     protecting do
       super
     end
