@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        ruby-version: [2.7.2, 3.0.2]
         database: [sqlite, postgres, mysql]
     services:
       redis:
