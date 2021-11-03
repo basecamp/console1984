@@ -156,6 +156,27 @@ These config options are namespaced in `config.console1984`:
 | `incinerate_after`                          | The period to keep sessions around before incinerate them. Default `30.days`. |
 | `incineration_queue`                        | The name of the queue for session incineration jobs. Default `console1984_incineration`. |
 
+### SSH Config
+
+To automatically set the `CONSOLE_USER` env var for sessions, you'll need to configure SSH on the server to accept the environment variable.
+
+On the server, edit `/etc/ssh/sshd_config` to accept the environment variable:
+```
+AcceptEnv LANG LC_* CONSOLE_USER
+```
+
+Restart the SSH server to use the new config:
+```bash
+service sshd restart
+```
+
+On the client side, you can provide this env var from your clients by adding the variable to the ssh config:
+
+```
+Host *
+  SetEnv CONSOLE_USER=david
+```
+
 ## About built-in protection mechanisms
 
 `console1984` adds many protection mechanisms to prevent tampering. This includes attempts to alter data in auditing tables or monkey patching certain classes to change how the system works. If you find a way to circumvent these tampering controls, please [report an issue](https://github.com/basecamp/console1984/issues).
