@@ -6,6 +6,11 @@ class Console1984::Shield::Modes::Protected
 
   thread_mattr_accessor :currently_protected_urls, default: []
 
+  # Materialize the thread attribute before freezing the class. +thread_mattr_accessor+ attributes rely on
+  # setting a class variable the first time they are referenced, and that will fail in frozen classes
+  # like this one.
+  currently_protected_urls
+
   def execute(&block)
     protecting(&block)
   end
