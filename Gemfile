@@ -15,4 +15,5 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 gem 'rubyzip'
-gem 'rails', github: 'rails/rails', branch: 'main'
+
+gem 'activeresource', git: 'https://github.com/basecamp/activeresource.git'

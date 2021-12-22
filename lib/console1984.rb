@@ -38,7 +38,7 @@ class_loader.setup
 # the console. For example, to prevent the user from deleting audit trails. See
 # Console1984::Shield and Console1984::CommandValidator to learn more.
 module Console1984
-  include Messages, Freezeable
+  include Messages
 
   mattr_accessor :supervisor, default: Supervisor.new
 

@@ -17,6 +17,7 @@ class Console1984::Refrigerator
     end
 
     def freeze_internal_instances
+      Console1984.freeze # Because it's the root engine module it can't mix Freezable.
       Console1984.config.freeze unless Console1984.config.test_mode
     end
 
