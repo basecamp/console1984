@@ -127,7 +127,7 @@ In the default protected mode, trying to read data from a protected system will 
 irb(main)> Rails.cache.read("some key") # raises Console1984::Errors::ProtectedConnection
 ```
 
-Running `decrypt!` will switch you to unprotected mode and let you access these systems normally. The system will ask for a justfication and will flag those accesses as sensitive.
+Running `decrypt!` will switch you to unprotected mode and let you access these systems normally. The system will ask for a justification and will flag those accesses as sensitive.
 
 This will work for systems that use Ruby sockets as the underlying communication mechanism.
 
