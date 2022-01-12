@@ -14,7 +14,7 @@ If you are looking for the auditing tool, check [`audits1984`](https://github.co
 
 ## Installation
 
-**Important:** `console1984` depends on [Active Record encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html) which is a Rails 7 feature. Since no gem for Rails 7 has been released yet, you need to run Rails edge in your project (point the gem to latest `main` in the [repo](https://github.com/rails/rails)).
+**Important:** `console1984` depends on [Active Record encryption](https://guides.rubyonrails.org/active_record_encryption.html) which is a Rails 7 feature.
 
 Add it to your `Gemfile`:
 
@@ -35,7 +35,7 @@ By default, console1984 is only enabled in `production`. You can configure the t
 config.console1984.protected_environments = %i[ production staging ]
 ```
 
-Finally, you need to [configure Active Record Encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html#setup) in your
+Finally, you need to [configure Active Record Encryption](https://guides.rubyonrails.org/active_record_encryption.html#setup) in your
 project. This is because the library stores the tracked console commands encrypted.
 
 ## How it works
@@ -66,7 +66,7 @@ Check out [`audits1984`](https://github.com/basecamp/audits1984), a companion au
 
 ### Access to encrypted data
 
-By default, `console1984` won't decrypt data encrypted with [Active Record encryption](https://edgeguides.rubyonrails.org/active_record_encryption.html). Users will just see the ciphertexts.
+By default, `console1984` won't decrypt data encrypted with [Active Record encryption](https://guides.rubyonrails.org/active_record_encryption.html). Users will just see the ciphertexts.
 
 To decrypt data, enter the command `decrypt!`. It will ask for a justification, and these accesses will be flagged internally as sensitive.
 
