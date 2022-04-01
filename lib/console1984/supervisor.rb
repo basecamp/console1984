@@ -35,6 +35,10 @@ class Console1984::Supervisor
     IRB.CurrentContext.exit
   end
 
+  def current_username
+    @current_username ||= username_resolver.current.presence || handle_empty_username
+  end
+
   private
     def require_dependencies
       Kernel.silence_warnings do
@@ -61,7 +65,11 @@ class Console1984::Supervisor
       session_logger.finish_session
     end
 
-    def current_username
-      username_resolver.current
+    def handle_empty_username
+      if Console1984.config.ask_for_username_if_empty
+        ask_for_value "Please, enter your name:"
+      else
+        raise Console1984::Errors::MissingUsername
+      end
     end
 end

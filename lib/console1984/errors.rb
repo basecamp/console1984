@@ -23,5 +23,8 @@ module Console1984
     # Attempt to incinerate a session ahead of time as determined by
     # +config.console1984.incinerate_after+.
     class ForbiddenIncineration < StandardError; end
+
+    # The console username is not set. Only raised when `config.ask_for_username_if_empty = false`.
+    class MissingUsername < StandardError; end
   end
 end

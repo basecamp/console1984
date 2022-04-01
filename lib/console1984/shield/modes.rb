@@ -55,6 +55,6 @@ module Console1984::Shield::Modes
 
   private
     def current_username
-      username_resolver.current
+      Console1984.supervisor.current_username
     end
 end

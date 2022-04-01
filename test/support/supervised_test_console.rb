@@ -5,7 +5,7 @@ class SupervisedTestConsole
 
   def initialize(reason: "No reason", user: "Not set")
     @string_io = StringIO.new
-    ENV["CONSOLE_USER"] = user
+    Console1984.username_resolver.username = user
 
     @context = Context.new
     IRB.stubs(CurrentContext: @context)
@@ -37,7 +37,7 @@ class SupervisedTestConsole
   private
     def simulate_evaluation(statement)
       simulated_console.instance_eval statement
-    rescue NoMethodError
+    rescue NoMethodError => e
       eval(statement)
     end
 
