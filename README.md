@@ -143,18 +143,19 @@ When starting a console session, `console1984` will eager load all the applicati
 
 These config options are namespaced in `config.console1984`:
 
-| Name                                        | Description                                                  |
-| ------------------------------------------- | ------------------------------------------------------------ |
-| `protected_environments`                    | The list of environments where `console1984` will act on. Defaults to `%i[ production ]`. |
-| `protected_urls`                            | The list of URLs corresponding with external systems to protect. |
-| `session_logger`                            | The system used to record session data. The default logger is `Console1984::SessionsLogger::Database`. |
+| Name                                        | Description                                                                                                                                                                                                            |
+|---------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `protected_environments`                    | The list of environments where `console1984` will act on. Defaults to `%i[ production ]`.                                                                                                                              |
+| `protected_urls`                            | The list of URLs corresponding with external systems to protect.                                                                                                                                                       |
+| `session_logger`                            | The system used to record session data. The default logger is `Console1984::SessionsLogger::Database`.                                                                                                                 |
 | `username_resolver`                         | Configure how the current user is determined for a given console session. The default is `Console1984::Username::EnvResolver.new("CONSOLE_USER")`, which returns the value of the environment variable `CONSOLE_USER`. |
-| `production_data_warning`                   | The text to show when a console session starts.              |
-| `enter_unprotected_encryption_mode_warning` | The text to show when user enters into unprotected mode.     |
-| `enter_protected_mode_warning`              | The text to show when user go backs to protected mode.       |
-| `incinerate`                                | Whether incinerate sessions automatically after a period of time or not. Default to `true`. |
-| `incinerate_after`                          | The period to keep sessions around before incinerate them. Default `30.days`. |
-| `incineration_queue`                        | The name of the queue for session incineration jobs. Default `console1984_incineration`. |
+ | `ask_for_username_if_empty`                 | If `true`, the console will ask for a username if it is empty. If `false`, it will raise an error if no username is set. Defaults to `false`.                                                                          |
+| `production_data_warning`                   | The text to show when a console session starts.                                                                                                                                                                        |
+| `enter_unprotected_encryption_mode_warning` | The text to show when user enters into unprotected mode.                                                                                                                                                               |
+| `enter_protected_mode_warning`              | The text to show when user go backs to protected mode.                                                                                                                                                                 |
+| `incinerate`                                | Whether incinerate sessions automatically after a period of time or not. Default to `true`.                                                                                                                            |
+| `incinerate_after`                          | The period to keep sessions around before incinerate them. Default `30.days`.                                                                                                                                          |
+| `incineration_queue`                        | The name of the queue for session incineration jobs. Default `console1984_incineration`.                                                                                                                               |
 
 ### SSH Config
 
