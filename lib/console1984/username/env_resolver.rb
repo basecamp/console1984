@@ -13,6 +13,6 @@ class Console1984::Username::EnvResolver
 
   private
     def username
-      @username ||= ENV[@key]&.humanize || "Unnamed"
+      @username ||= ENV[@key]&.humanize
     end
 end
