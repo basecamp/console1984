@@ -7,7 +7,7 @@ class Console1984::Config
   PROTECTIONS_CONFIG_FILE_PATH = Console1984::Engine.root.join("config/protections.yml")
 
   PROPERTIES = %i[
-    session_logger username_resolver shield command_executor
+    session_logger username_resolver ask_for_username_if_empty shield command_executor
     protected_environments protected_urls
     production_data_warning enter_unprotected_encryption_mode_warning enter_protected_mode_warning
     incinerate incinerate_after incineration_queue
@@ -54,6 +54,7 @@ class Console1984::Config
       self.incinerate = true
       self.incinerate_after = 30.days
       self.incineration_queue = "console1984_incineration"
+      self.ask_for_username_if_empty = false
 
       self.debug = false
       self.test_mode = false
