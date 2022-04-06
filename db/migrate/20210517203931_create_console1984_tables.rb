@@ -2,7 +2,7 @@ class CreateConsole1984Tables < ActiveRecord::Migration[7.0]
   def change
     create_table :console1984_sessions do |t|
       t.text :reason
-      t.references :user, null: false
+      t.references :user, null: false, index: false
       t.timestamps
 
       t.index :created_at
@@ -19,7 +19,7 @@ class CreateConsole1984Tables < ActiveRecord::Migration[7.0]
     create_table :console1984_commands do |t|
       t.text :statements
       t.references :sensitive_access
-      t.references :session, null: false
+      t.references :session, null: false, index: false
       t.timestamps
 
       t.index [ :session_id, :created_at, :sensitive_access_id ], name: "on_session_and_sensitive_chronologically"
