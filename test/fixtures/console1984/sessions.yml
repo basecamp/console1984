@@ -1,9 +1,0 @@
-arithmetic:
-  user: jorge
-  reason: Arithmetic operations
-  created_at: <%= 1.day.ago %>
-
-sensitive_printing:
-  user: jorge
-  reason: Sensitive printing
-  created_at: <%= 2.days.ago %>
