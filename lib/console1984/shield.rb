@@ -28,7 +28,7 @@ class Console1984::Shield
     def extend_protected_systems
       extend_irb
       extend_core_ruby
-      extend_sockets
+      extend_sockets unless Console1984.protected_urls.blank?
       extend_active_record
     end
 
