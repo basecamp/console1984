@@ -1,0 +1,1 @@
+"ApplicationRecord".constantize

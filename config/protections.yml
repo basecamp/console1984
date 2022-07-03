@@ -1,6 +1,7 @@
 validations:
   forbidden_reopening:
     - ActiveRecord
+    - ApplicationRecord
     - Console1984
     - PG
     - Mysql2
