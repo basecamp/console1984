@@ -6,6 +6,7 @@ class Console1984::SessionsLogger::Database
 
   def start_session(username, reason)
     silence_logging do
+      ensure_connected
       user = Console1984::User.find_or_create_by!(username: username)
       @current_session = user.sessions.create!(reason: reason)
     end
@@ -18,6 +19,7 @@ class Console1984::SessionsLogger::Database
 
   def start_sensitive_access(justification)
     silence_logging do
+      ensure_connected
       @current_sensitive_access = current_session.sensitive_accesses.create! justification: justification
     end
   end
@@ -28,6 +30,7 @@ class Console1984::SessionsLogger::Database
 
   def before_executing(statements)
     silence_logging do
+      ensure_connected
       @before_commands_count = @current_session.commands.count
       record_statements statements
     end
@@ -38,6 +41,7 @@ class Console1984::SessionsLogger::Database
 
   def suspicious_commands_attempted(statements)
     silence_logging do
+      ensure_connected
       sensitive_access = start_sensitive_access "Suspicious commands attempted"
       Console1984::Command.last.update! sensitive_access: sensitive_access
     end
@@ -56,5 +60,9 @@ class Console1984::SessionsLogger::Database
           Console1984::Base.logger.silence(&block)
         end
       end
+    end
+
+    def ensure_connected
+      Console1984::Command.connection.reconnect! unless Console1984::Command.connection.active?
     end
 end
