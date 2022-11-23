@@ -7,4 +7,4 @@ test/dummy/db/*.sqlite3-*
 test/dummy/log/*.log
 test/dummy/storage/
 test/dummy/tmp/
-/.rubocop-https---raw-githubusercontent-com-rails-rails-master--rubocop-yml
+/.rubocop-https---raw-githubusercontent-com-rails-rails-*--rubocop-yml
