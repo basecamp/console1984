@@ -1,5 +1,5 @@
 module Console1984
-  class Base < ApplicationRecord
+  class Base < ActiveRecord::Base
     self.abstract_class = true
   end
 end
