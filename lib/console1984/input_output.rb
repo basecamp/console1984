@@ -20,7 +20,7 @@ module Console1984::InputOutput
 
       Commands:
 
-      #{COMMANDS.collect { |command, help_line| "* #{Rainbow(command.to_s).light_blue}: #{help_line}" }.join("\n")}
+      #{COMMANDS.collect { |command, help_line| "* #{Rainbow(command.to_s).blue}: #{help_line}" }.join("\n")}
 
       TXT
     end
