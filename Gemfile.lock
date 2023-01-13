@@ -11,8 +11,8 @@ PATH
   remote: .
   specs:
     console1984 (0.1.26)
+      colorize
       parser
-      rainbow
 
 GEM
   remote: https://rubygems.org/
@@ -83,6 +83,7 @@ GEM
     ast (2.4.2)
     benchmark-ips (2.9.2)
     builder (3.2.4)
+    colorize (0.8.1)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     erubi (1.10.0)
