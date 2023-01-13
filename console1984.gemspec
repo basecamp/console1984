@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir.glob(['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md', 'test/fixtures/**/*'], File::FNM_DOTMATCH)
 
-  spec.add_dependency 'colorize'
+  spec.add_dependency 'rainbow'
   spec.add_dependency 'parser'
 
   spec.add_development_dependency 'rails', '>= 7.0'
