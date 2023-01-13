@@ -44,7 +44,7 @@ class Console1984::Supervisor
       Kernel.silence_warnings do
         require 'parser/current'
       end
-      require 'colorized_string'
+      require 'rainbow'
 
       # Explicit lazy loading because it depends on +parser+, which we want to only load
       # in console sessions.
