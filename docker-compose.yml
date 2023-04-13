@@ -18,11 +18,4 @@ services:
     volumes:
       - db:/var/lib/postgres
     ports: [ "127.0.0.1:55432:5432" ]
-  mysql:
-    image: percona:5.7.22
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    volumes:
-      - db:/var/lib/mysql
-    ports: [ "127.0.0.1:33306:3306" ]
 
