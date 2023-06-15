@@ -12,6 +12,7 @@ class Console1984::Config
     production_data_warning enter_unprotected_encryption_mode_warning enter_protected_mode_warning
     incinerate incinerate_after incineration_queue
     protections_config
+    base_record_class
     debug test_mode
   ]
 
@@ -55,6 +56,8 @@ class Console1984::Config
       self.incinerate_after = 30.days
       self.incineration_queue = "console1984_incineration"
       self.ask_for_username_if_empty = false
+
+      self.base_record_class = "::ApplicationRecord"
 
       self.debug = false
       self.test_mode = false

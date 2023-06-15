@@ -1,5 +1,5 @@
 module Console1984
-  class Base < ApplicationRecord
+  class Base < Console1984.config.base_record_class.constantize
     self.abstract_class = true
   end
 end

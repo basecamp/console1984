@@ -156,6 +156,7 @@ These config options are namespaced in `config.console1984`:
 | `incinerate`                                | Whether incinerate sessions automatically after a period of time or not. Default to `true`.                                                                                                                            |
 | `incinerate_after`                          | The period to keep sessions around before incinerate them. Default `30.days`.                                                                                                                                          |
 | `incineration_queue`                        | The name of the queue for session incineration jobs. Default `console1984_incineration`.                                                                                                                               |
+| `base_record_class`                         | The host application base class that will be the parent of `console1984` records. By default it's `::ApplicationRecord`. |
 
 ### SSH Config
 
