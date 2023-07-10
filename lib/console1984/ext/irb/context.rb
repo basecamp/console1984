@@ -12,7 +12,7 @@ module Console1984::Ext::Irb::Context
   end
 
   #
-  def evaluate(line, line_no, exception: nil)
+  def evaluate(line, ...)
     Console1984.command_executor.execute(Array(line)) do
       super
     end
