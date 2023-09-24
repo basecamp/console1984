@@ -29,6 +29,8 @@ class Console1984::CommandExecutor
     # We detected that a forbidden command was executed. We exit IRB right away.
     flag_suspicious(commands, error: error)
     Console1984.supervisor.exit_irb
+  rescue => error
+    raise encrypting_error(error)
   ensure
     run_as_system { session_logger.after_executing commands }
   end
@@ -96,5 +98,17 @@ class Console1984::CommandExecutor
       block.call
     ensure
       @executing_user_command = original_value
+    end
+
+    def encrypting_error(error)
+      def error.inspect
+        Console1984.command_executor.execute_in_protected_mode { super }
+      end
+
+      def error.to_s
+        Console1984.command_executor.execute_in_protected_mode { super }
+      end
+
+      error
     end
 end

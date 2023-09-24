@@ -72,6 +72,22 @@ class EncryptionTest < ActiveSupport::TestCase
     assert_equal "Other name", @person.reload.name
   end
 
+  test "does not reveal attributes when raising errors" do
+    error = nil
+
+    begin
+      @console.execute <<~RUBY
+        Person.find(#{@person.id}).method_that_does_not_exist
+      RUBY
+    rescue => e
+      error = e
+    end
+
+    assert_not_nil error
+    assert_not_includes error.inspect.remove(@person.email), @person.name
+    assert_not_includes error.to_s.remove(@person.email), @person.name
+  end
+
   private
     def execute_decrypt_and_enter_reason
       type_when_prompted "I need to fix encoding issue with Message 123456" do
