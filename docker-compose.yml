@@ -5,7 +5,7 @@ volumes:
 
 services:
   mysql:
-    image: percona:5.7.22
+    image: mariadb:latest
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
