@@ -101,12 +101,16 @@ class Console1984::CommandExecutor
     end
 
     def encrypting_error(error)
-      def error.inspect
-        Console1984.command_executor.execute_in_protected_mode { super }
+      if error.respond_to?(:inspect)
+        def error.inspect
+          Console1984.command_executor.execute_in_protected_mode { method(:inspect).super_method.call }
+        end
       end
 
-      def error.to_s
-        Console1984.command_executor.execute_in_protected_mode { super }
+      if error.respond_to?(:to_s)
+        def error.to_s
+          Console1984.command_executor.execute_in_protected_mode { method(:to_s).super_method.call }
+        end
       end
 
       error
