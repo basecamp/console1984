@@ -42,6 +42,12 @@ class AuditingTest < ActiveSupport::TestCase
     assert_not Console1984::Command.last.sensitive?
   end
 
+  test "commands in protected mode on namespaced objects are not flagged as sensitive" do
+    @console.execute "puts ::Namespaced::Thing.last.name"
+    
+    assert_not Console1984::Command.last.sensitive?, @console.output
+  end
+
   test "commands in unprotected mode are justified and flagged as sensitive" do
     assert_difference -> { Console1984::SensitiveAccess.count }, +1 do
       type_when_prompted "I need to fix encoding issue with Message 123456" do

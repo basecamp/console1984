@@ -198,6 +198,7 @@ GEM
     rubyzip (2.3.2)
     sqlite3 (1.6.3-arm64-darwin)
     sqlite3 (1.6.3-x86_64-linux)
+    symbol-fstring (1.0.2)
     thor (1.2.2)
     timeout (0.4.0)
     tzinfo (2.0.6)
@@ -210,6 +211,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
@@ -227,6 +229,7 @@ DEPENDENCIES
   rubocop-rails
   rubyzip
   sqlite3
+  symbol-fstring
 
 BUNDLED WITH
    2.3.22
