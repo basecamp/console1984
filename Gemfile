@@ -17,3 +17,5 @@ gemspec
 gem 'rubyzip'
 
 gem 'activeresource', git: 'https://github.com/basecamp/activeresource.git'
+
+gem 'symbol-fstring', require: 'fstring/all'
