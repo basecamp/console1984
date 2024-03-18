@@ -19,7 +19,6 @@ validations:
     - console_1984
     - Console1984
     - secret
-    - credentials
     - irb
 forbidden_methods:
   Kernel:
@@ -31,3 +30,5 @@ forbidden_methods:
     - instance_eval
   Module:
     - class_eval
+  'Rails::Application':
+    - credentials
