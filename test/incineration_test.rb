@@ -13,12 +13,12 @@ class IncinerationTest < ActiveSupport::TestCase
       console.execute "2+2"
     end
 
-    travel 30.days
-
-    assert_difference -> { Console1984::Session.count }, -1 do
-      assert_difference -> { Console1984::Command.count }, -3 do
-        assert_difference -> { Console1984::SensitiveAccess.count }, -1 do
-          perform_enqueued_jobs only: Console1984::IncinerationJob
+    travel_to 30.days.from_now.utc do
+      assert_difference -> { Console1984::Session.count }, -1 do
+        assert_difference -> { Console1984::Command.count }, -3 do
+          assert_difference -> { Console1984::SensitiveAccess.count }, -1 do
+            perform_enqueued_jobs only: Console1984::IncinerationJob
+          end
         end
       end
     end
@@ -43,10 +43,10 @@ class IncinerationTest < ActiveSupport::TestCase
       session.incinerate
     end
 
-    travel 30.days
-
-    assert_nothing_raised do
-      session.incinerate
+    travel_to 30.days.from_now.utc do
+      assert_nothing_raised do
+        session.incinerate
+      end
     end
   end
 end
