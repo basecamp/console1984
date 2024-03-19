@@ -139,6 +139,10 @@ By default, sessions will be incinerated with a job 30 days after they are creat
 
 When starting a console session, `console1984` will eager load all the application classes if necessary. In practice, production environments already load classes eagerly, so this won't represent any change for those.  
 
+## `rails console --sandbox`
+
+`console1984` will disable the Rails sandbox console, becuase it's not able to record sessions while in sandbox mode.
+
 ## Configuration
 
 These config options are namespaced in `config.console1984`:
