@@ -47,8 +47,12 @@ class Console1984::Shield
       socket_classes = [TCPSocket, OpenSSL::SSL::SSLSocket]
       OpenSSL::SSL::SSLSocket.include(SSLSocketRemoteAddress)
 
-      if defined?(Redis::Connection)
-        socket_classes.push(*[Redis::Connection::TCPSocket, Redis::Connection::SSLSocket])
+      if defined?(Redis::Connection::TCPSocket)
+        socket_classes.push(Redis::Connection::TCPSocket)
+      end
+
+      if defined?(Redis::Connection::TCPSocket)
+        socket_classes.push(Redis::Connection::SSLSocket)
       end
 
       socket_classes.compact.each do |socket_klass|
