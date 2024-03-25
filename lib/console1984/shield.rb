@@ -51,7 +51,7 @@ class Console1984::Shield
         socket_classes.push(Redis::Connection::TCPSocket)
       end
 
-      if defined?(Redis::Connection::TCPSocket)
+      if defined?(Redis::Connection::SSLSocket)
         socket_classes.push(Redis::Connection::SSLSocket)
       end
 
