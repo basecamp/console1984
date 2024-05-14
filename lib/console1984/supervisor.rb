@@ -1,3 +1,4 @@
+require 'active_support/all'
 require 'rails/console/app'
 
 # Entry point to the system. In charge of installing everything
