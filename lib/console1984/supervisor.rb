@@ -1,5 +1,10 @@
-require 'active_support/all'
-require 'rails/console/app'
+require "active_support/all"
+
+if Rails.version >= "8"
+  require "rails/console/methods"
+else
+  require "rails/console/app"
+end
 
 # Entry point to the system. In charge of installing everything
 # and starting and stopping sessions.
