@@ -5,12 +5,12 @@ volumes:
 
 services:
   mysql:
-    image: mariadb:latest
+    image: mysql:8.0.31
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - db:/var/lib/mysql
-    ports: [ "127.0.0.1:33306:3306" ]
+    ports: [ "127.0.0.1:33060:3306" ]
   postgres:
     image: postgres:13.4
     environment:
