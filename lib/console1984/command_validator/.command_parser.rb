@@ -1,4 +1,4 @@
-# Naming class with dot so that it doesn't get loaded eagerly by Zeitwork. We want to load
+# Naming class with dot so that it doesn't get loaded eagerly by Zeitwerk. We want to load
 # only when a console session is started, when +parser+ is loaded.
 #
 # See +Console1984::Supervisor#require_dependencies+

@@ -34,7 +34,8 @@ class Console1984::Shield
 
     def extend_irb
       IRB::Context.prepend(Console1984::Ext::Irb::Context)
-      Rails::ConsoleMethods.include(Console1984::Ext::Irb::Commands)
+      IRB::Command.register :decrypt!, Console1984::Commands::Decrypt
+      IRB::Command.register :encrypt!, Console1984::Commands::Encrypt
     end
 
     def extend_core_ruby
