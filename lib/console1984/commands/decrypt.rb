@@ -1,3 +1,5 @@
+require "irb/command"
+
 module Console1984::Commands
   class Decrypt < IRB::Command::Base
     include Console1984::Ext::Irb::Commands

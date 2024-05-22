@@ -42,6 +42,7 @@ jobs:
           - 33306:3306
     env:
       TARGET_DB: ${{ matrix.database }}
+      CI: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

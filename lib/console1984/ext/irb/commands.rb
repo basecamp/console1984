@@ -1,4 +1,3 @@
-# Add Console 1984 commands to IRB sessions.
 module Console1984::Ext::Irb::Commands
   include Console1984::Freezeable
 
