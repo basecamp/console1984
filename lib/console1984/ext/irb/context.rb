@@ -16,10 +16,10 @@ module Console1984::Ext::Irb::Context
     # irb  < 1.13 passes String as parameter
     # irb >= 1.13 passes IRB::Statement instead and method #code contains the actual code
     code = if defined?(IRB::Statement) && line_or_statement.kind_of?(IRB::Statement)
-             line_or_statement.code
-           else
-             line_or_statement
-           end
+      line_or_statement.code
+    else
+      line_or_statement
+    end
 
     Console1984.command_executor.execute(Array(code)) do
       super
