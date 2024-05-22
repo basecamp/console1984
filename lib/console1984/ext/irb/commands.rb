@@ -13,13 +13,4 @@ module Console1984::Ext::Irb::Commands
   def encrypt!
     shield.enable_protected_mode
   end
-
-  # This returns the last error that prevented a command execution in the console
-  # or nil if there isn't any.
-  #
-  # This is meant for internal usage when debugging legit commands that are wrongly
-  # prevented.
-  def _console_last_suspicious_command_error
-    Console1984.command_executor.last_suspicious_command_error
-  end
 end
