@@ -10,7 +10,7 @@ GIT
 PATH
   remote: .
   specs:
-    console1984 (0.1.31)
+    console1984 (0.2.0)
       irb (~> 1.13)
       parser
       rails (>= 7.0)
@@ -114,26 +114,26 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-    method_source (1.0.0)
+    method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.6)
     minitest (5.18.1)
     mocha (2.0.4)
       ruby2_keywords (>= 0.0.5)
     mysql2 (0.5.5)
-    net-imap (0.4.10)
+    net-imap (0.4.12)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-smtp (0.4.0.1)
+    net-smtp (0.5.0)
       net-protocol
-    nio4r (2.7.0)
-    nokogiri (1.16.3-arm64-darwin)
+    nio4r (2.7.3)
+    nokogiri (1.16.5-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.3-x86_64-linux)
+    nokogiri (1.16.5-x86_64-linux)
       racc (~> 1.4)
     parallel (1.23.0)
     parser (3.2.2.3)
@@ -175,11 +175,11 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
-    rake (13.1.0)
-    rdoc (6.6.3.1)
+    rake (13.2.1)
+    rdoc (6.7.0)
       psych (>= 4.0.0)
     regexp_parser (2.8.1)
-    reline (0.5.7)
+    reline (0.5.8)
       io-console (~> 0.5)
     rexml (3.2.5)
     rubocop (1.54.1)
@@ -220,7 +220,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.6.13)
+    zeitwerk (2.6.15)
 
 PLATFORMS
   arm64-darwin-21
