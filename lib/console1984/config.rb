@@ -10,6 +10,7 @@ class Console1984::Config
     session_logger username_resolver ask_for_username_if_empty shield command_executor
     protected_environments protected_urls
     production_data_warning enter_unprotected_encryption_mode_warning enter_protected_mode_warning
+    justification_message commands_list show_commands_message
     incinerate incinerate_after incineration_queue
     protections_config
     base_record_class
@@ -51,6 +52,9 @@ class Console1984::Config
       self.production_data_warning = DEFAULT_PRODUCTION_DATA_WARNING
       self.enter_unprotected_encryption_mode_warning = DEFAULT_ENTER_UNPROTECTED_ENCRYPTION_MODE_WARNING
       self.enter_protected_mode_warning = DEFAULT_ENTER_PROTECTED_MODE_WARNING
+      self.justification_message = DEFAULT_JUSTIFICATION_MESSAGE
+      self.commands_list = COMMANDS
+      self.show_commands_message = true
 
       self.incinerate = true
       self.incinerate_after = 30.days

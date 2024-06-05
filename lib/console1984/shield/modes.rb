@@ -17,7 +17,7 @@ module Console1984::Shield::Modes
   def enable_unprotected_mode(silent: false)
     command_executor.run_as_system do
       show_warning Console1984.enter_unprotected_encryption_mode_warning if !silent && protected_mode?
-      justification = ask_for_value "\nBefore you can access personal information, you need to ask for and get explicit consent from the user(s). #{current_username}, where can we find this consent (a URL would be great)?"
+      justification = ask_for_value Console1984.justification_message.gsub('[current_username]', current_username)
       session_logger.start_sensitive_access justification
       nil
     end
