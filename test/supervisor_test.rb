@@ -26,4 +26,29 @@ class IncinerationTest < ActiveSupport::TestCase
   ensure
     Console1984.config.ask_for_username_if_empty = original
   end
+
+  test "can start a session if user_authentication is callable" do
+    original, Console1984.config.user_authentication = Console1984.config.user_authentication, ->(username) { true }
+    Console1984.username_resolver.username = "jorge"
+
+    assert_nothing_raised do
+      type_when_prompted "No reason" do
+        @supervisor.start
+      end
+    end
+  ensure
+    Console1984.config.user_authentication = original
+  end
+
+  test "cannot start a session if user_authentication is callable and raises an exception" do
+    original, Console1984.config.user_authentication = Console1984.config.user_authentication, ->(username) { raise "Authentication failed!" }
+    Console1984.username_resolver.username = "jorge"
+
+    e = assert_raises RuntimeError do
+      @supervisor.start
+    end
+    assert_equal "Authentication failed!", e.message
+  ensure
+    Console1984.config.user_authentication = original
+  end
 end
