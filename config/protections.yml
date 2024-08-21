@@ -14,7 +14,7 @@ validations:
     protected:
       - PG
       - Mysql2
-      - ActiveRecord::ActiveRecordEncryption
+      - ActiveRecord::Encryption
   suspicious_terms:
     - console_1984
     - Console1984
