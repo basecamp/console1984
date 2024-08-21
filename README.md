@@ -137,7 +137,7 @@ By default, sessions will be incinerated with a job 30 days after they are creat
 
 ### Eager loading
 
-When starting a console session, `console1984` will eager load all the application classes if necessary. In practice, production environments already load classes eagerly, so this won't represent any change for those.  
+When starting a console session, `console1984` will eager load all the application classes if necessary. In practice, production environments already load classes eagerly, so this won't represent any change for those.
 
 ## Configuration
 
@@ -157,6 +157,7 @@ These config options are namespaced in `config.console1984`:
 | `incinerate_after`                          | The period to keep sessions around before incinerate them. Default `30.days`.                                                                                                                                          |
 | `incineration_queue`                        | The name of the queue for session incineration jobs. Default `console1984_incineration`.                                                                                                                               |
 | `base_record_class`                         | The host application base class that will be the parent of `console1984` records. By default it's `::ApplicationRecord`. |
+| `encryption_options`                        | Extra encryption options, such as `key_provider` or `key`, used to to encrypt `console1984` command data. Defaults to `{}` |
 
 ### SSH Config
 
@@ -192,8 +193,8 @@ The test suite runs against SQLite by default, but can be run against Postgres a
 To run the suite in your computer, first, run `bin/setup` to create the docker containers for MySQL/PostgreSQL and create the databases. Then run:
 
 ```bash
-bin/rails test # against SQLite (default) 
-bin/rails test TARGET_DB=mysql 
-bin/rails test TARGET_DB=postgres 
-bin/rails test TARGET_DB=sqlite  
+bin/rails test # against SQLite (default)
+bin/rails test TARGET_DB=mysql
+bin/rails test TARGET_DB=postgres
+bin/rails test TARGET_DB=sqlite
 ```

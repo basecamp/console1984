@@ -14,6 +14,7 @@ class Console1984::Config
     protections_config
     base_record_class
     debug test_mode
+    encryption_options
   ]
 
   attr_accessor(*PROPERTIES)
@@ -61,5 +62,7 @@ class Console1984::Config
 
       self.debug = false
       self.test_mode = false
+
+      self.encryption_options = {}
     end
 end
