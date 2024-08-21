@@ -141,7 +141,7 @@ When starting a console session, `console1984` will eager load all the applicati
 
 ## `rails console --sandbox`
 
-`console1984` will disable the Rails sandbox console, becuase it's not able to record sessions while in sandbox mode.
+`console1984` will disable the Rails sandbox console, because it's not able to record sessions while in sandbox mode.
 
 ## Configuration
 
