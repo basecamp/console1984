@@ -21,6 +21,7 @@ validations:
     - secret
     - credentials
     - irb
+    - ENV
 forbidden_methods:
   Kernel:
     - eval
