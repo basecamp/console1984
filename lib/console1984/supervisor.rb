@@ -58,7 +58,9 @@ class Console1984::Supervisor
     end
 
     def start_session
-      session_logger.start_session current_username, ask_for_session_reason
+      username = current_username
+      Console1984.config.user_authentication&.call username
+      session_logger.start_session username, ask_for_session_reason
     end
 
     def stop_session
