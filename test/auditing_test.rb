@@ -60,4 +60,51 @@ class AuditingTest < ActiveSupport::TestCase
     assert last_command.sensitive?
     assert_equal sensitive_access, last_command.sensitive_access
   end
+
+  test "a tampering attempt does not mark following legit commands as sensitive" do
+    @console.execute "IRB"
+    @console.execute "2+2"
+
+    assert_not Console1984::Command.last.sensitive?
+  end
+
+  test "in unprotected mode, a tampering attempt does not mark following legit commands as suspicious" do
+    @console.execute "1+1"
+
+    type_when_prompted "Checking for inconsistencies..." do
+      @console.execute "decrypt!"
+    end
+
+    @console.execute "1+1"
+    untamperinged_sensitive_access_id = Console1984::Command.last.sensitive_access_id
+
+    @console.execute "IRB"
+
+    @console.execute "2+2"
+
+    assert Console1984::Command.last.sensitive?
+    assert_equal Console1984::Command.last.sensitive_access_id, untamperinged_sensitive_access_id
+
+    assert Console1984::Command.last.sensitive_access.justification == "Checking for inconsistencies..."
+  end
+
+  test "in unprotected mode, a tampering attempt still marks following unlegit commands as suspicious, but assigned to a different sensitive access" do
+    @console.execute "1+1"
+
+    type_when_prompted "Checking for inconsistencies..." do
+      @console.execute "decrypt!"
+    end
+
+    @console.execute "2+2"
+
+    @console.execute "IRB"
+    tamperinged_sensitive_access_id = Console1984::Command.last.sensitive_access_id
+
+    @console.execute "Console1984"
+
+    assert Console1984::Command.last.sensitive?
+    assert_not Console1984::Command.last.sensitive_access_id == tamperinged_sensitive_access_id
+
+    assert Console1984::Command.last.sensitive_access.justification == "Suspicious commands attempted"
+  end
 end

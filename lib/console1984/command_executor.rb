@@ -17,12 +17,15 @@ class Console1984::CommandExecutor
   # Suspicious commands will be executed but flagged as suspicious. Forbidden commands will
   # be prevented and flagged too.
   def execute(commands, &block)
+    tampering_attempted = false
     run_as_system { session_logger.before_executing commands }
     validate_command commands
     execute_in_protected_mode(&block)
   rescue Console1984::Errors::ForbiddenCommandAttempted, FrozenError => error
+    tampering_attempted = true
     flag_suspicious(commands, error: error)
   rescue Console1984::Errors::SuspiciousCommandAttempted => error
+    tampering_attempted = true
     flag_suspicious(commands, error: error)
     execute_in_protected_mode(&block)
   rescue Console1984::Errors::ForbiddenCommandExecuted => error
@@ -32,7 +35,7 @@ class Console1984::CommandExecutor
   rescue => error
     raise encrypting_error(error)
   ensure
-    run_as_system { session_logger.after_executing commands }
+    run_as_system { session_logger.after_executing commands, tampering_attempted, shield.unprotected_mode? }
   end
 
   # Executes the passed block in protected mode.
