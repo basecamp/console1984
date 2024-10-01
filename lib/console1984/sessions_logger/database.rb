@@ -35,10 +35,10 @@ class Console1984::SessionsLogger::Database
 
   def after_executing(statements, tampering_attempted, unprotected_mode)
     if !tampering_attempted
-      @last_untempered_sensitive_access = @current_sensitive_access
+      @last_untampered_sensitive_access = @current_sensitive_access
     elsif tampering_attempted
       @current_sensitive_access = nil unless unprotected_mode
-      @current_sensitive_access = @last_untempered_sensitive_access if unprotected_mode
+      @current_sensitive_access = @last_untampered_sensitive_access if unprotected_mode
     end
   end
 
