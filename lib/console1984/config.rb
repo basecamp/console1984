@@ -13,6 +13,7 @@ class Console1984::Config
     incinerate incinerate_after incineration_queue
     protections_config
     base_record_class
+    user_authentication
     debug test_mode
   ]
 
@@ -56,6 +57,7 @@ class Console1984::Config
       self.incinerate_after = 30.days
       self.incineration_queue = "console1984_incineration"
       self.ask_for_username_if_empty = false
+      self.user_authentication = nil
 
       self.base_record_class = "::ApplicationRecord"
 
