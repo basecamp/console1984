@@ -20,7 +20,7 @@ class Console1984::CommandExecutor
     run_as_system { session_logger.before_executing commands }
     validate_command commands
     execute_in_protected_mode(&block)
-  rescue Console1984::Errors::ForbiddenCommandAttempted, FrozenError => error
+  rescue FrozenError => error
     flag_suspicious(commands, error: error)
   rescue Console1984::Errors::SuspiciousCommandAttempted => error
     flag_suspicious(commands, error: error)
