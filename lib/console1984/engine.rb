@@ -8,6 +8,12 @@ module Console1984
     config.console1984.protected_environments ||= %i[ production ]
     config.console1984.protected_urls ||= []
 
+    # Console 1984 doesn't work with the sandboxed Rails console, because
+    # it can't write its audit entries to the database.
+    initializer "console1984.disable_sandbox" do |app|
+      app.config.disable_sandbox = true
+    end
+
     initializer "console1984.config" do
       config.console1984.each do |key, value|
         Console1984.config.send("#{key}=", value)
