@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rainbow'
   spec.add_dependency 'parser'
   spec.add_dependency 'rails', '>= 7.0'
-  spec.add_dependency 'irb', '~> 1.13'
+  spec.add_dependency 'irb', '~> 1.15.1'
 
   spec.add_development_dependency 'benchmark-ips'
   spec.add_development_dependency 'mocha'
@@ -38,7 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-minitest'
   spec.add_development_dependency 'rubocop-rails'
   spec.add_development_dependency 'sqlite3'
-  spec.add_development_dependency 'pg'
+  # spec.add_development_dependency 'pg'
   spec.add_development_dependency 'mysql2'
   spec.add_development_dependency 'rubyzip'
 end

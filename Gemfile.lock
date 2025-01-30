@@ -11,7 +11,7 @@ PATH
   remote: .
   specs:
     console1984 (0.2.1)
-      irb (~> 1.13)
+      irb (~> 1.15.1)
       parser
       rails (>= 7.0)
       rainbow
@@ -100,7 +100,8 @@ GEM
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
-    irb (1.14.0)
+    irb (1.15.1)
+      pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.6.3)
@@ -139,7 +140,9 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    pg (1.5.3)
+    pp (0.6.2)
+      prettyprint
+    prettyprint (0.2.0)
     psych (5.1.2)
       stringio
     racc (1.7.1)
@@ -225,6 +228,7 @@ GEM
 PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES
@@ -233,7 +237,6 @@ DEPENDENCIES
   console1984!
   mocha
   mysql2
-  pg
   rubocop (>= 1.18.4)
   rubocop-minitest
   rubocop-packaging
