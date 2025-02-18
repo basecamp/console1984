@@ -137,7 +137,7 @@ By default, sessions will be incinerated with a job 30 days after they are creat
 
 ### Eager loading
 
-When starting a console session, `console1984` will eager load all the application classes if necessary. In practice, production environments already load classes eagerly, so this won't represent any change for those.  
+When starting a console session, `console1984` will eager load all the application classes if necessary. In practice, production environments already load classes eagerly, so this won't represent any change for those.
 
 ## Configuration
 
@@ -149,14 +149,17 @@ These config options are namespaced in `config.console1984`:
 | `protected_urls`                            | The list of URLs corresponding with external systems to protect.                                                                                                                                                       |
 | `session_logger`                            | The system used to record session data. The default logger is `Console1984::SessionsLogger::Database`.                                                                                                                 |
 | `username_resolver`                         | Configure how the current user is determined for a given console session. The default is `Console1984::Username::EnvResolver.new("CONSOLE_USER")`, which returns the value of the environment variable `CONSOLE_USER`. |
- | `ask_for_username_if_empty`                 | If `true`, the console will ask for a username if it is empty. If `false`, it will raise an error if no username is set. Defaults to `false`.                                                                          |
+| `ask_for_username_if_empty`                 | If `true`, the console will ask for a username if it is empty. If `false`, it will raise an error if no username is set. Defaults to `false`.                                                                          |
 | `production_data_warning`                   | The text to show when a console session starts.                                                                                                                                                                        |
 | `enter_unprotected_encryption_mode_warning` | The text to show when user enters into unprotected mode.                                                                                                                                                               |
 | `enter_protected_mode_warning`              | The text to show when user goes back to protected mode.                                                                                                                                                                 |
+| `justification_message`                     | The text to show when user is prompted for justification while accessing decrypted data.                                                                                                                               |
+| `commands_list`                             | The list of `Commands` to show when user accesses the console. Must be a Hash `{"foo": "bar"}`.                                                                                                                        |
+| `show_commands_message`                     | If `true` the `Commands` message will display, If `false` the messsage will not display. Defaults to `true`                                                                                                            |
 | `incinerate`                                | Whether incinerate sessions automatically after a period of time or not. Default to `true`.                                                                                                                            |
 | `incinerate_after`                          | The period to keep sessions around before incinerate them. Default `30.days`.                                                                                                                                          |
 | `incineration_queue`                        | The name of the queue for session incineration jobs. Default `console1984_incineration`.                                                                                                                               |
-| `base_record_class`                         | The host application base class that will be the parent of `console1984` records. By default it's `::ApplicationRecord`. |
+| `base_record_class`                         | The host application base class that will be the parent of `console1984` records. By default it's `::ApplicationRecord`.                                                                                               |
 
 ### SSH Config
 
@@ -192,8 +195,8 @@ The test suite runs against SQLite by default, but can be run against Postgres a
 To run the suite in your computer, first, run `bin/setup` to create the docker containers for MySQL/PostgreSQL and create the databases. Then run:
 
 ```bash
-bin/rails test # against SQLite (default) 
-bin/rails test TARGET_DB=mysql 
-bin/rails test TARGET_DB=postgres 
-bin/rails test TARGET_DB=sqlite  
+bin/rails test # against SQLite (default)
+bin/rails test TARGET_DB=mysql
+bin/rails test TARGET_DB=postgres
+bin/rails test TARGET_DB=sqlite
 ```

@@ -9,7 +9,16 @@ class SupervisedTestConsole
 
     @context = Context.new
     IRB.stubs(CurrentContext: @context)
-    start_supervisor(reason)
+
+    return_value = nil
+
+    output, error = capture_io do
+      return_value = start_supervisor(reason)
+    end
+
+    @string_io << output + error
+
+    return_value
   end
 
   def stop
