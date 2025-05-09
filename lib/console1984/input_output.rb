@@ -31,7 +31,7 @@ module Console1984::InputOutput
 
     def ask_for_value(message)
       puts Rainbow("#{message}").green
-      reason = $stdin.gets.strip until reason.present?
+      reason = Reline.readline.strip until reason.present?
       reason
     end
 end
