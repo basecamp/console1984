@@ -31,7 +31,13 @@ module Console1984::InputOutput
 
     def ask_for_value(message)
       puts Rainbow("#{message}").green
-      reason = Reline.readline.strip until reason.present?
-      reason
+      original_output_modifier_proc = Reline.output_modifier_proc
+      begin
+        Reline.output_modifier_proc = nil
+        reason = Reline.readline.strip until reason.present?
+        reason
+      ensure
+        Reline.output_modifier_proc = original_output_modifier_proc
+      end
     end
 end
