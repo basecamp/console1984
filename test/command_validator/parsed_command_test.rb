@@ -62,6 +62,16 @@ class ParsedCommandTest < ActiveSupport::TestCase
     RB
   end
 
+  test "parse constant paths without warnings" do
+    assert_silent do
+      parsed_command = Console1984::CommandValidator::ParsedCommand.new <<~RB
+        Foo::Bar::Baz.call
+      RB
+
+      assert_equal ["Foo::Bar::Baz"], parsed_command.constants
+    end
+  end
+
   test "syntax errors are handled gracefully" do
     parsed_command = Console1984::CommandValidator::ParsedCommand.new <<~RB
       def 12'39u````

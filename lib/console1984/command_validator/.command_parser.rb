@@ -40,7 +40,7 @@ class Console1984::CommandValidator::CommandParser < ::Parser::AST::Processor
   def on_const(node)
     super
     name, const_name = *node
-    const_name = const_name.to_s
+    const_name = const_name.to_s.dup
     last_constant = @constants.last
 
     if name.nil? || (name && name.type == :cbase) # cbase = leading ::
