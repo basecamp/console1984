@@ -5,11 +5,13 @@ class ProtectingConnectionsTest < ActiveSupport::TestCase
   SERVER_PORT = 9097
 
   setup do
+    @server = TCPServer.new("localhost", 6379) rescue nil
     @console = SupervisedTestConsole.new(user: "jorge", reason: "Some very good reason")
   end
 
   teardown do
     @console.stop
+    @server&.close
   end
 
   test "can't connect to protected connections by default" do
