@@ -192,8 +192,31 @@ The test suite runs against SQLite by default, but can be run against Postgres a
 To run the suite in your computer, first, run `bin/setup` to create the docker containers for MySQL/PostgreSQL and create the databases. Then run:
 
 ```bash
-bin/rails test # against SQLite (default) 
-bin/rails test TARGET_DB=mysql 
-bin/rails test TARGET_DB=postgres 
-bin/rails test TARGET_DB=sqlite  
+bin/rails test # against SQLite (default)
+bin/rails test TARGET_DB=mysql
+bin/rails test TARGET_DB=postgres
+bin/rails test TARGET_DB=sqlite
+```
+
+### Testing against different Rails versions
+
+This project uses [Appraisal](https://github.com/thoughtbot/appraisal) to test against multiple Rails versions. The `Appraisals` file defines the matrix and the generated gemfiles live in `gemfiles/`.
+
+To run tests against a specific Rails version:
+
+```bash
+bundle exec appraisal rails-8-0 bin/rails test
+bundle exec appraisal rails-8-1 bin/rails test
+```
+
+To run tests against all Rails versions:
+
+```bash
+bundle exec appraisal bin/rails test
+```
+
+To regenerate the appraisal gemfiles after changing the `Appraisals` file:
+
+```bash
+bundle exec appraisal install
 ```
