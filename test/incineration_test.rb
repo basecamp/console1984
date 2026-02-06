@@ -34,6 +34,27 @@ class IncinerationTest < ActiveSupport::TestCase
     Console1984.config.incinerate = original
   end
 
+  test "job reschedules when incineration period has increased" do
+    original = Console1984.incinerate_after
+
+    freeze_time
+
+    session = console1984_sessions(:arithmetic)
+    session.update! created_at: Time.now
+
+    travel_to 30.days.from_now do
+      Console1984.config.incinerate_after = 60.days
+
+      assert_enqueued_with job: Console1984::IncinerationJob, at: session.created_at + 60.days do
+        Console1984::IncinerationJob.perform_now(session)
+      end
+
+      assert_not session.destroyed?
+    end
+  ensure
+    Console1984.config.incinerate_after = original
+  end
+
   test "trying to incinerate a session ahead of time will raise" do
     freeze_time
     session = console1984_sessions(:arithmetic)
