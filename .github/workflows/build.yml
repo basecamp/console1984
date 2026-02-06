@@ -1,5 +1,9 @@
 name: Build
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    types: [ opened, synchronize ]
 
 jobs:
   rubocop:
@@ -7,45 +11,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup Ruby and install gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.0
+          ruby-version: '3.4'
           bundler-cache: true
       - name: Run rubocop
         run: |
           bundle exec rubocop --parallel
   tests:
-    name: Tests
+    name: Ruby ${{ matrix.ruby-version }}, ${{ matrix.rails-version }}, ${{ matrix.database }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        ruby-version: [3.3.0]
+        ruby-version: ['3.4', '4.0']
+        rails-version: [rails_7_2, rails_8_0, rails_8_1, rails_edge]
         database: [sqlite, postgres, mysql]
+    continue-on-error: ${{ matrix.rails-version == 'rails_edge' }}
     services:
       redis:
         image: redis
         ports:
           - 6379:6379
       postgres:
-        image: postgres:13.4
+        image: postgres:16
         env:
           POSTGRES_HOST_AUTH_METHOD: "trust"
         ports:
           - 55432:5432
       mysql:
-        image: percona:5.7.22
+        image: mysql:8.0
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
         ports:
           - 33306:3306
     env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.rails-version }}.gemfile
       TARGET_DB: ${{ matrix.database }}
       CI: true
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup Ruby and install gems
         uses: ruby/setup-ruby@v1
         with:
