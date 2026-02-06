@@ -28,7 +28,7 @@ module Console1984::Freezeable
   end
 
   module ClassMethods
-    SENSITIVE_INSTANCE_METHODS = %i[ instance_variable_get instance_variable_set ]
+    SENSITIVE_INSTANCE_METHODS = %i[ instance_variable_set ]
 
     def prevent_instance_data_manipulation
       SENSITIVE_INSTANCE_METHODS.each do |method|
