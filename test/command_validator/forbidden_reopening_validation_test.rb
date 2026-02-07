@@ -37,6 +37,14 @@ class ForbiddenReopeningValidationTest < ActiveSupport::TestCase
     end
   end
 
+  test "validate assigning a forbidden class to a new constant" do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
+      run_validation <<~RUBY, ["SomeClass"]
+        MyAlias = SomeClass
+      RUBY
+    end
+  end
+
   test "doesn't prevent reopening classes when the constant is a partial match" do
     run_validation <<~RUBY, ["SomeClass"]
       class SomeClass2
