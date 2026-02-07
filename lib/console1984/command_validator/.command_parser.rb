@@ -56,7 +56,7 @@ class Console1984::CommandValidator::CommandParser < ::Parser::AST::Processor
 
   def on_casgn(node)
     super
-    scope_node, name, value_node = *node
+    _, _, value_node = *node
     @constant_assignments.push(*extract_constants(value_node))
   end
 
