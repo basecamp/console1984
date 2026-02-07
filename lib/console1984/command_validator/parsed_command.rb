@@ -1,6 +1,4 @@
 # Parses a command string and exposes different constructs to be used by validations.
-#
-# Internally, it uses the {parser}[https://github.com/whitequark/parser] gem to perform the parsing.
 class Console1984::CommandValidator::ParsedCommand
   include Console1984::Freezeable
 
@@ -15,7 +13,7 @@ class Console1984::CommandValidator::ParsedCommand
   private
     def command_parser
       @command_parser ||= Console1984::CommandValidator::CommandParser.new.tap do |processor|
-        ast = Parser::CurrentRuby.parse(raw_command)
+        ast = Console1984.ruby_parser.parse(raw_command)
         processor.process(ast)
       rescue Parser::SyntaxError
         # Fail open with syntax errors
