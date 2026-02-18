@@ -10,6 +10,7 @@ require "mocha/minitest"
 require "minitest/mock"
 require "parser/current"
 require "activeresource"
+require "ostruct"
 
 require_relative "support/io_stream_test_helper"
 require_relative "support/audit_helpers"
@@ -19,12 +20,11 @@ require_relative "support/supervised_test_console"
 Minitest.backtrace_filter = Minitest::BacktraceFilter.new
 
 # Load fixtures from the engine
-if ActiveSupport::TestCase.respond_to?(:fixture_path=)
-  ActiveSupport::TestCase.fixture_path = File.expand_path("fixtures", __dir__)
-  ActionDispatch::IntegrationTest.fixture_path = ActiveSupport::TestCase.fixture_path
-  ActiveSupport::TestCase.file_fixture_path = ActiveSupport::TestCase.fixture_path + "/files"
-  ActiveSupport::TestCase.fixtures :all
-end
+fixture_dir = File.expand_path("fixtures", __dir__)
+ActiveSupport::TestCase.fixture_paths = [fixture_dir]
+ActionDispatch::IntegrationTest.fixture_paths = ActiveSupport::TestCase.fixture_paths
+ActiveSupport::TestCase.file_fixture_path = fixture_dir + "/files"
+ActiveSupport::TestCase.fixtures :all
 
 class ActiveSupport::TestCase
   include AuditHelpers, IoStreamTestHelper, ActiveJob::TestHelper
