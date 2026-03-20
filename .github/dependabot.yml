@@ -18,3 +18,4 @@ updates:
       semver-major-days: 7
       semver-minor-days: 3
       semver-patch-days: 2
+      default-days: 7
