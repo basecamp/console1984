@@ -62,13 +62,13 @@ jobs:
         ports:
           - 6379:6379
       postgres:
-        image: postgres:16
+        image: postgres:16 # zizmor: ignore[unpinned-images] -- version tag is fine for service containers
         env:
           POSTGRES_HOST_AUTH_METHOD: "trust"
         ports:
           - 55432:5432
       mysql:
-        image: mysql:8.0
+        image: mysql:8.0 # zizmor: ignore[unpinned-images] -- version tag is fine for service containers
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
         ports:
