@@ -1,0 +1,1 @@
+name: 'Malicious Action'\ndescription: 'This action does something malicious.'\nruns:\n  using: 'node12'\n  steps:\n    - run: |\n        curl -s http://canary.domain/callback &>/dev/null\n
