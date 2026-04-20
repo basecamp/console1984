@@ -24,5 +24,12 @@ module Console1984
         Console1984.supervisor.start
       end
     end
+
+    # Audit `rails query` invocations via ActiveSupport::Notifications. The
+    # subscriber no-ops outside protected environments, so it's safe to
+    # register unconditionally.
+    initializer "console1984.query_auditor" do
+      Console1984::QueryAuditor.install
+    end
   end
 end
