@@ -6,7 +6,7 @@ class QueryAuditorTest < ActiveSupport::TestCase
   end
 
   test "records a session with rails query reason when no agent detected" do
-    with_env "CLAUDECODE" => nil, "CODEX_THREAD_ID" => nil, "QUERY_AGENT" => nil do
+    with_env "CLAUDECODE" => nil, "CODEX_THREAD_ID" => nil do
       assert_difference -> { Console1984::Session.count }, +1 do
         simulate_query_notification "Account.count"
       end
@@ -23,19 +23,11 @@ class QueryAuditorTest < ActiveSupport::TestCase
   end
 
   test "labels sessions triggered by known agent env vars" do
-    with_env "CLAUDECODE" => "1", "QUERY_AGENT" => nil do
+    with_env "CLAUDECODE" => "1" do
       simulate_query_notification "Account.count"
     end
 
     assert_equal "rails query (via Claude Code)", Console1984::Session.last.reason
-  end
-
-  test "QUERY_AGENT override wins over known agent detection" do
-    with_env "CLAUDECODE" => "1", "QUERY_AGENT" => "my-bot" do
-      simulate_query_notification "Account.count"
-    end
-
-    assert_equal "rails query (via my-bot)", Console1984::Session.last.reason
   end
 
   private

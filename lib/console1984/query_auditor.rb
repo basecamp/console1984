@@ -43,6 +43,6 @@ class Console1984::QueryAuditor
     end
 
     def detected_agent
-      ENV["QUERY_AGENT"].presence || known_agents.find { |var, _| ENV[var].present? }&.last
+      known_agents.find { |var, _| ENV[var].present? }&.last
     end
 end
