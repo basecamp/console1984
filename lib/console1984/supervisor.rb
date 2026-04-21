@@ -41,13 +41,7 @@ class Console1984::Supervisor
 
   private
     def require_dependencies
-      Kernel.silence_warnings do
-        require 'parser/current'
-      end
       require 'rainbow'
-
-      # Explicit lazy loading because it depends on +parser+, which we want to only load
-      # in console sessions.
       require_relative "./command_validator/.command_parser"
 
       # This solves a weird class loading error where ActiveRecord dosn't resolve +Relation+ properly.
