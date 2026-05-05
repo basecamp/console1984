@@ -200,3 +200,26 @@ bin/rails test TARGET_DB=mysql
 bin/rails test TARGET_DB=postgres
 bin/rails test TARGET_DB=sqlite
 ```
+
+### Testing against different Rails versions
+
+This project uses [Appraisal](https://github.com/thoughtbot/appraisal) to test against multiple Rails versions. The `Appraisals` file defines the matrix and the generated gemfiles live in `gemfiles/`.
+
+To run tests against a specific Rails version:
+
+```bash
+bundle exec appraisal rails-8-0 bin/rails test
+bundle exec appraisal rails-8-1 bin/rails test
+```
+
+To run tests against all Rails versions:
+
+```bash
+bundle exec appraisal bin/rails test
+```
+
+To regenerate the appraisal gemfiles after changing the `Appraisals` file:
+
+```bash
+bundle exec appraisal install
+```

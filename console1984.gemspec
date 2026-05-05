@@ -41,4 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pg'
   spec.add_development_dependency 'mysql2'
   spec.add_development_dependency 'rubyzip'
+  spec.add_development_dependency 'ostruct'
 end

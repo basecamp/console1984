@@ -1,53 +1,89 @@
 name: Build
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    types: [ opened, synchronize ]
+
+permissions: {}
 
 jobs:
   rubocop:
     name: Rubocop
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          ruby-version: 3.3.0
+          persist-credentials: false
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@e65c17d16e57e481586a6a5a0282698790062f92 # v1.300.0
+        with:
+          ruby-version: '3.4'
           bundler-cache: true
       - name: Run rubocop
         run: |
           bundle exec rubocop --parallel
+  lint-actions:
+    name: GitHub Actions audit
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Run actionlint
+        uses: rhysd/actionlint@914e7df21a07ef503a81201c76d2b11c789d3fca # v1.7.12
+
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@71321a20a9ded102f6e9ce5718a2fcec2c4f70d8 # v0.5.2
+        with:
+          advanced-security: false
   tests:
-    name: Tests
+    name: Ruby ${{ matrix.ruby-version }}, ${{ matrix.rails-version }}, ${{ matrix.database }}
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        ruby-version: [3.3.0]
+        ruby-version: ['3.4', '4.0']
+        rails-version: [rails_7_2, rails_8_0, rails_8_1, rails_edge]
         database: [sqlite, postgres, mysql]
+    continue-on-error: ${{ matrix.rails-version == 'rails_edge' }}
     services:
       redis:
-        image: redis
+        image: redis # zizmor: ignore[unpinned-images] -- version tag is fine for service containers
         ports:
           - 6379:6379
       postgres:
-        image: postgres:13.4
+        image: postgres:16 # zizmor: ignore[unpinned-images] -- version tag is fine for service containers
         env:
           POSTGRES_HOST_AUTH_METHOD: "trust"
         ports:
           - 55432:5432
       mysql:
-        image: percona:5.7.22
+        image: mysql:8.0 # zizmor: ignore[unpinned-images] -- version tag is fine for service containers
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
         ports:
           - 33306:3306
     env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.rails-version }}.gemfile
       TARGET_DB: ${{ matrix.database }}
       CI: true
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@e65c17d16e57e481586a6a5a0282698790062f92 # v1.300.0
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true

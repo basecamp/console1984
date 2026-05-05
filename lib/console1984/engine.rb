@@ -24,5 +24,9 @@ module Console1984
         Console1984.supervisor.start
       end
     end
+
+    initializer "console1984.query_auditor" do
+      Console1984::QueryAuditor.install
+    end
   end
 end

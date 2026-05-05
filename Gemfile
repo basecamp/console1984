@@ -6,4 +6,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # development dependencies will be added by default to the :development group.
 gemspec
 
+gem "minitest", "< 6"
 gem 'activeresource', git: 'https://github.com/basecamp/activeresource.git'
+gem 'appraisal'

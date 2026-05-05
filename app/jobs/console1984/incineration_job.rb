@@ -10,6 +10,8 @@ module Console1984
 
     def perform(session)
       session.incinerate
+    rescue Console1984::Errors::ForbiddenIncineration
+      self.class.set(wait_until: session.created_at + Console1984.incinerate_after).perform_later(session)
     end
   end
 end
