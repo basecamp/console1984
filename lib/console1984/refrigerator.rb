@@ -27,6 +27,6 @@ class Console1984::Refrigerator
 
     def external_modules_and_classes_to_freeze
       # Not using a constant because we want this to run lazily (console-dependant dependencies might not be loaded).
-      [Parser::CurrentRuby]
+      [Console1984.ruby_parser]
     end
 end

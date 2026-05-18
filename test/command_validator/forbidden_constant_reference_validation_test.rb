@@ -45,6 +45,14 @@ class ForbiddenConstantReferenceValidationTest < ActiveSupport::TestCase
     end
   end
 
+  test "validate assigning a forbidden constant to a new constant" do
+    assert_raise Console1984::Errors::ForbiddenCommandAttempted do
+      run_validation <<~RUBY, always: ["SomeClass"]
+        MyAlias = SomeClass
+      RUBY
+    end
+  end
+
   test "referencing other constants won't raise any error" do
     run_validation <<~RUBY, always: ["SomeConstant"]
       SomeNotForbiddenClass.some_method

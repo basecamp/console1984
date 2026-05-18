@@ -1,7 +1,7 @@
 # Naming class with dot so that it doesn't get loaded eagerly by Zeitwerk. We want to load
-# only when a console session is started, when +parser+ is loaded.
-#
-# See +Console1984::Supervisor#require_dependencies+
+# only when a console session is started.
+Console1984.require_ruby_parser_dependencies
+
 class Console1984::CommandValidator::CommandParser < ::Parser::AST::Processor
   include AST::Processor::Mixin
   include Console1984::Freezeable

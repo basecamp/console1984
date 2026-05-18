@@ -72,6 +72,16 @@ class ParsedCommandTest < ActiveSupport::TestCase
     end
   end
 
+  if RUBY_VERSION >= "4.0"
+    test "parse constants from Ruby 4.0 syntax" do
+      # Logical operators at line beginning is new syntax in Ruby 4.0
+      assert_constants ["Foo", "Bar"], <<~RB
+        result = Foo
+          || Bar
+      RB
+    end
+  end
+
   test "syntax errors are handled gracefully" do
     parsed_command = Console1984::CommandValidator::ParsedCommand.new <<~RB
       def 12'39u````
