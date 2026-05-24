@@ -4,7 +4,7 @@ module Console1984::InputOutput
   private
     def show_welcome_message
       show_production_data_warning
-      show_commands
+      show_commands if Console1984.show_commands_message
     end
 
     def show_production_data_warning
@@ -20,7 +20,7 @@ module Console1984::InputOutput
 
       Commands:
 
-      #{COMMANDS.collect { |command, help_line| "* #{Rainbow(command.to_s).blue}: #{help_line}" }.join("\n")}
+      #{Console1984.config.commands_list.collect { |command, help_line| "* #{Rainbow(command.to_s).blue}: #{help_line}" }.join("\n")}
 
       TXT
     end

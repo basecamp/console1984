@@ -28,8 +28,11 @@ module Console1984::Freezeable
   end
 
   module ClassMethods
-    SENSITIVE_INSTANCE_METHODS = %i[ instance_variable_get instance_variable_set ]
+    # SENSITIVE_INSTANCE_METHODS = %i[ instance_variable_get instance_variable_set ]
 
+    # Commenting out this feature for fiber compatibility.
+    # Likely it'll involved changing thread_mattr_accessor to mattr_accessor
+    SENSITIVE_INSTANCE_METHODS = []
     def prevent_instance_data_manipulation
       SENSITIVE_INSTANCE_METHODS.each do |method|
         prevent_sensitive_method method

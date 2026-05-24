@@ -14,6 +14,10 @@ module Console1984::Messages
   Great! You are back in protected mode. When we audit, we may reach out for a conversation about the commands you entered. What went well? Did you solve the problem without accessing personal data?
   TXT
 
+  DEFAULT_JUSTIFICATION_MESSAGE = <<~TXT
+  Before you can access personal information, you need to ask for and get explicit consent from the user(s). [current_username], where can we find this consent (a URL would be great)?
+  TXT
+
   COMMANDS = {
       "decrypt!": "enter unprotected mode with access to encrypted information"
   }
