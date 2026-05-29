@@ -5,7 +5,7 @@ module Console1984::Ext::ActiveRecord::ProtectedAuditableTables
   %i[ execute exec_query exec_insert exec_delete exec_update exec_insert_all ].each do |method|
     define_method method do |*args, **kwargs|
       sql = args.first
-      if Console1984.command_executor.executing_user_command? && sql.b =~ auditable_tables_regexp
+      if Console1984.command_executor.executing_user_command? && auditable_sql(sql) =~ auditable_tables_regexp
         raise Console1984::Errors::ForbiddenCommandAttempted, "#{sql}"
       else
         super(*args, **kwargs)
@@ -14,6 +14,14 @@ module Console1984::Ext::ActiveRecord::ProtectedAuditableTables
   end
 
   private
+    # exec_insert_all receives an ActiveRecord::InsertAll, not a SQL string, so
+    # #b is undefined on it. Check its target table name instead, so insert_all
+    # and upsert_all don't blow up when run from the console.
+    def auditable_sql(sql)
+      string = sql.is_a?(String) ? sql : (sql.try(:model)&.table_name || sql.to_s)
+      string.b
+    end
+
     def auditable_tables_regexp
       @auditable_tables_regexp ||= Regexp.new("#{auditable_tables.join("|")}")
     end
