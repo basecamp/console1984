@@ -55,6 +55,28 @@ module Console1984
     def running_protected_environment?
       protected_environments.collect(&:to_sym).include?(Rails.env.to_sym)
     end
+
+    def require_ruby_parser_dependencies
+      if RUBY_VERSION >= "3.3"
+        require 'parser'
+        require 'prism'
+      else
+        Kernel.silence_warnings do
+          require 'parser/current'
+        end
+      end
+    end
+
+    # Returns the parser class used for parsing console commands.
+    # Uses Prism on Ruby >= 3.3 for forward-compatibility with Ruby 4.0+.
+    # Falls back to the parser gem on older Rubies.
+    def ruby_parser
+      if RUBY_VERSION >= "3.3"
+        Prism::Translation::ParserCurrent
+      else
+        Parser::CurrentRuby
+      end
+    end
   end
 end
 
