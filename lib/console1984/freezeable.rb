@@ -23,8 +23,24 @@ module Console1984::Freezeable
     base.extend ClassMethods
 
     # Flag to control manipulating instance data via instance_variable_get and instance_variable_set.
-    # true by default.
-    base.thread_mattr_accessor :prevent_instance_data_manipulation_after_freezing, default: true
+    # true by default. Stored as a class-level instance variable on the host (read and written through
+    # singleton methods) rather than in +ActiveSupport::IsolatedExecutionState+: an app setting
+    # +config.active_support.isolation_level = :fiber+ makes Rails flip the level in +after_initialize+,
+    # which clears the boot scope's storage and moves lookups to +Fiber.current+, wiping the opt-out
+    # written at eager-load time. Under +:fiber+ the flag would also reset inside every new fiber.
+    # A +mattr_accessor+ would leak the flag across the ancestor chain because
+    # +Console1984::Ext::Core::Object+ is included into +Object+; this storage keeps each host independent.
+    base.singleton_class.class_eval do
+      attr_writer :prevent_instance_data_manipulation_after_freezing
+
+      define_method :prevent_instance_data_manipulation_after_freezing do
+        if instance_variable_defined?(:@prevent_instance_data_manipulation_after_freezing)
+          @prevent_instance_data_manipulation_after_freezing
+        else
+          true
+        end
+      end
+    end
   end
 
   module ClassMethods
