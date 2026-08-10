@@ -8,9 +8,9 @@ class FreezeableTest < ActiveSupport::TestCase
   end
 
   test "prevent_instance_data_manipulation_after_freezing survives ActiveSupport::IsolatedExecutionState being cleared" do
-    # Reproduces the Rails 8.1 boot symptom: gem eager-load writes the opt-out under one
-    # +isolation_level+, then Rails switches the level in +after_initialize+ which clears
-    # the previous scope's storage. The write must survive.
+    # Reproduces the boot symptom of an app running +isolation_level = :fiber+: gem eager-load writes
+    # the opt-out, then Rails switches the level in +after_initialize+, clearing the boot scope's
+    # storage before +freeze_all+ reads the flag. The write must survive.
     klass = Class.new do
       include Console1984::Freezeable
       self.prevent_instance_data_manipulation_after_freezing = false
@@ -29,6 +29,18 @@ class FreezeableTest < ActiveSupport::TestCase
 
     assert_equal false, one.prevent_instance_data_manipulation_after_freezing
     assert_equal true, two.prevent_instance_data_manipulation_after_freezing
+  end
+
+  test "subclasses keep their own value, defaulting to true like thread_mattr_accessor did" do
+    parent = Class.new { include Console1984::Freezeable }
+    parent.prevent_instance_data_manipulation_after_freezing = false
+    child = Class.new(parent)
+
+    assert_equal true, child.prevent_instance_data_manipulation_after_freezing
+
+    child.prevent_instance_data_manipulation_after_freezing = true
+
+    assert_equal false, parent.prevent_instance_data_manipulation_after_freezing
   end
 
   test "Console1984::Ext::Core::Object opt-out does not leak into other Freezeable hosts" do

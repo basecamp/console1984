@@ -23,17 +23,22 @@ module Console1984::Freezeable
     base.extend ClassMethods
 
     # Flag to control manipulating instance data via instance_variable_get and instance_variable_set.
-    # true by default. Stored as a singleton-class instance variable on the host so it survives
-    # +ActiveSupport::IsolatedExecutionState+ being cleared when Rails switches +isolation_level+
-    # (e.g. the +:thread+ -> +:fiber+ flip the Rails 8.1 default triggers in +after_initialize+).
-    # A +mattr_accessor+ would leak the flag across the ancestor chain because +Console1984::Ext::Core::Object+
-    # is included into +Object+; this storage keeps each host independent.
+    # true by default. Stored as a class-level instance variable on the host (read and written through
+    # singleton methods) rather than in +ActiveSupport::IsolatedExecutionState+: an app setting
+    # +config.active_support.isolation_level = :fiber+ makes Rails flip the level in +after_initialize+,
+    # which clears the boot scope's storage and moves lookups to +Fiber.current+, wiping the opt-out
+    # written at eager-load time. Under +:fiber+ the flag would also reset inside every new fiber.
+    # A +mattr_accessor+ would leak the flag across the ancestor chain because
+    # +Console1984::Ext::Core::Object+ is included into +Object+; this storage keeps each host independent.
     base.singleton_class.class_eval do
       attr_writer :prevent_instance_data_manipulation_after_freezing
 
       define_method :prevent_instance_data_manipulation_after_freezing do
-        return @prevent_instance_data_manipulation_after_freezing if defined?(@prevent_instance_data_manipulation_after_freezing)
-        true
+        if instance_variable_defined?(:@prevent_instance_data_manipulation_after_freezing)
+          @prevent_instance_data_manipulation_after_freezing
+        else
+          true
+        end
       end
     end
   end
