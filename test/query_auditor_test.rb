@@ -4,6 +4,11 @@ class QueryAuditorTest < ActiveSupport::TestCase
   setup do
     @auditor = Console1984::QueryAuditor.new
     Console1984.username_resolver.username = "jorge"
+    @console_reason = ENV.delete("CONSOLE_REASON")
+  end
+
+  teardown do
+    @console_reason.nil? ? ENV.delete("CONSOLE_REASON") : ENV["CONSOLE_REASON"] = @console_reason
   end
 
   test "records a session with rails query reason when no agent detected" do
