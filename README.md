@@ -60,6 +60,14 @@ Unnamed, why are you using this console today?
 > ...
 ```
 
+`rails query` doesn't prompt, so each query is recorded as its own session with the reason `rails query`, or `rails query (via <agent>)` when a known agent's environment variable is set, such as `rails query (via Claude Code)`. To record why a query was run, set `CONSOLE_REASON`, e.g. to the card, issue or support conversation that authorized it:
+
+```
+$ CONSOLE_REASON=https://app.basecamp.com/1/buckets/2/card_tables/cards/3 rails query 'Account.count'
+```
+
+The session is recorded with the reason `rails query: https://app.basecamp.com/…`. The value is flattened to one line of plain text and capped at 255 characters.
+
 ### Auditing sessions
 
 Check out [`audits1984`](https://github.com/basecamp/audits1984), a companion auditing tool prepared to work with `console1984` database session trails.
