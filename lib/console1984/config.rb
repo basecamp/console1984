@@ -24,7 +24,7 @@ class Console1984::Config
 
   def set_from(properties)
     properties.each do |key, value|
-      public_send("#{key}=", value) if value.present?
+      public_send("#{key}=", value)
     end
   end
 
