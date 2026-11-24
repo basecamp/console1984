@@ -11,9 +11,12 @@ PATH
   remote: .
   specs:
     console1984 (0.2.5)
+      activejob (>= 7.0)
+      activerecord (>= 7.0)
+      activesupport (>= 7.0)
       irb (~> 1.13)
       parser
-      rails (>= 7.0)
+      railties (>= 7.0)
       rainbow
 
 GEM
@@ -316,6 +319,7 @@ DEPENDENCIES
   mysql2
   ostruct
   pg
+  rails (>= 7.0)
   rubocop (>= 1.18.4)
   rubocop-minitest
   rubocop-packaging

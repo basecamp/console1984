@@ -27,8 +27,13 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'rainbow'
   spec.add_dependency 'parser'
-  spec.add_dependency 'rails', '>= 7.0'
+  spec.add_dependency 'activejob', '>= 7.0'
+  spec.add_dependency 'activerecord', '>= 7.0'
+  spec.add_dependency 'activesupport', '>= 7.0'
+  spec.add_dependency 'railties', '>= 7.0'
   spec.add_dependency 'irb', '~> 1.13'
+
+  spec.add_development_dependency 'rails', '>= 7.0'
 
   spec.add_development_dependency 'benchmark-ips'
   spec.add_development_dependency 'mocha'
